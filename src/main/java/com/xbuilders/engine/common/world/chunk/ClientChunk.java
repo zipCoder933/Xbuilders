@@ -7,7 +7,9 @@ import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.World;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
+
 import java.util.concurrent.Future;
+
 import static com.xbuilders.engine.common.world.World.meshService;
 import static com.xbuilders.engine.common.world.World.playerUpdating_meshService;
 
@@ -18,17 +20,17 @@ public class ClientChunk extends Chunk {
     private Future<ChunkMeshBundle> mesherFuture;
 
 
-    public ClientChunk(Vector3i position, boolean isTopChunk,
+    public ClientChunk(Vector3i position,
                        FutureChunk futureChunk, float distToPlayer, World world, int blockTextureID) {
-        super(position, isTopChunk, futureChunk, distToPlayer, world);
+        super(position, futureChunk, distToPlayer, world);
         this.client_modelMatrix = new Matrix4f();
         this.meshes = new ChunkMeshBundle(blockTextureID, this, world.terrain);
         initVariables();
     }
 
-    public ClientChunk(Chunk other, Vector3i position, boolean isTopChunk,
+    public ClientChunk(Chunk other, Vector3i position,
                        FutureChunk futureChunk, float distToPlayer, int blockTextureID) {
-        super(other, position, isTopChunk, futureChunk, distToPlayer);
+        super(other, position, futureChunk, distToPlayer);
         this.client_modelMatrix = new Matrix4f();
 
         if (other instanceof ClientChunk clientOther) {
@@ -54,7 +56,7 @@ public class ClientChunk extends Chunk {
     public void prepare(Terrain terrain, long frame, boolean isSettingUpWorld) {
         if (loadFuture != null && loadFuture.isDone()) {
 
-            if (isTopChunk && pillarInformation != null && !pillarInformation.pillarLightLoaded && pillarInformation.isPillarLoaded()) {
+            if (pillarInformation != null && pillarInformation.isTopChunk(this) && !pillarInformation.pillarLightLoaded && pillarInformation.isPillarLoaded()) {
                 pillarInformation.initLighting(null, terrain, client_distToPlayer);
                 pillarInformation.pillarLightLoaded = true;
             }
@@ -133,11 +135,6 @@ public class ClientChunk extends Chunk {
 
 
     public void updateMesh(boolean updateAllNeighbors, int x, int y, int z) {
-        //TODO: There is a bug where the chunk is not updating the mesh
-//        if (updateAllNeighbors) ClientWindow.printlnDev("Reg mesh (all neighbors)");
-//        else ClientWindow.printlnDev("Reg mesh (" + x + ", " + y + ", " + z + ")");
-
-
         if (!neghbors.allFacingNeghborsLoaded) {
             neghbors.cacheNeighbors();
         }

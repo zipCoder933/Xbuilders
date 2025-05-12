@@ -19,6 +19,11 @@ public class ChunkRequestPacket extends Packet {
         super(AllPackets.CHUNK_REQUEST);
     }
 
+    public ChunkRequestPacket(Vector3i requestedCoordinates) {
+        super(AllPackets.CHUNK_REQUEST);
+        this.requestedCoordinates = requestedCoordinates;
+    }
+
     @Override
     public void encode(ChannelHandlerContext ctx, Packet packet, ByteBuf out) {
         ChunkRequestPacket packetInstance = (ChunkRequestPacket) packet;
@@ -43,6 +48,8 @@ public class ChunkRequestPacket extends Packet {
         ChunkRequestPacket packetInstance = (ChunkRequestPacket) packet;
         Server server = Main.getServer();
         Chunk chunk = server.world.getChunk(packetInstance.requestedCoordinates);
-        ctx.writeAndFlush(new ChunkDataPacket(chunk));
+
+        //Write the chunk directly if the server is running locally, otherwise send the bytes
+        ctx.writeAndFlush(new ChunkDataPacket(chunk, server.runningLocally()));
     }
 }

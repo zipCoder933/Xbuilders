@@ -36,11 +36,16 @@ public class ChunkDataPacket extends Packet {
      *
      * @param chunk the chunk to have binary data uploaded
      */
-    public ChunkDataPacket(Chunk chunk) {
+    public ChunkDataPacket(Chunk chunk, boolean writeAsSingleplayerChunk) {
         super(AllPackets.CHUNK_DATA);
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        ChunkSavingLoadingUtils.writeChunk(chunk, out);
-        this.chunkData = out.toByteArray();
+        if (writeAsSingleplayerChunk) {
+            this.singleplayerChunkData = chunk;
+        } else {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ChunkSavingLoadingUtils.writeChunk(chunk, out);
+            this.chunkData = out.toByteArray();
+            this.chunkPosition = chunk.position;
+        }
     }
 
     public ChunkDataPacket(Vector3i chunkPosition, byte[] chunkBytes) {
@@ -85,7 +90,7 @@ public class ChunkDataPacket extends Packet {
         ChunkDataPacket packetInstance = (ChunkDataPacket) packet;
 
         //Create or get the chunk first
-        Chunk chunk = Main.getClient().world.addChunk(packetInstance.chunkPosition, false);
+        Chunk chunk = Main.getClient().world.addChunk(packetInstance.chunkPosition);
 
 
         if (packetInstance.singleplayerChunkData != null) { //Send the bytes directly to the client

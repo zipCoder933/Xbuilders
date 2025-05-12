@@ -198,9 +198,9 @@ public abstract class World<T extends Chunk> {
         return this.chunks.get(coords);
     }
 
-    protected abstract T createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer);
+    protected abstract T createChunk(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk, float distToPlayer);
 
-    public T addChunk(final Vector3i coords, boolean isTopLevel) {
+    public T addChunk(final Vector3i coords) {
         //Return an existing chunk if it exists
         T chunk = getChunk(coords);
         if (chunk != null) return chunk;
@@ -211,9 +211,9 @@ public abstract class World<T extends Chunk> {
 
         if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
             Chunk recycleChunk = unusedChunks.remove(unusedChunks.size() - 1);
-            chunk = createChunk(recycleChunk, coords, isTopLevel, futureChunks.remove(coords), distToPlayer);
+            chunk = createChunk(recycleChunk, coords, futureChunks.remove(coords), distToPlayer);
         } else if (chunks.size() < maxChunksForViewDistance) { //Create a new chunk from scratch
-            chunk = createChunk(null, coords, isTopLevel, futureChunks.remove(coords), distToPlayer);
+            chunk = createChunk(null, coords, futureChunks.remove(coords), distToPlayer);
         }
 
         if (chunk != null) {
@@ -233,25 +233,7 @@ public abstract class World<T extends Chunk> {
     }
     // </editor-fold>
 
-    public boolean init(ProgressData prog, Vector3f spawnPosition) {
-        System.out.println("\n\nStarting new game: " + data.getName());
-        prog.setTask("Starting new game");
-        this.chunks.clear();
-        unusedChunks.clear();
-        this.futureChunks.clear(); // Important!
-        newGameTasks.set(0);
-        allEntities.clear();
-        //Get the terrain from worldInfo
-        this.terrain = game.getTerrainFromInfo(data);
-        if (terrain == null) {
-            LOGGER.log(Level.SEVERE, "Terrain not found");
-            return false;
-        } else System.out.println("Terrain: " + this.terrain);
 
-        prog.setTask("Generating chunks");
-        prog.bar.setMax(fillChunksAroundPlayer(spawnPosition, true));
-        return true;
-    }
 
     public void stopGameEvent() {
         // We may or may not actually need to shutdown the services, since chunks cancel
@@ -302,66 +284,7 @@ public abstract class World<T extends Chunk> {
     }
 
 
-    public static final int CHUNK_QUANTITY_Y = 16;
 
-    public int addChunkPillar(int chunkX, int chunkZ, Vector3f playerPos) {
-        int chunksGenerated = 0;
-        boolean isTopChunk = true;
-
-        Chunk[] chunkPillar = new Chunk[PillarInformation.CHUNKS_IN_PILLAR];
-        for (int y = TOP_Y_CHUNK; y <= BOTTOM_Y_CHUNK; ++y) {
-            final Vector3i chunkCoords = new Vector3i(chunkX, y, chunkZ);
-            boolean isWithinReach = playerPos == null || chunkIsWithinRange_XZ(playerPos, chunkCoords, getCreationViewDistance());
-
-            if (!chunks.containsKey(chunkCoords) && isWithinReach) {
-                chunkPillar[y - TOP_Y_CHUNK] = addChunk(chunkCoords, isTopChunk);
-                isTopChunk = false;
-                chunksGenerated++;
-            } else {
-                chunkPillar[y - TOP_Y_CHUNK] = getChunk(chunkCoords);
-            }
-        }
-        for (Chunk chunk : chunkPillar) {
-            chunk.pillarInformation = new PillarInformation(chunkPillar);
-        }
-        // chunkPillar[0].pillarInformation.loadChunks(terrain, info);
-
-        return chunksGenerated;
-    }
-
-    public synchronized int fillChunksAroundPlayer(Vector3f player, boolean generateOutOfFrustum) {
-        int centerX = (int) player.x;
-        int centerY = (int) player.y;
-        int centerZ = (int) player.z;
-
-        int viewDistanceXZ = getCreationViewDistance();
-        int viewDistanceY = getCreationViewDistance();
-
-        final int xStart = (centerX - viewDistanceXZ) / Chunk.WIDTH;
-        final int xEnd = (centerX + viewDistanceXZ) / Chunk.WIDTH;
-        final int zStart = (centerZ - viewDistanceXZ) / Chunk.WIDTH;
-        final int zEnd = (centerZ + viewDistanceXZ) / Chunk.WIDTH;
-        // final int yStart = (centerY - viewDistanceY) / Chunk.WIDTH;
-        // final int yEnd = (centerY + viewDistanceY) / Chunk.WIDTH;
-
-        // Having fixed y bounds makes the chunk generation much faster
-        int chunksGenerated = 0;
-
-        for (int chunkX = xStart; chunkX < xEnd; ++chunkX) {
-            for (int chunkZ = zStart; chunkZ < zEnd; ++chunkZ) {
-                if (MathUtils.dist(
-                        player.x,
-                        player.z,
-                        chunkX * Chunk.WIDTH,
-                        chunkZ * Chunk.WIDTH) < viewDistanceXZ
-                        && (generateOutOfFrustum
-                        || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
-                    chunksGenerated += addChunkPillar(chunkX, chunkZ, player);
-                }
-            }
-        }
-        return chunksGenerated;
-    }
 
 
     // <editor-fold defaultstate="collapsed" desc="block operations">

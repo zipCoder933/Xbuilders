@@ -85,7 +85,6 @@ public class Chunk {
     public float client_distToPlayer;
     public final AABB aabb;
     public final NeighborInformation neghbors;
-    public final boolean isTopChunk;
     public final World world;
 
     public PillarInformation pillarInformation;
@@ -96,10 +95,9 @@ public class Chunk {
      * The chunk is a reusable class but we have different types of chunk so we have to reuse the most important data
      * and throw away everything else
      */
-    public Chunk(Vector3i position, boolean isTopChunk, FutureChunk futureChunk, float distToPlayer, World world) {
+    public Chunk(Vector3i position, FutureChunk futureChunk, float distToPlayer, World world) {
         this.position = new Vector3i(position);
         this.mvp = new MVP();
-        this.isTopChunk = isTopChunk;
         this.data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
 
         this.aabb = new AABB();
@@ -115,11 +113,10 @@ public class Chunk {
      * This method is how we reuse chunks
      * We take the data from the other chunk and use that in our new chunk
      */
-    public Chunk(Chunk other, Vector3i position, boolean isTopChunk, FutureChunk futureChunk, float distToPlayer) {
+    public Chunk(Chunk other, Vector3i position, FutureChunk futureChunk, float distToPlayer) {
         //New variables
         this.position = new Vector3i(position);
         this.mvp = new MVP();
-        this.isTopChunk = isTopChunk;
 
         this.aabb = new AABB();
         this.loadFuture = null;

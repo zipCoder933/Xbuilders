@@ -1,5 +1,6 @@
 package com.xbuilders.engine.common.world;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.settings.ClientSettings;
@@ -8,11 +9,13 @@ import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.math.MathUtils;
+import com.xbuilders.engine.common.packets.ChunkRequestPacket;
 import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
 import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
+import com.xbuilders.engine.common.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import org.joml.Matrix4f;
@@ -46,9 +49,10 @@ public class ClientWorld extends World<ClientChunk> {
 
 
     @Override
-    protected ClientChunk createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer) {
-        if (recycleChunk != null) return new ClientChunk(recycleChunk, coords, isTopLevel, futureChunk, distToPlayer,  blockTextureID);
-        else return new ClientChunk(coords, isTopLevel, futureChunk, distToPlayer, this, blockTextureID);
+    protected ClientChunk createChunk(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk, float distToPlayer) {
+        if (recycleChunk != null)
+            return new ClientChunk(recycleChunk, coords, futureChunk, distToPlayer, blockTextureID);
+        else return new ClientChunk(coords, futureChunk, distToPlayer, this, blockTextureID);
     }
 
 
@@ -73,7 +77,11 @@ public class ClientWorld extends World<ClientChunk> {
         allEntities.clear();
     }
 
-    public ClientChunk addChunk(final Vector3i coords, boolean isTopLevel) {
+    public void requestChunk(Vector3i coords) {
+        Main.getClient().endpoint.getChannel().writeAndFlush(new ChunkRequestPacket(coords));
+    }
+
+    public ClientChunk addChunk(final Vector3i coords) {
         //Return an existing chunk if it exists
         ClientChunk chunk = getChunk(coords);
         if (chunk != null) return chunk;
@@ -84,9 +92,9 @@ public class ClientWorld extends World<ClientChunk> {
 
         if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
             Chunk recycleChunk = unusedChunks.remove(unusedChunks.size() - 1);
-            chunk = createChunk(recycleChunk, coords, isTopLevel, futureChunks.remove(coords), distToPlayer);
+            chunk = createChunk(recycleChunk, coords, futureChunks.remove(coords), distToPlayer);
         } else if (chunks.size() < maxChunksForViewDistance) { //Create a new chunk from scratch
-            chunk = createChunk(null, coords, isTopLevel, futureChunks.remove(coords), distToPlayer);
+            chunk = createChunk(null, coords, futureChunks.remove(coords), distToPlayer);
         }
 
         if (chunk != null) {
@@ -103,7 +111,7 @@ public class ClientWorld extends World<ClientChunk> {
         System.out.println("\n\nStarting new game: " + data.getName());
         prog.setTask("Starting new game");
         this.chunks.clear();
-        this.unusedChunks.clear();
+        unusedChunks.clear();
         this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
         allEntities.clear();
@@ -124,6 +132,31 @@ public class ClientWorld extends World<ClientChunk> {
         sortedChunksToRender.clear();
     }
 
+
+    public int addChunkPillar(int chunkX, int chunkZ, Vector3f playerPos) {
+        int chunksGenerated = 0;
+        boolean isTopChunk = true;
+
+        Chunk[] chunkPillar = new Chunk[PillarInformation.CHUNKS_IN_PILLAR];
+        for (int y = TOP_Y_CHUNK; y <= BOTTOM_Y_CHUNK; ++y) {
+            final Vector3i chunkCoords = new Vector3i(chunkX, y, chunkZ);
+            boolean isWithinReach = playerPos == null || chunkIsWithinRange_XZ(playerPos, chunkCoords, getCreationViewDistance());
+
+            if (!chunks.containsKey(chunkCoords) && isWithinReach) {
+                chunkPillar[y - TOP_Y_CHUNK] = addChunk(chunkCoords);
+                isTopChunk = false;
+                chunksGenerated++;
+            } else {
+                chunkPillar[y - TOP_Y_CHUNK] = getChunk(chunkCoords);
+            }
+        }
+        for (Chunk chunk : chunkPillar) {
+            chunk.pillarInformation = new PillarInformation(chunkPillar);
+        }
+        // chunkPillar[0].pillarInformation.loadChunks(terrain, info);
+
+        return chunksGenerated;
+    }
 
     public synchronized int fillChunksAroundPlayer(Vector3f player, boolean generateOutOfFrustum) {
         int centerX = (int) player.x;

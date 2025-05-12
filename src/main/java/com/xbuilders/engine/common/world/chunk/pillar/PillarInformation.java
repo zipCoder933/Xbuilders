@@ -35,6 +35,10 @@ public class PillarInformation {
         return true;
     }
 
+    public boolean isTopChunk(Chunk me){
+        return getTopPillar() == me;
+    }
+
     public Chunk getTopPillar() {
         return chunks[0];
     }

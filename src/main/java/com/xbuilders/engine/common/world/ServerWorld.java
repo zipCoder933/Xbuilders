@@ -15,8 +15,8 @@ public class ServerWorld extends World<ServerChunk> {
     }
 
     @Override
-    protected ServerChunk createChunk(Chunk recycleChunk, final Vector3i coords, boolean isTopLevel, FutureChunk futureChunk, float distToPlayer) {
-        if (recycleChunk != null) return new ServerChunk(recycleChunk, coords, isTopLevel, futureChunk, distToPlayer);
-        else return new ServerChunk(coords, isTopLevel, futureChunk, distToPlayer, this);
+    protected ServerChunk createChunk(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk, float distToPlayer) {
+        if (recycleChunk != null) return new ServerChunk(recycleChunk, coords,  futureChunk, distToPlayer);
+        else return new ServerChunk(coords,  futureChunk, distToPlayer, this);
     }
 }
