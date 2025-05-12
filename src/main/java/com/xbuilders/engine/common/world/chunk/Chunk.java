@@ -142,13 +142,9 @@ public class Chunk {
         //Recyclied variables
         this.data = other.data;
         this.data.reset();
-
         this.neghbors = other.neghbors;
-
-
         this.entities = other.entities;
         this.entities.clear();
-
         this.info = other.info;
         this.terrain = other.terrain;
         this.meshes = other.meshes;
