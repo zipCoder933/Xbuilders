@@ -24,7 +24,8 @@ import java.util.logging.Level;
 public class ChunkDataPacket extends Packet {
 
     public Vector3i chunkPosition;
-    public byte[] chunkBytes;
+    public byte[] chunkData;
+    public Chunk singleplayerChunkData;
 
     public ChunkDataPacket() {
         super(AllPackets.CHUNK_DATA);
@@ -32,19 +33,20 @@ public class ChunkDataPacket extends Packet {
 
     /**
      * Load the chunk into bytes
+     *
      * @param chunk the chunk to have binary data uploaded
      */
     public ChunkDataPacket(Chunk chunk) {
         super(AllPackets.CHUNK_DATA);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         ChunkSavingLoadingUtils.writeChunk(chunk, out);
-        this.chunkBytes = out.toByteArray();
+        this.chunkData = out.toByteArray();
     }
 
     public ChunkDataPacket(Vector3i chunkPosition, byte[] chunkBytes) {
         super(AllPackets.CHUNK_DATA);
         this.chunkPosition = chunkPosition;
-        this.chunkBytes = chunkBytes;
+        this.chunkData = chunkBytes;
     }
 
     @Override
@@ -57,8 +59,8 @@ public class ChunkDataPacket extends Packet {
         out.writeInt(packetInstance.chunkPosition.z);
 
         //Write the chunk data
-        out.writeInt(packetInstance.chunkBytes.length);
-        out.writeBytes(packetInstance.chunkBytes);
+        out.writeInt(packetInstance.chunkData.length);
+        out.writeBytes(packetInstance.chunkData);
     }
 
     @Override
@@ -82,22 +84,26 @@ public class ChunkDataPacket extends Packet {
     public void handleClientSide(ChannelBase ctx, Packet packet) {
         ChunkDataPacket packetInstance = (ChunkDataPacket) packet;
 
-        AtomicBoolean fileReadCorrectly = new AtomicBoolean(false);
-        AtomicBoolean hasDetectedIfFileWasReadCorrectly = new AtomicBoolean(false);
-
         //Create or get the chunk first
         Chunk chunk = Main.getClient().world.addChunk(packetInstance.chunkPosition, false);
 
-        //Load the data into the chunks on the client
-        try {
-            ChunkSavingLoadingUtils.readChunk(chunk, new ByteArrayInputStream(chunkBytes),
-                    fileReadCorrectly,
-                    hasDetectedIfFileWasReadCorrectly);
 
-        } catch (IOException e) {
-            Main.LOGGER.log(Level.WARNING, "Failed to read chunk data", e);
-        } catch (ChunkReadingException e) {
-            Main.LOGGER.log(Level.WARNING, "Failed to read chunk data", e);
+        if (packetInstance.singleplayerChunkData != null) { //Send the bytes directly to the client
+            chunk.data = packetInstance.singleplayerChunkData.data; //Add the blocks directly
+            chunk.entities.entities.addAll(packetInstance.singleplayerChunkData.entities.entities); //copy the entities
+
+        } else {//Load the data into the chunks on the client
+            AtomicBoolean fileReadCorrectly = new AtomicBoolean(false);
+            AtomicBoolean hasDetectedIfFileWasReadCorrectly = new AtomicBoolean(false);
+            try {
+                ChunkSavingLoadingUtils.readChunk(chunk, new ByteArrayInputStream(chunkData),
+                        fileReadCorrectly,
+                        hasDetectedIfFileWasReadCorrectly);
+            } catch (IOException e) {
+                Main.LOGGER.log(Level.WARNING, "Failed to read chunk data", e);
+            } catch (ChunkReadingException e) {
+                Main.LOGGER.log(Level.WARNING, "Failed to read chunk data", e);
+            }
         }
     }
 

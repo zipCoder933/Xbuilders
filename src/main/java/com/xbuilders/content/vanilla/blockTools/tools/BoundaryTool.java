@@ -61,14 +61,14 @@ public class BoundaryTool extends BlockTool {
             for (int y = (int) aabb.min.y; y < (int) aabb.max.y; y++) {
                 for (int z = (int) aabb.min.z; z < (int) aabb.max.z; z++) {
                     Main.getServer().setBlock(block.id, x, y, z);
-                    foundChunks.add(wcc.set(x, y, z).getChunk(Client.world));
+                    foundChunks.add(wcc.set(x, y, z).getChunk(Main.getClient().world));
                 }
             }
         }
         //Deleate all allEntities within aabb
         //We should delete allEntities within boundary wether we are creating or not
 //        for (Chunk chunk : foundChunks) { //TODO: Fix this
-//            for (Entity entity : chunk.allEntities.list) {
+//            for (Entity entity : chunk.allEntities.entities) {
 //                if (entity.worldPosition.x >= aabb.min.x && entity.worldPosition.x <= aabb.max.x
 //                        && entity.worldPosition.y >= aabb.min.y && entity.worldPosition.y <= aabb.max.y
 //                        && entity.worldPosition.z >= aabb.min.z && entity.worldPosition.z <= aabb.max.z) {

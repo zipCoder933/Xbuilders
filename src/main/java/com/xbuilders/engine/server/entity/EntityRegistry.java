@@ -47,7 +47,7 @@ public class EntityRegistry {
 
         verifyEntityIds(inputEntities);
         list = inputEntities.toArray(new EntitySupplier[0]);
-        //Now make a list of autonomous allEntities
+        //Now make a entities of autonomous allEntities
         autonomousList = new java.util.ArrayList<>();
         for (EntitySupplier entity : list) {
             if (entity.isAutonomous) {

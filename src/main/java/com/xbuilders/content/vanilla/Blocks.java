@@ -1032,7 +1032,7 @@ public class Blocks {
     public static PlantBlockUtils plantUtils = new PlantBlockUtils();
 
     /**
-     * Returns a list of all blocks for initialization
+     * Returns a entities of all blocks for initialization
      *
      * @return
      */
@@ -1149,7 +1149,7 @@ public class Blocks {
 
     private static void randomTickEvents() {
         Block.RandomTickEvent dirtTickEvent = (x, y, z) -> {
-            if (!Client.world.getBlock(x, y - 1, z).solid) {
+            if (!Main.getClient().world.getBlock(x, y - 1, z).solid) {
                 Main.getServer().setBlock(plantUtils.getGrassBlockOfBiome(x, y, z), x, y, z);
                 return true;
             }
@@ -1157,7 +1157,7 @@ public class Blocks {
         };
 
         Block.RandomTickEvent grassTickEvent = (x, y, z) -> {
-            Block aboveBlock = Client.world.getBlock(x, y - 1, z);
+            Block aboveBlock = Main.getClient().world.getBlock(x, y - 1, z);
             if (aboveBlock.solid) {
                 Main.getServer().setBlock(Blocks.BLOCK_DIRT, x, y, z);
                 return true;
@@ -1296,10 +1296,10 @@ public class Blocks {
         TreeUtils.vineEvents(Registrys.getBlock(Blocks.BLOCK_RED_VINES), Blocks.BLOCK_JUNGLE_LEAVES);
 
         Registrys.getBlock(Blocks.BLOCK_FIRE).randomTickEvent = (x, y, z) -> {
-            if (!Client.world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
+            if (!Main.getClient().world.getBlock(x, y + 1, z).solid || Math.random() < 0.1) {
                 //Decay other blocks
-                if (!Client.world.getBlock(x, y + 1, z).solid ||
-                        Client.world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
+                if (!Main.getClient().world.getBlock(x, y + 1, z).solid ||
+                        Main.getClient().world.getBlock(x, y + 1, z).properties.containsKey("flammable")) {
                     Main.getServer().setBlock(Blocks.BLOCK_AIR, x, y + 1, z);
                 }
                 //Decay this block
@@ -1337,7 +1337,7 @@ public class Blocks {
     }
 
     private static boolean spreadIfFlammable(int x, int y, int z) {
-        if (Client.world.getBlock(x, y, z).properties.containsKey("flammable")) {
+        if (Main.getClient().world.getBlock(x, y, z).properties.containsKey("flammable")) {
             Main.getServer().setBlock(Blocks.BLOCK_FIRE, x, y - 1, z);
             return true;
         }

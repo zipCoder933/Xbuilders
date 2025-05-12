@@ -62,18 +62,18 @@
 //            int deleteChanges = 0;
 //            int updateChanges = 0;
 //
-//            //Deletion list
+//            //Deletion entities
 //            Iterator<Entity> iterator = deletionCopy.iterator();
 //            while (iterator.hasNext()) {
 //                Entity entity = iterator.next();
 //                if (changeWithinReach(player, entity.worldPosition)) {
 //                    entityChangeRecord(output, GameServer.ENTITY_DELETED, entity);
 //                    createChanges++;
-//                    entityDeletion.remove(entity); //Remove it from the original list
+//                    entityDeletion.remove(entity); //Remove it from the original entities
 //                }
 //            }
 //
-//            //Creation list
+//            //Creation entities
 //            iterator = creationCopy.iterator();
 //            while (iterator.hasNext()) {
 //                Entity entity = iterator.next();
@@ -84,7 +84,7 @@
 //                }
 //            }
 //
-//            //Update list
+//            //Update entities
 //            iterator = updateCopy.iterator();
 //            while (iterator.hasNext()) {
 //                Entity entity = iterator.next();
@@ -181,7 +181,7 @@
 //                //Block data
 //                byte[] data = simpleKyro.readByteArray(input);
 //
-//                //Add the block to the list
+//                //Add the block to the entities
 //                newEvent.accept(mode, entity, identifier, currentPos, data, controlledByAnotherPlayer);
 //            }
 //        }

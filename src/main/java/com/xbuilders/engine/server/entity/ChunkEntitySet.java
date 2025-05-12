@@ -4,11 +4,11 @@
  */
 package com.xbuilders.engine.server.entity;
 
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.common.players.localPlayer.camera.FrustumCullingTester;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.common.math.MathUtils;
+import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -24,16 +24,18 @@ public class ChunkEntitySet {
 
     public boolean chunkUpdatedMesh;
     Chunk thisChunk;
-    public final ArrayList<Entity> list;
+    public final ArrayList<Entity> entities;
+    World world;
 
 
-    public ChunkEntitySet(Chunk aThis) {
+    public ChunkEntitySet(Chunk aThis, World world) {
         this.thisChunk = aThis;
-        list = new ArrayList<>();
+        this.world = world;
+        entities = new ArrayList<>();
     }
 
     public void clear() {
-        list.clear();
+        entities.clear();
     }
 
     public Entity placeNew(EntitySupplier link, long identifier, float worldX, float worldY, float worldZ, byte[] bytes) {
@@ -45,10 +47,7 @@ public class ChunkEntitySet {
 
             entity.worldPosition.set(worldX, worldY, worldZ);
             entity.loadBytes = bytes;
-
-            //Add to world
-            Client.world.allEntities.put(entity.getUniqueIdentifier(), entity);
-            list.add(entity);
+            entities.add(entity);
             return entity;
         }
         return null;
@@ -79,13 +78,12 @@ public class ChunkEntitySet {
     public void draw(FrustumCullingTester frustum, Vector3f playerPos) {
 
 
-        for (int i = list.size() - 1; i >= 0; i--) {
-            Entity e = list.get(i);
+        for (int i = entities.size() - 1; i >= 0; i--) {
+            Entity e = entities.get(i);
             if (e == null || e.isDestroyMode()) {
                 System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
 //                Main.getServer().server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
-                list.remove(i);
-                Client.world.allEntities.remove(e.getUniqueIdentifier(), e); //remove from world
+                entities.remove(i);
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.hidden_initializeEntity();
@@ -104,14 +102,14 @@ public class ChunkEntitySet {
                 boolean hasMoved = e.updatePosition();
                 e.multiplayerProps.checkAndSendState();
                 if (!e.chunkPosition.chunk.equals(e.chunk.position)) { //Switch chunks
-                    Chunk toChunk = Client.world.chunks.get(e.chunkPosition.chunk);
+                    Chunk toChunk = world.getChunk(e.chunkPosition.chunk);
                     if (toChunk != null && toChunk.gen_Complete()) {
                         //If the chunk exists, AND it's generated, add the entity to the new chunk
 //                        System.out.println("SWITCHING FROM " + MiscUtils.printVector(e.chunkPosition.chunk) + " TO " + toChunk);
 //                        e.renderThisFrame = false;
                         e.chunk = toChunk;
-                        toChunk.entities.list.add(e);
-                        list.remove(i);
+                        toChunk.entities.entities.add(e);
+                        entities.remove(i);
                     } else {
                         //Otherwise, clamp entity position to the existing chunk
                         e.worldPosition.set(

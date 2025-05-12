@@ -77,7 +77,7 @@ public class Chunk {
         return y >= 0 && y < HEIGHT;
     }
 
-    public final ChunkVoxels data;
+    public ChunkVoxels data;
     public final ChunkEntitySet entities;
     public final Vector3i position;
     public final MVP mvp;
@@ -105,7 +105,7 @@ public class Chunk {
         this.aabb = new AABB();
         this.world = world;
         this.neghbors = new NeighborInformation(world);
-        this.entities = new ChunkEntitySet(this);
+        this.entities = new ChunkEntitySet(this, world);
 
 
         initVariables(futureChunk, distToPlayer);
@@ -176,9 +176,7 @@ public class Chunk {
                 futureChunk.setBlocksInChunk(this);
                 needsSunGeneration = true;
             }
-
-            //Load all allEntities to the world
-            Client.world.allEntities.addAllEntitiesFromChunk(this);
+            ;
 
             // Loading a chunk includes loading sunlight
             setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED); //TODO: The world updates sunlight in pillars, therefore setting light to sun_loaded makes no difference because the pillar doesnt know how if a chunk doesnt have sunlight
@@ -194,7 +192,6 @@ public class Chunk {
             Logger.getLogger(Chunk.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
 
 
     /*
@@ -237,9 +234,6 @@ public class Chunk {
     // static {
     // chunkGenFrameTester.setUpdateTimeMS(1000);
     // }
-
-
-
 
 
     Object saveLock = new Object();

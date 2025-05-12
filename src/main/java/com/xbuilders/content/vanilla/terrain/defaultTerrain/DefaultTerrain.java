@@ -208,7 +208,7 @@ public class DefaultTerrain extends Terrain {
                             default -> {
                                 // session.setBlockWorld(wx,wy-1,wz, MyGame.BLOCK_SEA_GRASS.id); //TODO: Add
                                 // seagrass as JSON block
-                                // When we load seagrass without putting it int he block list, the chunk cant
+                                // When we load seagrass without putting it int he block entities, the chunk cant
                                 // load because it doesnt know what kind of block it is
                             }
                         }

@@ -1,5 +1,6 @@
 package com.xbuilders.engine.common.world.chunk;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.ChunkMeshBundle;
 import com.xbuilders.engine.common.world.Terrain;
@@ -64,7 +65,7 @@ public class ClientChunk extends Chunk {
                     Client.frameTester.startProcess();
                     mesherFuture = meshService.submit(() -> {
 
-                        if (Client.world.data == null) return null; // Quick fix. TODO: remove this line
+                        if (Main.getClient().world.data == null) return null; // Quick fix. TODO: remove this line
 
                         meshes.compute();
                         setGenerationStatus(GEN_COMPLETE);

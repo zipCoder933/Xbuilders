@@ -25,7 +25,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
             return new BlockData(1);
         };
         block.clickEvent(false, (x, y, z) -> {
-            BlockData data = Client.world.getBlockData(x, y, z);
+            BlockData data = Main.getClient().world.getBlockData(x, y, z);
             if (data == null) data = new BlockData(new byte[0]);
             this.data = data;
             target.set(x, y, z);
@@ -43,7 +43,7 @@ public abstract class ContainerUI extends UI_ItemWindow {
     @Override
     public void drawWindow(MemoryStack stack, NkRect windowDims2) {
         //We constantly check if the block data has changed
-        BlockData data = Client.world.getBlockData(target.x, target.y, target.z);
+        BlockData data = Main.getClient().world.getBlockData(target.x, target.y, target.z);
         if (data != null && !data.equals(this.data)) {
             //Update data
             readContainerData(data.toByteArray());

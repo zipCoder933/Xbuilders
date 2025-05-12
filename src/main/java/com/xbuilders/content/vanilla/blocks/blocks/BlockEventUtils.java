@@ -37,7 +37,7 @@ public class BlockEventUtils {
             Main.getServer().setBlock(bottomBlock.id, x, y + 1, z);
         });
         topBlock.removeBlockEvent(false, (x, y, z, history) -> {
-            if (Client.world.getBlock(x, y + 1, z) == bottomBlock) {
+            if (Main.getClient().world.getBlock(x, y + 1, z) == bottomBlock) {
                 Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y + 1, z);
             }
         });
@@ -46,7 +46,7 @@ public class BlockEventUtils {
             Main.getServer().setBlock(topBlock.id, x, y - 1, z);
         });
         bottomBlock.removeBlockEvent(false, (x, y, z, history) -> {
-            if (Client.world.getBlock(x, y - 1, z) == topBlock) {
+            if (Main.getClient().world.getBlock(x, y - 1, z) == topBlock) {
                 Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, x, y - 1, z);
             }
         });
@@ -65,7 +65,7 @@ public class BlockEventUtils {
                     Main.getServer().setBlock(Blocks.BLOCK_TNT_ACTIVE, setX, setY, setZ);
                     try {
                         Thread.sleep(fuseDelay);
-                        if (Client.world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
+                        if (Main.getClient().world.getBlockID(setX, setY, setZ) == Blocks.BLOCK_TNT_ACTIVE) {
                             Main.getServer().setBlock(BlockRegistry.BLOCK_AIR.id, setX, setY, setZ);
                             removeEverythingWithinRadius(radius, new Vector3i(setX, setY, setZ), maxToughness, exceptions);
                             float dist = Client.userPlayer.worldPosition.distance(setX, setY, setZ);
@@ -101,7 +101,7 @@ public class BlockEventUtils {
             for (int y = 0 - radius; y < radius; y++) {
                 for (int z = 0 - radius; z < radius; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < radius) {
-                        Block highlightedBlock = Client.world.getBlock(setX + x, setY + z, setZ + y);
+                        Block highlightedBlock = Main.getClient().world.getBlock(setX + x, setY + z, setZ + y);
                         cons.accept(new Vector3i(setX + x, setY + z, setZ + y), highlightedBlock);
                     }
                 }
@@ -124,7 +124,7 @@ public class BlockEventUtils {
                 for (int z = 0 - size; z < size; z++) {
                     if (MathUtils.dist(setX, setY, setZ, setX + x, setY + y, setZ + z) < size) {
 
-                        Block oldBlock = Client.world.getBlock(setX + x, setY + z, setZ + y);
+                        Block oldBlock = Main.getClient().world.getBlock(setX + x, setY + z, setZ + y);
                         //If the block is too tough, dont do it
                         if (oldBlock.toughness > maxToughness) continue;
                         //If we are trying to delete something on the blacklist, dont do it
@@ -150,9 +150,9 @@ public class BlockEventUtils {
 
         ArrayList<Entity> entitiesToDelete = new ArrayList<>();
         for (Vector3i cc : chunks) {
-            Chunk chunk = Client.world.chunks.get(cc);
+            Chunk chunk = Main.getClient().world.chunks.get(cc);
             if (chunk != null) {
-                for (Entity e : chunk.entities.list) {
+                for (Entity e : chunk.entities.entities) {
                     if (MathUtils.dist(setX, setY, setZ, e.worldPosition.x, e.worldPosition.y, e.worldPosition.z) < size
                             && !(e instanceof LivingEntity)
                             && !(e instanceof ItemDrop)) {

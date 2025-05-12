@@ -110,8 +110,8 @@ public class CollisionHandler {
 
             //Process entity collisions
             for (Chunk chunk : exploredChunks) {
-                for (int i = 0; i < chunk.entities.list.size(); i++) {
-                    compareEntityAABB(projection, view, chunk.entities.list.get(i).aabb);
+                for (int i = 0; i < chunk.entities.entities.size(); i++) {
+                    compareEntityAABB(projection, view, chunk.entities.entities.get(i).aabb);
                 }
             }
             // Comparison against user controlled player (all entity and player boxes are

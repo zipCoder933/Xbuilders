@@ -183,7 +183,7 @@
 //                blockHistory.newBlockData = readBlockData(receivedData, start);
 //                blockHistory.updateBlockData = true;
 //
-//                //Add the block to the list
+//                //Add the block to the entities
 //                Vector3i position = new Vector3i(x, y, z);
 //                newEvent.accept(position, blockHistory);
 //            }

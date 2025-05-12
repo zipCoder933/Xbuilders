@@ -10,6 +10,7 @@ import com.esotericsoftware.kryo.io.Output;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.content.vanilla.entities.animal.mobile.AnimalRandom;
 import com.xbuilders.engine.client.Client;
@@ -103,7 +104,7 @@ public abstract class LivingEntity extends Entity {
     public void initSupplier(EntitySupplier entitySupplier) {
         super.initSupplier(entitySupplier);
         entitySupplier.spawnCondition = (x, y, z) -> {
-            if (Client.world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
+            if (Main.getClient().world.getBlockID(x, y, z) == Blocks.BLOCK_WATER) return true;
             return false;
         };
         entitySupplier.despawnCondition = (e) -> {
@@ -121,7 +122,7 @@ public abstract class LivingEntity extends Entity {
         this.window = window;
         random = new AnimalRandom();
         this.player = Client.userPlayer;
-        this.pos = new PositionHandler(window, Client.world, aabb, player.aabb);
+        this.pos = new PositionHandler(window, Main.getClient().world, aabb, player.aabb);
         pos.setGravityEnabled(true);
         random.setSeed((int) getUniqueIdentifier());
         health = maxHealth;

@@ -5,10 +5,8 @@
 package com.xbuilders.engine.common.world.chunk.saving;
 
 import com.esotericsoftware.kryo.io.Output;
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
-import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.bytes.SimpleKyro;
 import com.xbuilders.engine.common.math.MathUtils;
 
@@ -16,7 +14,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -109,8 +106,8 @@ public class ChunkSavingLoadingUtils {
 
             //Write allEntities last
             //By making these last, there is less trouble if we dont know when to stop reading allEntities
-            for (int i = 0; i < chunk.entities.list.size(); i++) {
-                Entity entity = chunk.entities.list.get(i);
+            for (int i = 0; i < chunk.entities.entities.size(); i++) {
+                Entity entity = chunk.entities.entities.get(i);
                 out.writeString(entity.getId()); //write entity id
                 out.writeLong(entity.getUniqueIdentifier()); //Write entity uuid
 

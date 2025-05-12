@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
 import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.entity.EntityShader_ArrayTexture;
@@ -57,7 +58,7 @@ public abstract class Entity {
     }
 
     private void getLightForPosition() {
-        Chunk chunk = Client.world.getChunk(chunkPosition.chunk);
+        Chunk chunk = Main.getClient().world.getChunk(chunkPosition.chunk);
         byte light = (byte) 0b11110000;
 
         if (chunk != null) {
@@ -67,7 +68,7 @@ public abstract class Entity {
                 if (light == 0) {
                     WCCi wcc = new WCCi();
                     wcc.set((int) Math.floor(worldPosition.x), (int) Math.floor(worldPosition.y - i), (int) Math.floor(worldPosition.z));
-                    chunk = Client.world.getChunk(wcc.chunk);
+                    chunk = Main.getClient().world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         light = chunk.data.getPackedLight(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }

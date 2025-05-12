@@ -20,14 +20,14 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 
 import static com.xbuilders.Main.LOGGER;
 import static com.xbuilders.Main.game;
 import static com.xbuilders.engine.client.Client.userPlayer;
-import static com.xbuilders.engine.client.Client.world;
 import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 import static com.xbuilders.engine.common.world.wcc.WCCi.chunkDiv;
 
@@ -200,7 +200,7 @@ public class ClientWorld extends World<ClientChunk> {
         Client.frameTester.set("in-use chunks", chunks.size());
         Client.frameTester.set("chunksToRender", sortedChunksToRender.size());
         Client.frameTester.set("unused chunks", unusedChunks.size());
-        Client.frameTester.set("world allEntities", world.allEntities.size());
+        Client.frameTester.set("world allEntities", allEntities.size());
     }
 
     final Vector3f chunkShader_cursorMin = new Vector3f();
@@ -215,12 +215,12 @@ public class ClientWorld extends World<ClientChunk> {
 
         if (ClientWindow.frameCount % 10 == 0) {
             Client.frameTester.startProcess();
-            world.fillChunksAroundPlayer(playerPosition, false);
+            fillChunksAroundPlayer(playerPosition, false);
             Client.frameTester.endProcess("Fill chunks around player");
         }
 
         /*
-         * If the chunks need sorting, newGame the render list
+         * If the chunks need sorting, newGame the render entities
          */
         if (needsSorting.get()) {
             sortedChunksToRender.clear();
