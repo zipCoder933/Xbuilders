@@ -225,7 +225,7 @@ public abstract class World {
                     coords.x, coords.y, coords.z,
                     lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
             //We need to init chunks since we are recycling them
-            chunk.init_common(coords, futureChunks.remove(coords), distToPlayer, isTopLevel);
+            chunk.init_common(futureChunks.remove(coords), distToPlayer);
             this.chunks.put(coords, chunk);
 
         }

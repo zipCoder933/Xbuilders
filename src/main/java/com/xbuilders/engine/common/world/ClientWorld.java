@@ -41,7 +41,7 @@ public class ClientWorld extends World {
     private final Vector3f lastPlayerPosition = new Vector3f();
     private SortByDistanceToPlayer sortByDistance;
     private final List<Chunk> sortedChunksToRender = new ArrayList<>();
-    private int blockTextureID;
+    public int blockTextureID;
 
 
     public ClientWorld() {
@@ -79,7 +79,6 @@ public class ClientWorld extends World {
             //We need to init chunks since we are recycling them
             chunk.reset(coords, isTopLevel);
             chunk.init_common(futureChunks.remove(coords), distToPlayer);
-            chunk.init_client(blockTextureID);
 
             this.chunks.put(coords, chunk);
             this.sortedChunksToRender.remove(chunk);

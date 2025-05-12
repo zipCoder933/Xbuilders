@@ -67,7 +67,7 @@ public class ChunkDataPacket extends Packet {
         int x = in.readInt();
         int y = in.readInt();
         int z = in.readInt();
-        Vector3i chunkPosition = new Vector3i(x, y, z));
+        Vector3i chunkPosition = new Vector3i(x, y, z);
 
         //Read the chunk data
         int length = in.readInt();

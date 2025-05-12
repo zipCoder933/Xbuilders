@@ -91,7 +91,7 @@ public class Chunk {
     FutureChunk futureChunk;
 
     //Client sided only
-    public ChunkMeshBundle meshes;
+    public final ChunkMeshBundle meshes;
     public final Matrix4f client_modelMatrix;
 
     /**
@@ -109,6 +109,7 @@ public class Chunk {
         entities = new ChunkEntitySet(this);
         this.info = info;
         this.terrain = terrain;
+        meshes = new ChunkMeshBundle(Main.getClient().world.blockTextureID, this, terrain);
     }
 
     public void reset(Vector3i position, boolean isTopChunk) {
@@ -124,16 +125,11 @@ public class Chunk {
         aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
     }
 
-    public void init_client(int texture) {
-        //Init the meshes (Client side only)
-        meshes = new ChunkMeshBundle(texture, this, terrain);
-        meshes.init(aabb);
-    }
-
     public void init_common(FutureChunk futureChunk, float distToPlayer) {
         neghbors.init(position);
         this.client_distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
+        meshes.init(aabb);
 
         Client.frameTester.startProcess();
         load();
