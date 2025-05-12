@@ -85,3 +85,25 @@ java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.client.visua
 	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:116)
 	at com.xbuilders.Main.main(Main.java:69)
 
+May 12, 2025 8:17:23 AM com.xbuilders.Main main
+SEVERE: XBuilders has crashed
+java.lang.NullPointerException: Cannot read field "transMesh" because "chunk.meshes" is null
+	at com.xbuilders.engine.common.world.ClientWorld.lambda$client_updateAndRenderChunks$6(ClientWorld.java:331)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:330)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:95)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:184)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:116)
+	at com.xbuilders.Main.main(Main.java:69)
+
+May 12, 2025 8:18:38 AM com.xbuilders.Main main
+SEVERE: XBuilders has crashed
+java.lang.NullPointerException: Cannot read field "transMesh" because "chunk.meshes" is null
+	at com.xbuilders.engine.common.world.ClientWorld.lambda$client_updateAndRenderChunks$6(ClientWorld.java:332)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:331)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:95)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:184)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:116)
+	at com.xbuilders.Main.main(Main.java:69)
+

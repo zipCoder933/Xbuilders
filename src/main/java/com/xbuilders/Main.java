@@ -68,12 +68,7 @@ public class Main {
         try {
             getClient().window.startWindowThread();
         } catch (Exception e) {
-            LoggingUtils.createPopupWindow(
-                    getClient().title + " has crashed",
-                    getClient().title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
-                            "Stack trace:\n" +
-                            String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
-                            "\n\n Log saved to clipboard.");
+            LOGGER.log(Level.SEVERE, "XBuilders has crashed", e);
         } finally {
             getClient().window.destroyWindow();
         }

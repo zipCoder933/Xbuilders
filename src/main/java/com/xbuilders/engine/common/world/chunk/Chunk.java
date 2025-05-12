@@ -122,11 +122,12 @@ public class Chunk {
         this.position.set(position);
         client_modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
         aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
+        if (meshes == null) meshes = new ChunkMeshBundle(Main.getClient().world.blockTextureID, this, terrain);
     }
 
     public void init_client(int texture) {
         //Init the meshes (Client side only)
-        meshes = new ChunkMeshBundle(texture, this, terrain);
+
         meshes.init(aabb);
     }
 

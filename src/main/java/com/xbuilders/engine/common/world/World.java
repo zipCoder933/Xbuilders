@@ -193,12 +193,15 @@ public abstract class World {
         return this.chunks.get(coords);
     }
 
-    public Chunk makeOrGetChunk(final Vector3i coords, boolean topChunk) {
-
+    public Chunk makeOrGetChunk(final Vector3i coords) {
         //Get the chunk
-        if(hasChunk(coords)) return getChunk(coords);
-
+        Chunk chunk = getChunk(coords);
+        if (chunk != null) return chunk;
         //Make the chunk
+        return makeChunk(coords);
+    }
+
+    public Chunk makeChunk(final Vector3i coords) {
         Chunk chunk = null;
         if (!unusedChunks.isEmpty()) {
             chunk = unusedChunks.remove(unusedChunks.size() - 1);
@@ -207,27 +210,21 @@ public abstract class World {
         }
         if (chunk != null) {
             //We need to init chunks since we are recycling them
-            chunk.reset(coords, topChunk);
+            chunk.reset(coords, coords.y <= TOP_Y_CHUNK);
             this.chunks.put(coords, chunk);
         }
         return chunk;
     }
 
-    public Chunk addChunk(final Vector3i coords, boolean isTopLevel) {
-        Chunk chunk = null;
-        if (!unusedChunks.isEmpty()) {
-            chunk = unusedChunks.remove(unusedChunks.size() - 1);
-        } else if (chunks.size() < maxChunksForViewDistance) {
-            chunk = new Chunk(data, terrain);
-        }
+    public Chunk addChunk(final Vector3i coords) {
+        Chunk chunk = makeChunk(coords);
+
         if (chunk != null) {
-            float distToPlayer = MathUtils.dist(
-                    coords.x, coords.y, coords.z,
+            float distToPlayer = MathUtils.dist(coords.x, coords.y, coords.z,
                     lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
             //We need to init chunks since we are recycling them
-            chunk.init_common(coords, futureChunks.remove(coords), distToPlayer, isTopLevel);
+            chunk.init_common(futureChunks.remove(coords), distToPlayer);
             this.chunks.put(coords, chunk);
-
         }
         return chunk;
     }
@@ -323,7 +320,7 @@ public abstract class World {
             boolean isWithinReach = playerPos == null || chunkIsWithinRange_XZ(playerPos, chunkCoords, getCreationViewDistance());
 
             if (!chunks.containsKey(chunkCoords) && isWithinReach) {
-                chunkPillar[y - TOP_Y_CHUNK] = addChunk(chunkCoords, isTopChunk);
+                chunkPillar[y - TOP_Y_CHUNK] = addChunk(chunkCoords);
                 isTopChunk = false;
                 chunksGenerated++;
             } else {
