@@ -9,7 +9,6 @@ import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.common.players.localPlayer.raycasting.CursorRay;
 import com.xbuilders.engine.common.players.localPlayer.raycasting.Ray;
 import com.xbuilders.engine.common.players.localPlayer.raycasting.RayCasting;
-import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.world.chunk.BlockData;
@@ -252,6 +251,6 @@ public class Camera {
 
 
     public String toString() {
-        return "Camera: pan\\tilt:(" + MiscUtils.printVector(player.camera.simplifiedPanTilt) + "), thirdPersonDist:" + thirdPersonDist + " cursorHitAll:" + cursorRay.angelPlacementMode;
+        return "Camera: pan\\tilt:(" + MiscUtils.printVec(player.camera.simplifiedPanTilt) + "), thirdPersonDist:" + thirdPersonDist + " cursorHitAll:" + cursorRay.angelPlacementMode;
     }
 }

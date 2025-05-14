@@ -12,7 +12,6 @@ import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.common.world.chunk.BlockData;
-import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.wcc.WCCf;
 import com.xbuilders.engine.common.world.wcc.WCCi;
 import com.xbuilders.engine.common.utils.MiscUtils;
@@ -185,7 +184,7 @@ public class GameScene implements WindowEvents {
                         ((int) Client.userPlayer.worldPosition.x) + ", " +
                         ((int) Client.userPlayer.worldPosition.y) + ", " +
                         ((int) Client.userPlayer.worldPosition.z) +
-                        "    velocity: " + MiscUtils.printVector(Client.userPlayer.positionHandler.getVelocity());
+                        "    velocity: " + MiscUtils.printVec(Client.userPlayer.positionHandler.getVelocity());
                 text += "\n\tcamera: " + Client.userPlayer.camera.toString();
 
                 if (Client.userPlayer.camera.cursorRay.hitTarget() || Client.userPlayer.camera.cursorRay.angelPlacementMode) {
@@ -209,8 +208,8 @@ public class GameScene implements WindowEvents {
                     if (chunk != null) {
                         text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
                         text += "\nchunk neighbors: " + chunk.neghbors.toString();
-                        text += "\nchunk mesh: visible:" + chunk.meshes.opaqueMesh.isVisible();
-                        text += "\nchunk mesh: " + chunk.meshes;
+                        text += "\nchunk mesh: visible:" + chunk.getMeshes().opaqueMesh.isVisible();
+                        text += "\nchunk mesh: " + chunk.getMeshes();
                         text += "\nchunk last modified: " + MiscUtils.formatTime(chunk.lastModifiedTime);
 
                         Block block = Registrys.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));

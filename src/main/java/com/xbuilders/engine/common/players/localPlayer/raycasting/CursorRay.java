@@ -527,7 +527,7 @@ public class CursorRay {
     }
 
     public String toString() {
-        return MiscUtils.printVector(cursorRay.getHitPosition());
+        return MiscUtils.printVec(cursorRay.getHitPosition());
     }
 
 

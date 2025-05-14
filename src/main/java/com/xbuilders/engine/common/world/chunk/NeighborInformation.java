@@ -1,6 +1,5 @@
 package com.xbuilders.engine.common.world.chunk;
 
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.world.World;
 import org.joml.Vector3i;
@@ -103,7 +102,7 @@ public class NeighborInformation {
                 else if (thisChunkCoordinates.y == World.BOTTOM_Y_CHUNK && NEIGHBOR_VECTORS[i].y == 1) continue;
 
                 Chunk chunk = neighbors[i];
-                if (chunk != null && chunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
+                if (chunk != null && chunkMeshGenerated(chunk)) {
                     allNeghborsLoaded2 = false;
                     if (i < 6) {
                         facingchunksLoaded2 = false;
@@ -132,7 +131,7 @@ public class NeighborInformation {
                         XYFacingNeghborsLoaded2 = false;
                     }
                 } else {
-                    if (chunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
+                    if (chunkMeshGenerated(chunk)) {
                         allNeghborsLoaded2 = false;
                         if (i < 6) {
                             facingchunksLoaded2 = false;
@@ -151,10 +150,14 @@ public class NeighborInformation {
         allNeghborsLoaded = allNeghborsLoaded2;
     }
 
+    private boolean chunkMeshGenerated(Chunk chunk) {
+        return false;
+    }
+
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Neighbors " + MiscUtils.printVector(this.thisChunkCoordinates) + ": ");
+        sb.append("Neighbors " + MiscUtils.printVec(this.thisChunkCoordinates) + ": ");
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
             Chunk c = neighbors[i];
 //            sb.append(NEIGHBOR_VECTORS[i].x+""+NEIGHBOR_VECTORS[i].y+""+NEIGHBOR_VECTORS[i].z+"=");

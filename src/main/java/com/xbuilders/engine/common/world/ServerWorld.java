@@ -1,5 +1,8 @@
 package com.xbuilders.engine.common.world;
 
+import com.xbuilders.Main;
+import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.packets.ChunkDataPacket;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
 import com.xbuilders.engine.common.world.chunk.ServerChunk;
@@ -11,12 +14,33 @@ public class ServerWorld extends World<ServerChunk> {
      * For a local server, we just want to share unused chunks for memory manegment
      */
     public ServerWorld(ClientWorld otherWorld) {
-        this.data = new WorldData(otherWorld.data); //Everything except for the chunks is its own instance
+        this.setData(new WorldData(otherWorld.getData())); //Everything except for the chunks is its own instance
     }
 
     @Override
-    protected ServerChunk createChunk(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk, float distToPlayer) {
-        if (recycleChunk != null) return new ServerChunk(recycleChunk, coords,  futureChunk, distToPlayer);
-        else return new ServerChunk(coords,  futureChunk, distToPlayer, this);
+    protected ServerChunk internal_createChunkObject(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk) {
+        if (recycleChunk != null) return new ServerChunk(recycleChunk, coords, futureChunk, this);
+        else return new ServerChunk(coords, futureChunk, this);
     }
+
+    public ServerChunk addChunk(final Vector3i coords) {
+        ServerChunk chunk = super.addChunk(coords);
+        if (chunk != null) {
+
+            chunk.loadFuture = generationService.submit(chunk.distToPlayer, () -> {
+                try {
+                    System.out.println("Chunk Blocks...");
+                    chunk.loadChunk(futureChunks.get(coords));
+
+                    System.out.println("Sending chunk...");
+                    Main.getServer().writeAndFlushToAllPlayers(new ChunkDataPacket(chunk, Main.getServer().runningLocally()));
+                    return false;
+                } finally {
+                    newGameTasks.incrementAndGet();
+                }
+            });
+        }
+        return chunk;
+    }
+
 }

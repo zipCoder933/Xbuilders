@@ -308,7 +308,7 @@ public class LocalPlayer extends Player {
     public void setSpawnPoint(float x, float y, float z) {
         status_spawnPosition.set(x, y, z);
         Main.getClient().consoleOut("Spawn set to " + status_spawnPosition.x + ", " + status_spawnPosition.y + ", " + status_spawnPosition.z);
-        saveToWorld(Client.world.data); //Make SURE to save the spawnpoint
+        saveToWorld(Client.world.getData()); //Make SURE to save the spawnpoint
     }
 
     public void getPlayerBoxTop(Vector3f playerBoxBottom) {

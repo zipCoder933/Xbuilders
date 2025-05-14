@@ -3,17 +3,20 @@ package com.xbuilders.engine.common.world.chunk;
 import org.joml.Vector3i;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class FutureChunk {
 
     public final Vector3i position;
     public final Map<Vector3i, Short> futureBlocks;
-//    public final HashSet<Vector3i> futureSun;
+    public final HashSet<Vector3i> futureSun;
+    public final HashSet<Vector3i> futureTorch;
 
     public FutureChunk(Vector3i position) {
         this.position = position;
-//        futureSun = new HashSet<>();
+        this.futureSun = new HashSet<>();
+        this.futureTorch = new HashSet<>();
         this.futureBlocks = new HashMap<>();
     }
 

@@ -26,7 +26,7 @@ public class WorldEntityMap extends HashMap<Long, Entity> {
 
     public void addAllEntitiesFromChunk(Chunk chunk) {
         try {
-            for (Entity e : new ArrayList<>(chunk.entities.entities)) {
+            for (Entity e : new ArrayList<>(chunk.entities.list)) {
                 put(e.getUniqueIdentifier(), e);
             }
         } catch (Exception e) {

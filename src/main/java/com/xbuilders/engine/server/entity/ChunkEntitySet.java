@@ -24,18 +24,18 @@ public class ChunkEntitySet {
 
     public boolean chunkUpdatedMesh;
     Chunk thisChunk;
-    public final ArrayList<Entity> entities;
+    public final ArrayList<Entity> list;
     World world;
 
 
     public ChunkEntitySet(Chunk aThis, World world) {
         this.thisChunk = aThis;
         this.world = world;
-        entities = new ArrayList<>();
+        list = new ArrayList<>();
     }
 
     public void clear() {
-        entities.clear();
+        list.clear();
     }
 
     public Entity placeNew(EntitySupplier link, long identifier, float worldX, float worldY, float worldZ, byte[] bytes) {
@@ -47,7 +47,7 @@ public class ChunkEntitySet {
 
             entity.worldPosition.set(worldX, worldY, worldZ);
             entity.loadBytes = bytes;
-            entities.add(entity);
+            list.add(entity);
             return entity;
         }
         return null;
@@ -78,12 +78,12 @@ public class ChunkEntitySet {
     public void draw(FrustumCullingTester frustum, Vector3f playerPos) {
 
 
-        for (int i = entities.size() - 1; i >= 0; i--) {
-            Entity e = entities.get(i);
+        for (int i = list.size() - 1; i >= 0; i--) {
+            Entity e = list.get(i);
             if (e == null || e.isDestroyMode()) {
                 System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
 //                Main.getServer().server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
-                entities.remove(i);
+                list.remove(i);
             } else {
                 if (e.needsInitialization) {//Initialize entity on the main thread
                     e.hidden_initializeEntity();
@@ -108,8 +108,8 @@ public class ChunkEntitySet {
 //                        System.out.println("SWITCHING FROM " + MiscUtils.printVector(e.chunkPosition.chunk) + " TO " + toChunk);
 //                        e.renderThisFrame = false;
                         e.chunk = toChunk;
-                        toChunk.entities.entities.add(e);
-                        entities.remove(i);
+                        toChunk.entities.list.add(e);
+                        list.remove(i);
                     } else {
                         //Otherwise, clamp entity position to the existing chunk
                         e.worldPosition.set(

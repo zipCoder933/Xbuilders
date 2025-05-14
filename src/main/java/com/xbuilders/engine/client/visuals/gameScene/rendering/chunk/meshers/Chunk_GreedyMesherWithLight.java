@@ -5,6 +5,7 @@
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers;
 
 import com.xbuilders.engine.client.Client;
+import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockTexture;
@@ -130,9 +131,9 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                 normal[2] = 0;
                 normal[d] = backFace ? -1 : 1;
 
-                Chunk forwardChunk = Client.world
+                ClientChunk forwardChunk = Client.world
                         .getChunk(new Vector3i(chunkPosition.x + q[0], chunkPosition.y + q[1], chunkPosition.z + q[2]));
-                Chunk backChunk = Client.world
+                ClientChunk backChunk = Client.world
                         .getChunk(new Vector3i(chunkPosition.x - q[0], chunkPosition.y - q[1], chunkPosition.z - q[2]));
 
                 if (d == 0) {
@@ -154,11 +155,11 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                 // ends up covering the next chunks faces)
                 int max = dims[d];
 
-                // If the chunk is not terrainLoaded, dont draw the side that it is on
-                if (forwardChunk == null || forwardChunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
+                // If the chunk is not here, dont draw the side that it is on
+                if (forwardChunk == null) {
                     max = dims[d] - 1;
                 }
-                if (backChunk == null || backChunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
+                if (backChunk == null) {
                     min = 0;
                 }
 

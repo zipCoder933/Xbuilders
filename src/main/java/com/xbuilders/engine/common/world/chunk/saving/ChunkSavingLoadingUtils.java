@@ -106,8 +106,8 @@ public class ChunkSavingLoadingUtils {
 
             //Write allEntities last
             //By making these last, there is less trouble if we dont know when to stop reading allEntities
-            for (int i = 0; i < chunk.entities.entities.size(); i++) {
-                Entity entity = chunk.entities.entities.get(i);
+            for (int i = 0; i < chunk.entities.list.size(); i++) {
+                Entity entity = chunk.entities.list.get(i);
                 out.writeString(entity.getId()); //write entity id
                 out.writeLong(entity.getUniqueIdentifier()); //Write entity uuid
 

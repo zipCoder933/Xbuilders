@@ -19,7 +19,6 @@ import com.xbuilders.engine.common.players.pipeline.BlockEventPipeline;
 import com.xbuilders.engine.common.players.pipeline.BlockHistory;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
 import com.xbuilders.engine.common.world.ServerWorld;
-import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.wcc.WCCf;
@@ -36,10 +35,8 @@ import org.joml.Vector3f;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.logging.Level;
 
 import static com.xbuilders.Main.LOGGER;
@@ -48,6 +45,8 @@ import static com.xbuilders.Main.versionStringToNumber;
 public class Server {
     public final static String SERVER_VERSION_STRING = "1.0.0";
     public final static long SERVER_VERSION = versionStringToNumber(SERVER_VERSION_STRING);
+    public final static int SERVER_PLAYER_COMMUNICATION_RANGE = 2000;
+
     public final LivePropagationHandler livePropagationHandler = new LivePropagationHandler();
     public final ServerWorld world;
     private final Game game;
@@ -60,7 +59,22 @@ public class Server {
     private boolean alive = true;
     private int port = -1;
 
-    static{
+    public void writeAndFlushToAllPlayers(Packet p) {
+        for (ChannelBase player : players) {
+            player.writeAndFlush(p);
+        }
+    }
+
+    public void writeAndFlushToAllPlayers(Packet p, int centerX, int centerY, int centerZ) {
+        //Players that are not within the range wont get the message
+        for (ChannelBase player : players) {
+            if (player.getPlayer().worldPosition.distance(centerX, centerY, centerZ) < SERVER_PLAYER_COMMUNICATION_RANGE) {
+                player.writeAndFlush(p);
+            }
+        }
+    }
+
+    static {
         AllPackets.registerPackets();
     }
 
@@ -303,8 +317,8 @@ public class Server {
 
     //Server events
     public boolean newClientEvent(ChannelBase client) {
-        for(ChannelBase c : players) { //Only 1 player per IP
-            if(c.remoteAddress().equals(client.remoteAddress())) {
+        for (ChannelBase c : players) { //Only 1 player per IP
+            if (c.remoteAddress().equals(client.remoteAddress())) {
                 System.out.println("Player already connected from " + c.remoteAddress());
                 return false;
             }
@@ -325,8 +339,8 @@ public class Server {
             eventPipeline = new BlockEventPipeline(world);
 
             tickThread = new LogicThread(this);
-            livePropagationHandler.startGameEvent(world.data);
-            eventPipeline.startGameEvent(world.data);
+            livePropagationHandler.startGameEvent(world.getData());
+            eventPipeline.startGameEvent(world.getData());
             tickThread.startGameEvent();
 
             //Setup the game
@@ -345,7 +359,7 @@ public class Server {
 
     public void stop() {
         alive = false;
-        if (world.data != null) world.stopGameEvent();
+        if (world.getData() != null) world.close();
         tickThread.stopGameEvent();
         eventPipeline.stopGameEvent();
         livePropagationHandler.stopGameEvent();
@@ -355,24 +369,24 @@ public class Server {
 
 
     public Difficulty getDifficulty() {
-        return world.data.data.difficulty;
+        return world.getData().data.difficulty;
     }
 
     public void setDifficulty(Difficulty difficulty) throws IOException {
         if (difficulty == null) difficulty = Difficulty.NORMAL;
-        world.data.data.difficulty = difficulty;
-        world.data.save();
+        world.getData().data.difficulty = difficulty;
+        world.getData().save();
         Main.getClient().consoleOut("Difficulty changed to: " + getDifficulty());
     }
 
     public GameMode getGameMode() {
-        return world.data.data.gameMode;
+        return world.getData().data.gameMode;
     }
 
     public void setGameMode(GameMode gameMode) throws IOException {
         if (gameMode == null) gameMode = GameMode.ADVENTURE;
-        world.data.data.gameMode = gameMode;
-        world.data.save();
+        world.getData().data.gameMode = gameMode;
+        world.getData().save();
         Main.getClient().consoleOut("Game mode changed to: " + getGameMode());
     }
 

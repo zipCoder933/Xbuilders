@@ -65,7 +65,7 @@ public class WCCf {
 
     @Override
     public String toString() {
-        return "WCC{chunk=" + MiscUtils.printVector(chunk)
-                + ", voxel=" + MiscUtils.printVector(chunkVoxel) + '}';
+        return "WCC{chunk=" + MiscUtils.printVec(chunk)
+                + ", voxel=" + MiscUtils.printVec(chunkVoxel) + '}';
     }
 }

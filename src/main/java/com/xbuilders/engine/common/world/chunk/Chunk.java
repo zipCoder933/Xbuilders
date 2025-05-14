@@ -1,24 +1,13 @@
 package com.xbuilders.engine.common.world.chunk;
 
-import com.xbuilders.Main;
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.common.world.World;
-import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.block.Block;
-import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
-import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.server.entity.EntitySupplier;
-import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.ChunkMeshBundle;
 import com.xbuilders.engine.common.math.AABB;
-import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.Terrain.GenSession;
 import com.xbuilders.engine.common.world.WorldData;
 import com.xbuilders.engine.common.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.window.render.MVP;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.io.File;
@@ -29,7 +18,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static com.xbuilders.Main.LOGGER;
-import static com.xbuilders.engine.common.world.World.*;
 
 public class Chunk {
 
@@ -82,7 +70,6 @@ public class Chunk {
     public final Vector3i position;
     public final MVP mvp;
     public boolean inFrustum;
-    public float client_distToPlayer;
     public final AABB aabb;
     public final NeighborInformation neghbors;
     public final World world;
@@ -95,7 +82,7 @@ public class Chunk {
      * The chunk is a reusable class but we have different types of chunk so we have to reuse the most important data
      * and throw away everything else
      */
-    public Chunk(Vector3i position, FutureChunk futureChunk, float distToPlayer, World world) {
+    public Chunk(Vector3i position, FutureChunk futureChunk, World world) {
         this.position = new Vector3i(position);
         this.mvp = new MVP();
         this.data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
@@ -106,24 +93,22 @@ public class Chunk {
         this.entities = new ChunkEntitySet(this, world);
 
 
-        initVariables(futureChunk, distToPlayer);
+        initVariables(futureChunk);
     }
 
     /**
      * This method is how we reuse chunks
      * We take the data from the other chunk and use that in our new chunk
      */
-    public Chunk(Chunk other, Vector3i position, FutureChunk futureChunk, float distToPlayer) {
+    public Chunk(Chunk other, Vector3i position, FutureChunk futureChunk, World world) {
         //New variables
         this.position = new Vector3i(position);
         this.mvp = new MVP();
 
         this.aabb = new AABB();
         this.loadFuture = null;
-        this.world = other.world;
+        this.world = world;
         this.pillarInformation = null;
-        this.generationStatus = 0;
-
         //Recyclied variables
         this.data = other.data;
         this.data.reset();
@@ -131,36 +116,19 @@ public class Chunk {
         this.entities = other.entities;
         this.entities.clear();
 
-        initVariables(futureChunk, distToPlayer);
+        initVariables(futureChunk);
     }
 
     //A unified place for all variables to be initialized
-    private void initVariables(FutureChunk futureChunk, float distToPlayer) {
+    private void initVariables(FutureChunk futureChunk) {
         this.aabb.setPosAndSize(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH, WIDTH, HEIGHT, WIDTH);
-
         neghbors.init(position);
-
-
-        this.client_distToPlayer = distToPlayer;   // Load the chunk
         this.futureChunk = futureChunk;
     }
 
 
-    public void load() {
-        Client.frameTester.startProcess();
-        loadFuture = generationService.submit(client_distToPlayer, () -> {
-            try {
-                loadChunk(futureChunk);
-                return false;
-            } finally {
-                newGameTasks.incrementAndGet();
-            }
-        });
-        Client.frameTester.endProcess("Load chunk");
-    }
-
     public void loadChunk(FutureChunk futureChunk) {
-        File f = world.data.getChunkFile(position);
+        File f = world.getData().getChunkFile(position);
         try {
             boolean needsSunGeneration = true;
             if (f.exists()) {
@@ -173,10 +141,6 @@ public class Chunk {
                 futureChunk.setBlocksInChunk(this);
                 needsSunGeneration = true;
             }
-            ;
-
-            // Loading a chunk includes loading sunlight
-            setGenerationStatus(needsSunGeneration ? GEN_TERRAIN_LOADED : GEN_SUN_LOADED); //TODO: The world updates sunlight in pillars, therefore setting light to sun_loaded makes no difference because the pillar doesnt know how if a chunk doesnt have sunlight
         } catch (Exception ex) {//For some reason we have to catch incoming errors otherwise they wont be visible
             LOGGER.log(Level.WARNING, "error loading chunk", ex);
         }
@@ -198,32 +162,28 @@ public class Chunk {
      */
     public Future<Boolean> loadFuture;
 
-    private int generationStatus = 0;
-    public static final int GEN_TERRAIN_LOADED = 1;
-    public static final int GEN_SUN_LOADED = 2;
-    public static final int GEN_COMPLETE = 3;
 
-
+    //TODO: Get rid of these
     public int getGenerationStatus() {
-        return generationStatus;
+        return 100;
     }
 
     public void setGenerationStatus(int newGenStatus) {
-        if (this.generationStatus < newGenStatus) {//Only update if we are PROGRESSING the generation status
-            this.generationStatus = newGenStatus;
-        }
+//        if (this.generationStatus < newGenStatus) {//Only update if we are PROGRESSING the generation status
+//            this.generationStatus = newGenStatus;
+//        }
     }
 
     public boolean gen_terrainLoaded() {
-        return getGenerationStatus() >= Chunk.GEN_TERRAIN_LOADED;
+        return true;
     }
 
     public boolean gen_sunLoaded() {
-        return getGenerationStatus() >= Chunk.GEN_SUN_LOADED;
+        return true;
     }
 
     public boolean gen_Complete() {
-        return getGenerationStatus() >= Chunk.GEN_COMPLETE;
+        return true;
     }
 
     // public static FrameTester chunkGenFrameTester = new FrameTester("Chunk
@@ -292,45 +252,45 @@ public class Chunk {
      * @param spawnEntities
      * @return if the chunk mesh was updated
      */
-    public boolean tick(boolean spawnEntities) {
-        boolean updatedChunkMesh = false;
-        int wx = position.x * WIDTH;
-        int wy = position.y * HEIGHT;
-        int wz = position.z * WIDTH;
-        float spawnLikelyhood = 0;
-
-        EntitySupplier entityToSpawn = null;
-        if (spawnEntities && Registrys.entities.autonomousList.size() > 0) {
-            entityToSpawn = Registrys.entities.autonomousList.get(randomTick_random.nextInt(Registrys.entities.autonomousList.size()));
-            spawnLikelyhood = entityToSpawn.spawnLikelyhood.get();
-        }
-
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
-                for (int z = 0; z < WIDTH; z++) {
-
-                    if (randomTick_random.nextFloat() <= getRandomTickLikelihood()) {
-                        short blockID = data.getBlock(x, y, z);
-                        if (blockID != BlockRegistry.BLOCK_AIR.id) {
-                            Block block = Registrys.getBlock(blockID);
-                            if (block.randomTickEvent != null) {
-                                if (block.randomTickEvent.run(wx + x, wy + y, wz + z)) updatedChunkMesh = true;
-                            }
-                        }
-                    }
-
-                    if (spawnEntities && entityToSpawn != null
-                            && client_distToPlayer > 10
-                            && randomTick_random.nextFloat() <= spawnLikelyhood &&
-                            entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
-                        Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);
-                        Entity e = Main.getServer().placeEntity(entityToSpawn, pos, null);
-                        e.spawnedNaturally = true;
-                    }
-
-                }
-            }
-        }
-        return updatedChunkMesh;
+    public void tick(boolean spawnEntities) {
+//        boolean updatedChunkMesh = false;
+//        int wx = position.x * WIDTH;
+//        int wy = position.y * HEIGHT;
+//        int wz = position.z * WIDTH;
+//        float spawnLikelyhood = 0;
+//
+//        EntitySupplier entityToSpawn = null;
+//        if (spawnEntities && Registrys.entities.autonomousList.size() > 0) {
+//            entityToSpawn = Registrys.entities.autonomousList.get(randomTick_random.nextInt(Registrys.entities.autonomousList.size()));
+//            spawnLikelyhood = entityToSpawn.spawnLikelyhood.get();
+//        }
+//
+//        for (int x = 0; x < WIDTH; x++) {
+//            for (int y = 0; y < HEIGHT; y++) {
+//                for (int z = 0; z < WIDTH; z++) {
+//
+//                    if (randomTick_random.nextFloat() <= getRandomTickLikelihood()) {
+//                        short blockID = data.getBlock(x, y, z);
+//                        if (blockID != BlockRegistry.BLOCK_AIR.id) {
+//                            Block block = Registrys.getBlock(blockID);
+//                            if (block.randomTickEvent != null) {
+//                                if (block.randomTickEvent.run(wx + x, wy + y, wz + z)) updatedChunkMesh = true;
+//                            }
+//                        }
+//                    }
+//
+//                    if (spawnEntities && entityToSpawn != null
+//                            && client_distToPlayer > 10
+//                            && randomTick_random.nextFloat() <= spawnLikelyhood &&
+//                            entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
+//                        Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);
+//                        Entity e = Main.getServer().placeEntity(entityToSpawn, pos, null);
+//                        e.spawnedNaturally = true;
+//                    }
+//
+//                }
+//            }
+//        }
+//        return updatedChunkMesh;
     }
 }

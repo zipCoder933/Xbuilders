@@ -6,6 +6,7 @@ import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.option.BoundedFloat;
 import com.xbuilders.engine.common.option.BoundedInt;
 import com.xbuilders.engine.common.resource.ResourceUtils;
+import com.xbuilders.engine.common.world.ClientWorld;
 import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 
@@ -45,8 +46,8 @@ public class ClientSettings {
     public int internal_skinID;
 
     public ClientSettings initVariables() {
-        internal_viewDistance.setBounds(World.VIEW_DIST_MIN, World.VIEW_DIST_MAX);
-        internal_simulationDistance.setBounds(World.VIEW_DIST_MIN / 2, World.VIEW_DIST_MAX);
+        internal_viewDistance.setBounds(ClientWorld.VIEW_DIST_MIN, ClientWorld.VIEW_DIST_MAX);
+        internal_simulationDistance.setBounds(ClientWorld.VIEW_DIST_MIN / 2, ClientWorld.VIEW_DIST_MAX);
         video_entityDistance.setBounds(20, 100);
         video_fullscreenSize.setBounds(0.5f, 1.0f);
         video_fullscreenSize.clamp();

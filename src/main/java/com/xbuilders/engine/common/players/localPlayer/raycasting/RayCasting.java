@@ -396,8 +396,8 @@ public class RayCasting {
                     Chunk chunk = chunks.getChunk(wcc.chunk);
                     if (!traversedChunks.contains(chunk)) {
                         //Add allEntities in chunk
-                        for (int i = 0; i < chunk.entities.entities.size(); i++) {
-                            Entity entity = chunk.entities.entities.get(i);
+                        for (int i = 0; i < chunk.entities.list.size(); i++) {
+                            Entity entity = chunk.entities.list.get(i);
                             entityAABBList.add(new AABBNode(entity.aabb.box, entity));
                         }
 

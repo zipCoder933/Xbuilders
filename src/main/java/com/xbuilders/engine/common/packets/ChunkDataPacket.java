@@ -34,12 +34,14 @@ public class ChunkDataPacket extends Packet {
     /**
      * Load the chunk into bytes
      *
-     * @param chunk the chunk to have binary data uploaded
+     * @param chunk                    the chunk to have binary data uploaded
+     * @param writeAsSingleplayerChunk if set to true, the chunk will be written as a singleplayer chunk
      */
     public ChunkDataPacket(Chunk chunk, boolean writeAsSingleplayerChunk) {
         super(AllPackets.CHUNK_DATA);
         if (writeAsSingleplayerChunk) {
             this.singleplayerChunkData = chunk;
+            this.chunkPosition = chunk.position;
         } else {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             ChunkSavingLoadingUtils.writeChunk(chunk, out);
@@ -88,15 +90,15 @@ public class ChunkDataPacket extends Packet {
     @Override
     public void handleClientSide(ChannelBase ctx, Packet packet) {
         ChunkDataPacket packetInstance = (ChunkDataPacket) packet;
-
+        System.out.println("Reading chunk " + packetInstance.chunkPosition);
         //Create or get the chunk first
         Chunk chunk = Main.getClient().world.addChunk(packetInstance.chunkPosition);
 
 
         if (packetInstance.singleplayerChunkData != null) { //Send the bytes directly to the client
             chunk.data = packetInstance.singleplayerChunkData.data; //Add the blocks directly
-            chunk.entities.entities.addAll(packetInstance.singleplayerChunkData.entities.entities); //copy the entities
-
+            chunk.entities.list.addAll(packetInstance.singleplayerChunkData.entities.list); //copy the entities
+            //chunk.load();
         } else {//Load the data into the chunks on the client
             AtomicBoolean fileReadCorrectly = new AtomicBoolean(false);
             AtomicBoolean hasDetectedIfFileWasReadCorrectly = new AtomicBoolean(false);

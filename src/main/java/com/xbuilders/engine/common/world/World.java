@@ -2,42 +2,35 @@ package com.xbuilders.engine.common.world;
 
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
-import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.server.entity.EntitySupplier;
-import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
-import com.xbuilders.engine.client.settings.ClientSettings;
 import com.xbuilders.engine.common.math.MathUtils;
-import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.LowValueComparator;
 import com.xbuilders.engine.common.world.chunk.BlockData;
-import com.xbuilders.engine.common.world.chunk.FutureChunk;
-
 import com.xbuilders.engine.common.world.chunk.Chunk;
-
-import static com.xbuilders.Main.LOGGER;
-import static com.xbuilders.Main.game;
-
-import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.common.world.chunk.FutureChunk;
+import com.xbuilders.engine.common.world.wcc.WCCi;
+import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.Block;
-
-import static com.xbuilders.engine.client.Client.userPlayer;
-import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
-
-import static com.xbuilders.engine.common.world.wcc.WCCi.chunkDiv;
-
-import com.xbuilders.engine.common.world.chunk.pillar.PillarInformation;
+import com.xbuilders.engine.server.block.BlockRegistry;
+import com.xbuilders.engine.server.entity.Entity;
+import com.xbuilders.engine.server.entity.EntitySupplier;
+import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
-import com.xbuilders.engine.common.world.wcc.WCCi;
-import org.joml.*;
+import static com.xbuilders.Main.LOGGER;
+import static com.xbuilders.Main.game;
+import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
+import static com.xbuilders.engine.common.world.wcc.WCCi.chunkDiv;
 
 /*
  *
@@ -64,32 +57,10 @@ public abstract class World<T extends Chunk> {
     public static final int CHUNK_MESH_THREADS = 1;
     public static final int PLAYER_CHUNK_MESH_THREADS = 3; //The number of threads allocated to player based chunk updating
 
-    public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
-    public static int VIEW_DIST_MAX = Chunk.WIDTH * 16; //Allowing higher view distances increases flexibility
+    //TODO: VIEW DIStANCE IS A CLIENT PROPERTY NOT SERVEr
 
-    protected int maxChunksForViewDistance;
-    protected final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
+
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
-
-    public void setViewDistance(ClientSettings settings, int viewDistance2) {
-        viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
-        // Settings
-        settings.internal_viewDistance.value = viewDistance.get();
-        settings.save();
-        maxChunksForViewDistance = Integer.MAX_VALUE;
-    }
-
-    public int getViewDistance() {
-        return viewDistance.get();
-    } //The view distance reffers to rendering distance.
-
-    public int getCreationViewDistance() {
-        return viewDistance.get() + Chunk.WIDTH;
-    }
-
-    public int getDeletionViewDistance() {
-        return viewDistance.get() + (Chunk.WIDTH * 6);
-    }
 
 
     // World boundaries
@@ -121,9 +92,8 @@ public abstract class World<T extends Chunk> {
     //Model properties
     public final Map<Vector3i, T> chunks = new ConcurrentHashMap<>(); //Important if we want to use this in multiple threads
     public final WorldEntityMap allEntities = new WorldEntityMap(); // <chunkPos, entity>
-    public WorldData data;
+    private WorldData data;
     public Terrain terrain;
-    private final Vector3f lastPlayerPosition = new Vector3f();
 
     public static final List<Chunk> unusedChunks = new ArrayList<>();
 
@@ -198,26 +168,21 @@ public abstract class World<T extends Chunk> {
         return this.chunks.get(coords);
     }
 
-    protected abstract T createChunk(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk, float distToPlayer);
+    protected abstract T internal_createChunkObject(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk);
 
     public T addChunk(final Vector3i coords) {
         //Return an existing chunk if it exists
         T chunk = getChunk(coords);
         if (chunk != null) return chunk;
 
-        //make the chunk
-        float distToPlayer = MathUtils.dist(coords.x, coords.y, coords.z,
-                lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
-
         if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
             Chunk recycleChunk = unusedChunks.remove(unusedChunks.size() - 1);
-            chunk = createChunk(recycleChunk, coords, futureChunks.remove(coords), distToPlayer);
-        } else if (chunks.size() < maxChunksForViewDistance) { //Create a new chunk from scratch
-            chunk = createChunk(null, coords, futureChunks.remove(coords), distToPlayer);
+            chunk = internal_createChunkObject(recycleChunk, coords, futureChunks.remove(coords));
+        } else { //Create a new chunk from scratch
+            chunk = internal_createChunkObject(null, coords, futureChunks.remove(coords));
         }
 
         if (chunk != null) {
-            chunk.load();
             this.chunks.put(coords, chunk);
         }
         return chunk;
@@ -227,15 +192,14 @@ public abstract class World<T extends Chunk> {
         if (hasChunk(coords)) {
             Chunk chunk = this.chunks.remove(coords);
             allEntities.removeAllEntitiesFromChunk(chunk);
-            chunk.save(data);
+            chunk.save(getData());
             unusedChunks.add(chunk);
         }
     }
     // </editor-fold>
 
 
-
-    public void stopGameEvent() {
+    public void close() {
         // We may or may not actually need to shutdown the services, since chunks cancel
         // all tasks when they are disposed
         ExecutorServiceUtils.cancelAllTasks(generationService);
@@ -254,7 +218,7 @@ public abstract class World<T extends Chunk> {
         futureChunks.clear(); // Important!
 
         System.gc();
-        data = null;
+        setData(null);
         terrain = null;
     }
 
@@ -282,9 +246,6 @@ public abstract class World<T extends Chunk> {
                 chunk.y * Chunk.WIDTH,
                 chunk.z * Chunk.WIDTH) < viewDistance;
     }
-
-
-
 
 
     // <editor-fold defaultstate="collapsed" desc="block operations">
@@ -420,25 +381,38 @@ public abstract class World<T extends Chunk> {
     protected long lastSaveMS;
 
     public void save() {
-        Vector3f playerPos = userPlayer.worldPosition;
         ClientWindow.printlnDev("Saving world...");
         // Save all modified chunks
         Iterator<T> iterator = chunks.values().iterator();
         while (iterator.hasNext()) {
             Chunk chunk = iterator.next();
-            chunk.save(data);
+            chunk.save(getData());
         }
 
         //Save world info
         try {
-            data.setSpawnPoint(playerPos);
-            data.save();
+            getData().save();
         } catch (IOException ex) {
-            LOGGER.log(Level.INFO, "World \"" + data.getName() + "\" could not be saved", ex);
+            LOGGER.log(Level.INFO, "World \"" + getData().getName() + "\" could not be saved", ex);
         }
-
-        //Save player info
-        userPlayer.saveToWorld(data);
     }
 
+    public WorldData getData() {
+        return data;
+    }
+
+    public void setData(WorldData data) {
+        this.data = data;
+        this.chunks.clear();
+        unusedChunks.clear();
+        this.futureChunks.clear(); // Important!
+        newGameTasks.set(0);
+        allEntities.clear();
+
+        //Get the terrain from worldInfo
+        this.terrain = game.getTerrainFromInfo(data);
+        if (terrain == null) {
+            LOGGER.log(Level.SEVERE, "Terrain not found");
+        } else System.out.println("Terrain: " + this.terrain);
+    }
 }

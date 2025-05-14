@@ -3,7 +3,6 @@ package com.xbuilders.engine.client.visuals.skybox;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.common.world.ClientWorld;
 import com.xbuilders.engine.server.entity.Entity;
-import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -51,7 +50,7 @@ public class SkyBackground {
 
     public void update() {
         //Move the sky texture
-        if (world.data.data.alwaysDayMode) setSkyTexturePan(0);
+        if (world.getData().data.alwaysDayMode) setSkyTexturePan(0);
         else updateTexturePan();
 
         //Calculate the light level
@@ -95,12 +94,12 @@ public class SkyBackground {
     }
 
     private double getSkyTexturePan() {
-        return world.data.data.dayTexturePan;
+        return world.getData().data.dayTexturePan;
     }
 
     private void setSkyTexturePan(double val) {
         //By writing and reading directly from world data, we never have to worry about loading/saving
-        world.data.data.dayTexturePan = val;
+        world.getData().data.dayTexturePan = val;
     }
 
     public void draw(Matrix4f projection, Matrix4f view) {

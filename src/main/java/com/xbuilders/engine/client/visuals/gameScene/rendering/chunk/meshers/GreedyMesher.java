@@ -111,11 +111,11 @@ public class GreedyMesher extends BlockMesher<CompactVertexSet> {
                 int min = 0;//-1 (We changed this to 0, so chunks dont overlap. The dim starts at 0 and ends up covering the next chunks faces)
                 int max = dims[d];
 
-                //If the chunk is not terrainLoaded, dont draw the side that it is on
-                if (forwardChunk == null || forwardChunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
+                //If the chunk is not here, dont draw the side that it is on
+                if (forwardChunk == null) {
                     max = dims[d] - 1;
                 }
-                if (backChunk == null || backChunk.getGenerationStatus() < Chunk.GEN_TERRAIN_LOADED) {
+                if (backChunk == null) {
                     min = 0;
                 }
 

@@ -152,7 +152,7 @@ public class BlockEventUtils {
         for (Vector3i cc : chunks) {
             Chunk chunk = Main.getClient().world.chunks.get(cc);
             if (chunk != null) {
-                for (Entity e : chunk.entities.entities) {
+                for (Entity e : chunk.entities.list) {
                     if (MathUtils.dist(setX, setY, setZ, e.worldPosition.x, e.worldPosition.y, e.worldPosition.z) < size
                             && !(e instanceof LivingEntity)
                             && !(e instanceof ItemDrop)) {

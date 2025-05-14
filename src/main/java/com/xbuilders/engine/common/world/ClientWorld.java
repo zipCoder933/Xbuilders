@@ -22,14 +22,11 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.xbuilders.Main.LOGGER;
-import static com.xbuilders.Main.game;
 import static com.xbuilders.engine.client.Client.userPlayer;
 import static com.xbuilders.engine.common.math.MathUtils.positiveMod;
 import static com.xbuilders.engine.common.world.wcc.WCCi.chunkDiv;
@@ -49,10 +46,10 @@ public class ClientWorld extends World<ClientChunk> {
 
 
     @Override
-    protected ClientChunk createChunk(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk, float distToPlayer) {
+    protected ClientChunk internal_createChunkObject(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk) {
         if (recycleChunk != null)
-            return new ClientChunk(recycleChunk, coords, futureChunk, distToPlayer, blockTextureID);
-        else return new ClientChunk(coords, futureChunk, distToPlayer, this, blockTextureID);
+            return new ClientChunk(recycleChunk, coords, futureChunk, this, blockTextureID);
+        else return new ClientChunk(coords, futureChunk, this, blockTextureID);
     }
 
 
@@ -61,24 +58,54 @@ public class ClientWorld extends World<ClientChunk> {
     }
 
 
+    public static int VIEW_DIST_MIN = Chunk.WIDTH * 2;
+    public static int VIEW_DIST_MAX = Chunk.WIDTH * 16; //Allowing higher view distances increases flexibility
+    protected int maxChunksForViewDistance = 100;
+    protected final AtomicInteger viewDistance = new AtomicInteger(VIEW_DIST_MIN);
+
     public void setViewDistance(ClientSettings settings, int viewDistance2) {
-        super.setViewDistance(settings, viewDistance2);
+        viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
+        // Settings
+        settings.internal_viewDistance.value = viewDistance.get();
+        settings.save();
+        maxChunksForViewDistance = Integer.MAX_VALUE;
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
     }
 
 
-    public void init(BlockArrayTexture textures) throws IOException {
-        blockTextureID = textures.getTexture().id;
-        // Prepare for game
-        chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
+    public int getViewDistance() {
+        return viewDistance.get();
+    } //The view distance reffers to rendering distance.
 
+    public int getCreationViewDistance() {
+        return viewDistance.get() + Chunk.WIDTH;
+    }
+
+    public int getDeletionViewDistance() {
+        return viewDistance.get() + (Chunk.WIDTH * 6);
+    }
+
+
+    public void initGL(BlockArrayTexture textures) {
+        blockTextureID = textures.getTexture().id;
+        chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
         setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
         sortByDistance = new SortByDistanceToPlayer(Client.userPlayer.worldPosition);
         allEntities.clear();
     }
 
-    public void requestChunk(Vector3i coords) {
-        Main.getClient().endpoint.getChannel().writeAndFlush(new ChunkRequestPacket(coords));
+    public ClientChunk requestChunk(Vector3i coords) {
+        //This is used for 1) chunk task prioritization and 2) chunk ticking distance
+        float distToPlayer = MathUtils.dist(
+                coords.x * Chunk.WIDTH,
+                coords.y * Chunk.HEIGHT,
+                coords.z * Chunk.WIDTH,
+                userPlayer.worldPosition.x,
+                userPlayer.worldPosition.y,
+                userPlayer.worldPosition.z);
+
+        Main.getClient().endpoint.getChannel().writeAndFlush(new ChunkRequestPacket(coords, distToPlayer));
+        return addChunk(coords);
     }
 
     public ClientChunk addChunk(final Vector3i coords) {
@@ -86,20 +113,18 @@ public class ClientWorld extends World<ClientChunk> {
         ClientChunk chunk = getChunk(coords);
         if (chunk != null) return chunk;
 
-        //make the chunk
-        float distToPlayer = MathUtils.dist(coords.x, coords.y, coords.z,
-                lastPlayerPosition.x, lastPlayerPosition.y, lastPlayerPosition.z);
-
         if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
             Chunk recycleChunk = unusedChunks.remove(unusedChunks.size() - 1);
-            chunk = createChunk(recycleChunk, coords, futureChunks.remove(coords), distToPlayer);
+            chunk = internal_createChunkObject(recycleChunk, coords, futureChunks.remove(coords));
         } else if (chunks.size() < maxChunksForViewDistance) { //Create a new chunk from scratch
-            chunk = createChunk(null, coords, futureChunks.remove(coords), distToPlayer);
+            chunk = internal_createChunkObject(null, coords, futureChunks.remove(coords));
         }
 
         if (chunk != null) {
-            chunk.load();
             this.chunks.put(coords, chunk);
+        }
+
+        if (chunk != null) {
             this.sortedChunksToRender.remove(chunk);
             needsSorting.set(true);
         }
@@ -107,28 +132,14 @@ public class ClientWorld extends World<ClientChunk> {
     }
 
 
-    public boolean init(ProgressData prog, Vector3f spawnPosition) {
-        System.out.println("\n\nStarting new game: " + data.getName());
-        prog.setTask("Starting new game");
-        this.chunks.clear();
-        unusedChunks.clear();
-        this.futureChunks.clear(); // Important!
-        newGameTasks.set(0);
-        allEntities.clear();
-        //Get the terrain from worldInfo
-        this.terrain = game.getTerrainFromInfo(data);
-        if (terrain == null) {
-            LOGGER.log(Level.SEVERE, "Terrain not found");
-            return false;
-        } else System.out.println("Terrain: " + this.terrain);
-
+    public boolean open(ProgressData prog, Vector3f spawnPosition) {
         prog.setTask("Generating chunks");
         prog.bar.setMax(fillChunksAroundPlayer(spawnPosition, true));
         return true;
     }
 
-    public void stopGameEvent() {
-        super.stopGameEvent();
+    public void close() {
+        super.close();
         sortedChunksToRender.clear();
     }
 
@@ -143,7 +154,7 @@ public class ClientWorld extends World<ClientChunk> {
             boolean isWithinReach = playerPos == null || chunkIsWithinRange_XZ(playerPos, chunkCoords, getCreationViewDistance());
 
             if (!chunks.containsKey(chunkCoords) && isWithinReach) {
-                chunkPillar[y - TOP_Y_CHUNK] = addChunk(chunkCoords);
+                chunkPillar[y - TOP_Y_CHUNK] = requestChunk(chunkCoords);
                 isTopChunk = false;
                 chunksGenerated++;
             } else {
@@ -201,14 +212,6 @@ public class ClientWorld extends World<ClientChunk> {
         int removalViewDistance = getDeletionViewDistance();
 
         chunks.forEach((coords, chunk) -> {
-            //This is used for 1) chunk task prioritization and 2) chunk ticking distance
-            chunk.client_distToPlayer = MathUtils.dist(
-                    coords.x * Chunk.WIDTH,
-                    coords.y * Chunk.HEIGHT,
-                    coords.z * Chunk.WIDTH,
-                    playerPosition.x,
-                    playerPosition.y,
-                    playerPosition.z);
 
             if (!chunkIsWithinRange_XZ(playerPosition, coords, removalViewDistance)) {
                 chunksToUnload.add(chunk);
@@ -223,7 +226,7 @@ public class ClientWorld extends World<ClientChunk> {
                 }
                 chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position);
                 // frameTester.endProcess("UCTRL: sorting and frustum check");
-                chunk.prepare(terrain, ClientWindow.frameCount, false);
+                chunk.prepare(ClientWindow.frameCount, false);
             }
         });
         chunksToUnload.forEach(chunk -> {
@@ -337,10 +340,10 @@ public class ClientWorld extends World<ClientChunk> {
             if (chunkIsVisible(chunk, playerPosition)) {
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
                 initShaderUniforms(chunk);
-                chunk.meshes.opaqueMesh.getQueryResult();
-                chunk.meshes.opaqueMesh.drawVisible(GameScene.drawWireframe);
+                chunk.getMeshes().opaqueMesh.getQueryResult();
+                chunk.getMeshes().opaqueMesh.drawVisible(GameScene.drawWireframe);
 
-                if (GameScene.drawBoundingBoxes) chunk.meshes.opaqueMesh.drawBoundingBoxWithWireframe();
+                if (GameScene.drawBoundingBoxes) chunk.getMeshes().opaqueMesh.drawBoundingBoxWithWireframe();
 
             }
         });
@@ -349,7 +352,7 @@ public class ClientWorld extends World<ClientChunk> {
         sortedChunksToRender.forEach(chunk -> {
             if (chunkIsVisible(chunk, playerPosition)) {
                 // chunkShader.setChunkPosition(chunk.position);
-                chunk.meshes.opaqueMesh.drawInvisible();
+                chunk.getMeshes().opaqueMesh.drawInvisible();
             }
         });
         CompactOcclusionMesh.endInvisible();
@@ -365,10 +368,10 @@ public class ClientWorld extends World<ClientChunk> {
 
         //Draw transparent meshes
         sortedChunksToRender.forEach(chunk -> {
-            if (!chunk.meshes.transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
-                if (chunk.meshes.opaqueMesh.isVisibleSafe(2) || chunk.meshes.opaqueMesh.isEmpty()) {
+            if (!chunk.getMeshes().transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
+                if (chunk.getMeshes().opaqueMesh.isVisibleSafe(2) || chunk.getMeshes().opaqueMesh.isEmpty()) {
                     initShaderUniforms(chunk);
-                    chunk.meshes.transMesh.draw(GameScene.drawWireframe);
+                    chunk.getMeshes().transMesh.draw(GameScene.drawWireframe);
                 }
             }
         });
@@ -391,9 +394,9 @@ public class ClientWorld extends World<ClientChunk> {
         chunkShader.setChunkPosition(chunk.position);
     }
 
-    private boolean chunkIsVisible(Chunk chunk, Vector3f playerPosition) {
+    private boolean chunkIsVisible(ClientChunk chunk, Vector3f playerPosition) {
         return chunk.inFrustum
-                && chunk.getGenerationStatus() == Chunk.GEN_COMPLETE
+                && chunk.getMeshes().hasBeenGenerated()
                 && chunkIsWithinRange_XYZ(playerPosition, chunk.position, getViewDistance());
     }
 

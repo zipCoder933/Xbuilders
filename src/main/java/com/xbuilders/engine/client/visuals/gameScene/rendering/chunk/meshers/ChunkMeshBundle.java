@@ -4,12 +4,10 @@
  */
 package com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers;
 
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.bufferSet.vertexSet.TraditionalVertexSet;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.occlusionCulling.BoundingBoxMesh;
-import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.chunk.Chunk;
@@ -29,6 +27,7 @@ public class ChunkMeshBundle {
 
     //<editor-fold defaultstate="collapsed" desc="LOD">
     private static int LOD_LEVEL;
+
 
     private static List<Integer> listFactors(int number) {
         List<Integer> factors = new ArrayList<>();
@@ -80,6 +79,8 @@ public class ChunkMeshBundle {
     public final BoundingBoxMesh boundMesh;
     public final CompactOcclusionMesh opaqueMesh;
     public final CompactMesh transMesh;
+    private boolean isGenerated;
+    public boolean meshesHaveAllSides;
 
     public ChunkMeshBundle(int texture, Chunk chunk, Terrain terrain) {
         this.chunk = chunk;
@@ -98,13 +99,16 @@ public class ChunkMeshBundle {
         opaqueMesh.makeEmpty();
         transMesh.makeEmpty();
         boundMesh.setBounds(bounds);
+        isGenerated = false;
     }
 
-    public boolean meshesHaveAllSides;
-
+    public boolean hasBeenGenerated() {
+        return isGenerated;
+    }
 
     //This compute function is thread safe
     public synchronized void compute() {
+        isGenerated = true;
         try {
             try (MemoryStack stack = org.lwjgl.system.MemoryStack.stackPush()) {
                 meshesHaveAllSides = chunk.neghbors.allFacingNeghborsLoaded;
@@ -138,13 +142,14 @@ public class ChunkMeshBundle {
 
             }
         } catch (Exception e) {
-            LOGGER.log(Level.INFO,"error", e);
+            LOGGER.log(Level.INFO, "error", e);
         }
     }
 
     public synchronized void sendToGPU() {
         opaqueBuffer.sendToMesh(opaqueMesh);
         transBuffer.sendToMesh(transMesh);
+        isGenerated = true;
     }
 
     public boolean isEmpty() {

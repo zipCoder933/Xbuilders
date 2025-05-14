@@ -149,7 +149,7 @@ public class AABB {
 
     @Override
     public String toString() {
-        return "AABB{" + MiscUtils.printVector(min) + ", " + MiscUtils.printVector(max) + "}";
+        return "AABB{" + MiscUtils.printVec(min) + ", " + MiscUtils.printVec(max) + "}";
     }
 
     @Override

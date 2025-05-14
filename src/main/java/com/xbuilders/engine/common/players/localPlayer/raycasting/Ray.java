@@ -72,8 +72,8 @@ public class Ray {
 
     @Override
     public String toString() {
-        return "Ray{" + "hitTarget=" + hitTarget + ", origin=" + MiscUtils.printVector(origin) + ", direction=" + MiscUtils.printVector(direction) + ",\n"
-                + "hitPostition=" + MiscUtils.printVector(hitPostition) + ", hitNormal=" + MiscUtils.printVector(hitNormal) + ", distanceTraveled=" + distanceTraveled + ",\n"
+        return "Ray{" + "hitTarget=" + hitTarget + ", origin=" + MiscUtils.printVec(origin) + ", direction=" + MiscUtils.printVec(direction) + ",\n"
+                + "hitPostition=" + MiscUtils.printVec(hitPostition) + ", hitNormal=" + MiscUtils.printVec(hitNormal) + ", distanceTraveled=" + distanceTraveled + ",\n"
                 + "entity=" + entity + ", cursorBoxes=" + cursorBoxes + '}';
     }
 

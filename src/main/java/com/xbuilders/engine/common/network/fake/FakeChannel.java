@@ -1,5 +1,6 @@
 package com.xbuilders.engine.common.network.fake;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.packet.Packet;
 import com.xbuilders.engine.common.players.Player;
@@ -54,10 +55,14 @@ public class FakeChannel extends ChannelBase {
             try {
                 while (active.get()) {
                     Packet packet = (Packet) incoming.take();
-                    if (sendMessagesToServer) {
-                        server.receive(reverseChannel, packet);
-                    } else {
-                        client.receive(packet);
+                    try {
+                        if (sendMessagesToServer) {
+                            server.receive(reverseChannel, packet);
+                        } else {
+                            client.receive(packet);
+                        }
+                    } catch (Exception e) {
+                        Main.LOGGER.log(Level.WARNING, "Failed to receive fake packet", e);
                     }
                 }
             } catch (InterruptedException ignored) {

@@ -113,39 +113,39 @@ public class MiscUtils {
     }
 
     // Print Vector methods
-    public static String printVector(Vector2f vec) {
+    public static String printVec(Vector2f vec) {
         return vec.x + "," + vec.y;
     }
 
-    public static String printVector(Vector2i vec) {
+    public static String printVec(Vector2i vec) {
         return vec.x + "," + vec.y;
     }
 
-    public static String printVector(Vector2d vec) {
+    public static String printVec(Vector2d vec) {
         return vec.x + "," + vec.y;
     }
 
-    public static String printVector(Vector3f vec) {
+    public static String printVec(Vector3f vec) {
         return vec.x + "," + vec.y + "," + vec.z;
     }
 
-    public static String printVector(Vector3i vec) {
+    public static String printVec(Vector3i vec) {
         return vec.x + "," + vec.y + "," + vec.z;
     }
 
-    public static String printVector(Vector3d vec) {
+    public static String printVec(Vector3d vec) {
         return vec.x + "," + vec.y + "," + vec.z;
     }
 
-    public static String printVector(Vector4f vec) {
+    public static String printVec(Vector4f vec) {
         return vec.x + "," + vec.y + "," + vec.z + "," + vec.w;
     }
 
-    public static String printVector(Vector4i vec) {
+    public static String printVec(Vector4i vec) {
         return vec.x + "," + vec.y + "," + vec.z + "," + vec.w;
     }
 
-    public static String printVector(Vector4d vec) {
+    public static String printVec(Vector4d vec) {
         return vec.x + "," + vec.y + "," + vec.z + "," + vec.w;
     }
 

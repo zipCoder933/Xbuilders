@@ -18,7 +18,7 @@ public class ChunkVoxels {
 
     public String toString(){
         return "ChunkVoxels{" +
-                "size=" + MiscUtils.printVector(size) +
+                "size=" + MiscUtils.printVec(size) +
                 ", empty=" + blocksAreEmpty +
                 '}';
     }

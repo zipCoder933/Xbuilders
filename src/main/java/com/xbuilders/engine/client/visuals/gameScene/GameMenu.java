@@ -9,8 +9,8 @@ import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.SettingsPage;
+import com.xbuilders.engine.common.world.ClientWorld;
 import com.xbuilders.engine.server.GameMode;
-import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.resource.ResourceUtils;
 import com.xbuilders.window.nuklear.components.NumberBox;
 import org.joml.Vector3f;
@@ -35,9 +35,9 @@ public class GameMenu extends UI_GameMenu {
     final int menuWidth = 340;
     final int menuHeight = 280;
     final int BUTTON_HEIGHT = 35;
-    final World world;
+    final ClientWorld world;
 
-    public GameMenu(NkContext ctx, Client client, World world) {
+    public GameMenu(NkContext ctx, Client client, ClientWorld world) {
         super(ctx, client.window);
         ClientWindow window = client.window;
         this.client = client;
@@ -149,7 +149,7 @@ public class GameMenu extends UI_GameMenu {
     }
 
     private void waypoint(boolean save) {
-        File waypointDir = new File(world.data.getDirectory(), "waypoints");
+        File waypointDir = new File(world.getData().getDirectory(), "waypoints");
         if (!waypointDir.exists()) {
             waypointDir.mkdirs();
         }

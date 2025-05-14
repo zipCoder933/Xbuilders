@@ -1,7 +1,6 @@
 package com.xbuilders.content.vanilla;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.entity.Entity;
 import com.xbuilders.engine.server.item.Item;
 import com.xbuilders.engine.common.world.chunk.Chunk;
@@ -61,16 +60,16 @@ public class EntityRemovalTool extends Item {
             System.out.println("Removing all allEntities in the current chunk");
             for (Chunk chunk : Main.getClient().world.chunks.values()) {
                 //Iterate over the entities backwards
-                for (int i = chunk.entities.entities.size() - 1; i >= 0; i--) {
-                    Entity entity = chunk.entities.entities.get(i);
+                for (int i = chunk.entities.list.size() - 1; i >= 0; i--) {
+                    Entity entity = chunk.entities.list.get(i);
                     if (entity == null) {
-                        chunk.entities.entities.remove(i);
+                        chunk.entities.list.remove(i);
                     } else if (entity.worldPosition.distance(pos.x, pos.y, pos.z) < radius) {
                         System.out.println("Checking entity " + entity);
                         if (predicate.test(entity)) {
                             System.out.println("\tRemoving entity " + entity);
                             entity.destroy();
-                            chunk.entities.entities.remove(i); //Remove from the entities
+                            chunk.entities.list.remove(i); //Remove from the entities
                         }
                     }
                 }

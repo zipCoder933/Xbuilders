@@ -162,7 +162,7 @@ public class Client {
         Main.getClient().window.gameScene.setProjection();
 
         if (singleplayerWorld != null) { //Spin up a local server
-            world.data = singleplayerWorld; //set the world data
+            world.setData(singleplayerWorld); //set the world data
             //The server must have a separate world even if it's a single-player game
             //In singleplayer, the chunks are shared by both client and server to save memory
             ServerWorld serverWorld = new ServerWorld(world);
@@ -248,12 +248,12 @@ public class Client {
             }
             case 2 -> {
                 boolean ok;
-                if (world.data.getSpawnPoint() == null) { //Create spawn point
+                if (world.getData().getSpawnPoint() == null) { //Create spawn point
                     Client.userPlayer.worldPosition.set(0, 0, 0);
-                    ok = world.init(prog, new Vector3f(0, 0, 0));
+                    ok = world.open(prog, new Vector3f(0, 0, 0));
                 } else {//Load spawn point
-                    Client.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
-                    ok = world.init(prog, Client.userPlayer.worldPosition);
+                    Client.userPlayer.worldPosition.set(world.getData().getSpawnPoint().x, world.getData().getSpawnPoint().y, world.getData().getSpawnPoint().z);
+                    ok = world.open(prog, Client.userPlayer.worldPosition);
                 }
                 if (!ok) {
                     prog.abort();
@@ -269,7 +269,7 @@ public class Client {
                     prog.setTask("Preparing chunks");
                     AtomicInteger finishedChunks = new AtomicInteger();
                     world.chunks.forEach((vec, c) -> { //For simplicity, We call the same prepare method the same as in world class
-                        c.prepare(world.terrain, 0, true);
+                        c.prepare(0, true);
                         if (c.gen_Complete()) {
                             finishedChunks.getAndIncrement();
                         }
@@ -289,7 +289,7 @@ public class Client {
             }
             default -> {
                 //The client controls the player and so it should decide where to spawn
-                if (world.data.getSpawnPoint() == null) {
+                if (world.getData().getSpawnPoint() == null) {
                     //Find spawn point
                     //new World Event runs for the first time in a new world
                     Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
@@ -297,8 +297,8 @@ public class Client {
                     System.out.println("Spawn point: " + spawnPoint.x + ", " + spawnPoint.y + ", " + spawnPoint.z);
                     Client.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
                 }
-                userPlayer.loadFromWorld(world.data);
-                game.startGameEvent(world.data);
+                userPlayer.loadFromWorld(world.getData());
+                game.startGameEvent(world.getData());
                 prog.finish();
             }
         }
