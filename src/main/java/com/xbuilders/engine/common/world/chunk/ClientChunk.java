@@ -61,20 +61,19 @@ public class ClientChunk extends Chunk {
             this.meshes.init(aabb);
         }
 
-        if (!getMeshes().hasBeenGenerated() && mesherFuture == null) {  //Generate the mesh
-            mesherFuture = meshService.submit(() -> {
-                System.out.println("Generating mesh...");
-                getMeshes().compute();
-                return getMeshes();
-            });
-        }
+        if (inFrustum || isSettingUpWorld) { //Only updated meshes for where we can see
+            if (!getMeshes().hasBeenGenerated() && mesherFuture == null) {  //Generate the mesh for the first time
+                mesherFuture = meshService.submit(() -> {
+                    System.out.println("Generating mesh at " + position.toString());
+                    getMeshes().compute();
+                    return getMeshes();
+                });
+            }
 
-        if (inFrustum || isSettingUpWorld) {  // Send mesh to GPU if mesh thread is finished
-            Client.frameTester.startProcess();
+            Client.frameTester.startProcess();// Send mesh to GPU if mesh thread is finished
             entities.chunkUpdatedMesh = true;
             if (mesherFuture != null && mesherFuture.isDone()) {
                 try {
-                    System.out.println("Sending mesh to GPU");
                     mesherFuture.get().sendToGPU();
                 } catch (Exception e) {
                     e.printStackTrace();

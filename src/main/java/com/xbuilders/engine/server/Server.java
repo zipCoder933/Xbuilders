@@ -155,7 +155,7 @@ public class Server {
         commandRegistry.registerCommand(new Command("time",
                 "Usage: time set <day/evening/night>\n" +
                         "Usage: time get")
-                .requiresOP(true)
+                .requiresOP(false)
                 .executesServerSide((parts, player) -> {
                     if (parts.length >= 1 && parts[0].equalsIgnoreCase("get")) {
                         return "Time of day: " + Main.getServer().getTimeOfDay();
