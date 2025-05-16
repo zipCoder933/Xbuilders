@@ -1,7 +1,6 @@
 package com.xbuilders.engine.common.world;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.common.packets.ChunkDataPacket;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
@@ -30,7 +29,7 @@ public class ServerWorld extends World<ServerChunk> {
             chunk.loadFuture = generationService.submit(chunk.distToPlayer, () -> {
                 try {
                     System.out.println("Chunk Blocks...");
-                    chunk.loadChunk(futureChunks.get(coords));
+                    chunk.loadBlocksAndLight(futureChunks.remove(coords));
 
                     System.out.println("Sending chunk...");
                     Main.getServer().writeAndFlushToAllPlayers(new ChunkDataPacket(chunk, Main.getServer().runningLocally()));

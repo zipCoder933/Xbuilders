@@ -3,21 +3,15 @@ package com.xbuilders.engine.common.world.chunk;
 import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.common.math.AABB;
-import com.xbuilders.engine.common.world.Terrain.GenSession;
 import com.xbuilders.engine.common.world.WorldData;
-import com.xbuilders.engine.common.world.chunk.pillar.PillarInformation;
 import com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.window.render.MVP;
 import org.joml.Vector3i;
 
-import java.io.File;
 import java.util.Objects;
-import java.util.Random;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static com.xbuilders.Main.LOGGER;
 
 public class Chunk {
 
@@ -127,25 +121,6 @@ public class Chunk {
     }
 
 
-    public void loadChunk(FutureChunk futureChunk) {
-        File f = world.getData().getChunkFile(position);
-        try {
-            boolean needsSunGeneration = true;
-            if (f.exists()) {
-                ChunkSavingLoadingUtils.readChunkFromFile(this, f);
-                needsSunGeneration = false;
-            } else if (world.terrain.isBelowMinHeight(this.position, 0)) {
-                GenSession createTerrainOnChunk = world.terrain.createTerrainOnChunk(this);
-            }
-            if (futureChunk != null) {
-                futureChunk.setBlocksInChunk(this);
-                needsSunGeneration = true;
-            }
-        } catch (Exception ex) {//For some reason we have to catch incoming errors otherwise they wont be visible
-            LOGGER.log(Level.WARNING, "error loading chunk", ex);
-        }
-    }
-
     public void dispose() {
         try {
             data.dispose();
@@ -163,17 +138,6 @@ public class Chunk {
     public Future<Boolean> loadFuture;
 
 
-    //TODO: Get rid of these
-    public int getGenerationStatus() {
-        return 100;
-    }
-
-    public void setGenerationStatus(int newGenStatus) {
-//        if (this.generationStatus < newGenStatus) {//Only update if we are PROGRESSING the generation status
-//            this.generationStatus = newGenStatus;
-//        }
-    }
-
     public boolean gen_terrainLoaded() {
         return true;
     }
@@ -181,16 +145,6 @@ public class Chunk {
     public boolean gen_sunLoaded() {
         return true;
     }
-
-    public boolean gen_Complete() {
-        return true;
-    }
-
-    // public static FrameTester chunkGenFrameTester = new FrameTester("Chunk
-    // generation");
-    // static {
-    // chunkGenFrameTester.setUpdateTimeMS(1000);
-    // }
 
 
     Object saveLock = new Object();
@@ -239,12 +193,12 @@ public class Chunk {
         return "Chunk{" + position.x + "," + position.y + "," + position.z + '}';
     }
 
-    private static Random randomTick_random = new Random();
-    public static float randomTickLikelyhoodMultiplier = 1;
-
-    public static float getRandomTickLikelihood() {
-        return randomTickLikelyhoodMultiplier * 0.005f;
-    }
+//    private static Random randomTick_random = new Random();
+//    public static float randomTickLikelyhoodMultiplier = 1;
+//
+//    public static float getRandomTickLikelihood() {
+//        return randomTickLikelyhoodMultiplier * 0.005f;
+//    }
 
     /**
      * Ticks the chunk
@@ -293,4 +247,5 @@ public class Chunk {
 //        }
 //        return updatedChunkMesh;
     }
+
 }

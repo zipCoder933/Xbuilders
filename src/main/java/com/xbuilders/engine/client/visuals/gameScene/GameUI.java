@@ -67,6 +67,10 @@ public class GameUI {
         overlay.setColor(0, 0, 0, 0);
     }
 
+    public boolean infoBoxVisible() {
+        return infoBox.isOpen();
+    }
+
     public void newGameEvent() {
         baseMenu.newGameEvent();
         infoBox.newGameEvent();

@@ -64,7 +64,7 @@ public class ClientChunk extends Chunk {
         if (inFrustum || isSettingUpWorld) { //Only updated meshes for where we can see
             if (!getMeshes().hasBeenGenerated() && mesherFuture == null) {  //Generate the mesh for the first time
                 mesherFuture = meshService.submit(() -> {
-                    System.out.println("Generating mesh at " + position.toString());
+//                    System.out.println("Generating mesh at " + position.toString());
                     getMeshes().compute();
                     return getMeshes();
                 });

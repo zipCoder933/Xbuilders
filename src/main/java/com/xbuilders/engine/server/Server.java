@@ -79,14 +79,14 @@ public class Server {
     }
 
     private void registerCommands() {
-        commandRegistry.registerCommand(new Command("tickrate", "Sets the random tick likelihood. Usage: tickrate <ticks>")
-                .requiresOP(true).executesServerSide((parts, player) -> {
-                    if (parts.length >= 1) {
-                        Chunk.randomTickLikelyhoodMultiplier = (float) Double.parseDouble(parts[0]);
-                        return "Tick rate changed to: " + Chunk.randomTickLikelyhoodMultiplier;
-                    }
-                    return "Tick rate is " + Chunk.randomTickLikelyhoodMultiplier;
-                }));
+//        commandRegistry.registerCommand(new Command("tickrate", "Sets the random tick likelihood. Usage: tickrate <ticks>")
+//                .requiresOP(true).executesServerSide((parts, player) -> {
+//                    if (parts.length >= 1) {
+//                        Chunk.randomTickLikelyhoodMultiplier = (float) Double.parseDouble(parts[0]);
+//                        return "Tick rate changed to: " + Chunk.randomTickLikelyhoodMultiplier;
+//                    }
+//                    return "Tick rate is " + Chunk.randomTickLikelyhoodMultiplier;
+//                }));
 
         commandRegistry.registerCommand(new Command("mode",
                 "Usage (to get the current mode): mode\n" +

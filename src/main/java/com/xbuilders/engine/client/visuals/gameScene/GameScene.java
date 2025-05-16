@@ -6,6 +6,7 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
 import com.xbuilders.engine.common.world.ClientWorld;
+import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
@@ -206,7 +207,7 @@ public class GameScene implements WindowEvents {
 
                     ClientChunk chunk = world.getChunk(rayWCC.chunk);
                     if (chunk != null) {
-                        text += "\nchunk gen status: " + chunk.getGenerationStatus() + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
+                        text += "\nchunk gen status: " + getGenerationStatus(chunk) + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
                         text += "\nchunk neighbors: " + chunk.neghbors.toString();
                         text += "\nchunk mesh: visible:" + chunk.getMeshes().opaqueMesh.isVisible();
                         text += "\nchunk mesh: " + chunk.getMeshes();
@@ -234,6 +235,12 @@ public class GameScene implements WindowEvents {
             }
             ui.setDevText(text);
         } else ui.setDevText(null);
+    }
+
+    private String getGenerationStatus(Chunk c) {
+        if (c.gen_sunLoaded()) return "S";
+        else if (c.gen_terrainLoaded()) return "T";
+        else return "-";
     }
 
     private String printBlockData(BlockData data) {

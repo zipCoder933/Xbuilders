@@ -232,7 +232,7 @@ public class Client {
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_JOINING = true;
 
 
-    public void joinGameUpdate(ProgressData prog, ChannelBase channel){
+    public void joinGameUpdate(ProgressData prog, ChannelBase channel) {
         switch (prog.stage) {
             case 0 -> {
                 completeChunks = 0;
@@ -270,9 +270,7 @@ public class Client {
                     AtomicInteger finishedChunks = new AtomicInteger();
                     world.chunks.forEach((vec, c) -> { //For simplicity, We call the same prepare method the same as in world class
                         c.prepare(0, true);
-                        if (c.gen_Complete()) {
-                            finishedChunks.getAndIncrement();
-                        }
+                        finishedChunks.getAndIncrement();
                     });
 
                     prog.bar.setProgress(finishedChunks.get(), world.chunks.size() / 2);

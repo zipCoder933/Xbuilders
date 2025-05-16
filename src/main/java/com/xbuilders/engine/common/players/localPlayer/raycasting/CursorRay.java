@@ -425,9 +425,18 @@ public class CursorRay {
     }
 
     public void drawRay() {
-        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return;
-
-        if (hitTarget() && useBoundary) {
+        if (Main.getServer().getGameMode() == GameMode.SPECTATOR) {
+            //We sometimes want to draw the cursor even when spectating
+            if (Main.getClient().window.gameScene.ui.infoBoxVisible()) {
+                cursorBox.setPosAndSize(
+                        (int) cursorRay.getHitPosition().x,
+                        (int) cursorRay.getHitPosition().y,
+                        (int) cursorRay.getHitPosition().z,
+                        1, 1, 1);
+                cursorBox.setColor(1, 0, 0, 1);
+                cursorBox.draw(camera.projection, camera.view);
+            }
+        } else if (hitTarget() && useBoundary) {
             if (!boundary_isStartNodeSet) {
                 setBoundaryStartNode(boundary_startNode);
                 boundary_aabb.setPosAndSize(boundary_startNode.x, boundary_startNode.y, boundary_startNode.z, 1, 1,

@@ -15,7 +15,7 @@ import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
-import com.xbuilders.engine.common.world.chunk.pillar.PillarInformation;
+import com.xbuilders.engine.common.world.chunk.PillarInformation;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import org.joml.Matrix4f;

@@ -47267,3 +47267,37 @@ java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.common.world
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
 	at java.base/java.lang.Thread.run(Thread.java:840)
 
+May 16, 2025 8:03:34 AM com.xbuilders.engine.client.Client stopGame
+INFO: error
+java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.common.world.WorldData.getTerrain()" because "info" is null
+	at com.xbuilders.engine.server.Game.getTerrainFromInfo(Game.java:37)
+	at com.xbuilders.engine.common.world.World.setData(World.java:413)
+	at com.xbuilders.engine.common.world.World.close(World.java:221)
+	at com.xbuilders.engine.server.Server.stop(Server.java:362)
+	at com.xbuilders.engine.client.Client.stopGame(Client.java:332)
+	at com.xbuilders.engine.client.ClientWindow.goToMenuPage(ClientWindow.java:66)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.drawHomePage(GameMenu.java:145)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.draw(GameMenu.java:92)
+	at com.xbuilders.engine.client.visuals.gameScene.GameUI.draw(GameUI.java:112)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:105)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:69)
+
+May 16, 2025 9:30:36 AM com.xbuilders.engine.client.Client stopGame
+INFO: error
+java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.common.world.WorldData.getTerrain()" because "info" is null
+	at com.xbuilders.engine.server.Game.getTerrainFromInfo(Game.java:37)
+	at com.xbuilders.engine.common.world.World.setData(World.java:413)
+	at com.xbuilders.engine.common.world.World.close(World.java:221)
+	at com.xbuilders.engine.server.Server.stop(Server.java:362)
+	at com.xbuilders.engine.client.Client.stopGame(Client.java:332)
+	at com.xbuilders.engine.client.ClientWindow.goToMenuPage(ClientWindow.java:66)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.drawHomePage(GameMenu.java:145)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.draw(GameMenu.java:92)
+	at com.xbuilders.engine.client.visuals.gameScene.GameUI.draw(GameUI.java:116)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:105)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:69)
+

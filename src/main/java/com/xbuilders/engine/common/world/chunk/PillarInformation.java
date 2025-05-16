@@ -1,15 +1,6 @@
-package com.xbuilders.engine.common.world.chunk.pillar;
+package com.xbuilders.engine.common.world.chunk;
 
-import com.xbuilders.engine.common.utils.BFS.ChunkNode;
-import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.engine.common.world.World;
-import com.xbuilders.engine.common.world.WorldData;
-import com.xbuilders.engine.common.world.chunk.Chunk;
-
-import java.util.ArrayList;
-
-import static com.xbuilders.engine.common.world.World.generationService;
-import static com.xbuilders.engine.common.world.World.lightService;
 
 public class PillarInformation {
 

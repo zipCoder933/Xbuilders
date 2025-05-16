@@ -7,7 +7,7 @@ import org.joml.Vector3i;
 public class NeighborInformation {
 
     World world;
-    
+
     public NeighborInformation(World world) {
         this.world = world;
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
@@ -160,11 +160,16 @@ public class NeighborInformation {
         sb.append("Neighbors " + MiscUtils.printVec(this.thisChunkCoordinates) + ": ");
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
             Chunk c = neighbors[i];
-//            sb.append(NEIGHBOR_VECTORS[i].x+""+NEIGHBOR_VECTORS[i].y+""+NEIGHBOR_VECTORS[i].z+"=");
-            sb.append(c == null ? "N" : (c.getGenerationStatus()));
+            sb.append(c == null ? "N" : (getGenerationStatus(c)));
             if (i < NEIGHBOR_VECTORS.length - 1) sb.append(" ");
         }
         sb.append(" all-exist: " + allChunksCreated + " all-loaded: " + allNeghborsLoaded + ", all-facing: " + allFacingNeghborsLoaded);
         return sb.toString();
+    }
+
+    private String getGenerationStatus(Chunk c) {
+        if (c.gen_sunLoaded()) return "S";
+        else if (c.gen_terrainLoaded()) return "T";
+        else return "-";
     }
 }

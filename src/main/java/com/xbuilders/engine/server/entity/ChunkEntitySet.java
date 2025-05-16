@@ -103,7 +103,7 @@ public class ChunkEntitySet {
                 e.multiplayerProps.checkAndSendState();
                 if (!e.chunkPosition.chunk.equals(e.chunk.position)) { //Switch chunks
                     Chunk toChunk = world.getChunk(e.chunkPosition.chunk);
-                    if (toChunk != null && toChunk.gen_Complete()) {
+                    if (toChunk != null) {
                         //If the chunk exists, AND it's generated, add the entity to the new chunk
 //                        System.out.println("SWITCHING FROM " + MiscUtils.printVector(e.chunkPosition.chunk) + " TO " + toChunk);
 //                        e.renderThisFrame = false;

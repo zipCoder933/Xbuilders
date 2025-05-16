@@ -26,7 +26,7 @@ public class ChunkRequestPacket extends Packet {
         super(AllPackets.CHUNK_REQUEST);
         this.requestedCoordinates = requestedCoordinates;
         this.distToPlayer = distToPlayer;
-        System.out.println("Requesting chunk at " + MiscUtils.printVec(requestedCoordinates));
+       // System.out.println("Requesting chunk at " + MiscUtils.printVec(requestedCoordinates));
     }
 
     @Override
@@ -55,13 +55,10 @@ public class ChunkRequestPacket extends Packet {
 
     @Override
     public void handleClientSide(ChannelBase ctx, Packet packet) {
-        System.out.println("Server: Making chunk");
     }
 
     @Override
     public void handleServerSide(ChannelBase ctx, Packet packet) {
-        System.out.println("Server: Making chunk");
-
         ChunkRequestPacket packetInstance = (ChunkRequestPacket) packet;
         Server server = Main.getServer();
 

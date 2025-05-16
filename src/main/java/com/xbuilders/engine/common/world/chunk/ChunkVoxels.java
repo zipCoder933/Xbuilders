@@ -65,6 +65,10 @@ public class ChunkVoxels {
     }
 
 
+    /**
+     * Sets all sun to 15 and all torchlight to 0
+     * Sets all blocks to 0
+     */
     public void reset() {
         blockData.clear();
         for (int i = 0; i < dataSize; i++) {
