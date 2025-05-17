@@ -15,6 +15,22 @@
     "amount": 4
   },
   {
+    "shapeless": false,
+    "input": [
+      null,
+      "#coral",
+      null,
+      "#coral",
+      null,
+      "#coral",
+      null,
+      "#coral",
+      null
+    ],
+    "output": "xbuilders:blue_pearl",
+    "amount": 12
+  },
+  {
     "input": [
       "xbuilders:wool",
       "xbuilders:wool",
@@ -427,5 +443,30 @@
     ],
     "output": "xbuilders:dark_oak_wood",
     "amount": 4
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:honeycomb_block"
+    ],
+    "output": "xbuilders:honeycomb",
+    "amount": 9
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:yellow_candle",
+      "xbuilders:clay_ball"
+    ],
+    "output": "xbuilders:honeycomb",
+    "amount": 32
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "xbuilders:clay"
+    ],
+    "output": "xbuilders:clay_ball",
+    "amount": 9
   }
 ]

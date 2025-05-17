@@ -10,12 +10,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blockTools/tools/TerraformTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/type/LampRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/type/LampRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/type/TorchRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blocks/type/TorchRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/server/NetworkSocket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/utils/network/testing/server/NetworkSocket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/Items.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/defaultTerrain/DefaultTerrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/terrain/defaultTerrain/DefaultTerrain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/clay_ball.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/light_blue_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/light_gray_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/lime_dye.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/assets/xbuilders/textures/item/pp/magenta_dye.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/blocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/blocks/json/blocks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/items.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/items/items.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/blocks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/blocks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/candle.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/candle.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/resources.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/data/xbuilders/recipes/crafting/resources.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -2135,7 +2135,7 @@
       "pos_y": "andesite"
     },
     "solid": false,
-    "opaque": false,
+    "opaque": true,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -2158,7 +2158,7 @@
       "pos_y": "stone brick"
     },
     "solid": false,
-    "opaque": false,
+    "opaque": true,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -3384,7 +3384,7 @@
       "pos_y": "sandstone bottom"
     },
     "solid": false,
-    "opaque": false,
+    "opaque": true,
     "torch": 0,
     "type": 0,
     "colorInPlayerHead": [
@@ -4266,7 +4266,7 @@
       "neg_x": "iron ladder",
       "pos_y": "iron ladder"
     },
-    "solid": false,
+    "solid": true,
     "opaque": false,
     "torch": 0,
     "type": 7,
@@ -4471,7 +4471,7 @@
       "neg_x": "dark oak ladder",
       "pos_y": "dark oak ladder"
     },
-    "solid": false,
+    "solid": true,
     "opaque": false,
     "torch": 0,
     "type": 7,
@@ -4917,7 +4917,7 @@
       "neg_x": "bamboo ladder",
       "pos_y": "bamboo ladder"
     },
-    "solid": false,
+    "solid": true,
     "opaque": false,
     "torch": 0,
     "type": 7,
@@ -8448,7 +8448,7 @@
       "neg_x": "oak ladder",
       "pos_y": "oak ladder"
     },
-    "solid": false,
+    "solid": true,
     "opaque": false,
     "torch": 0,
     "type": 7,

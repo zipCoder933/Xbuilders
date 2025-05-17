@@ -3,7 +3,8 @@
     "shapeless": true,
     "input": [
       "xbuilders:torch",
-      "xbuilders:honeycomb"
+      "xbuilders:string",
+      "xbuilders:string"
     ],
     "output": "xbuilders:candle",
     "amount": 4

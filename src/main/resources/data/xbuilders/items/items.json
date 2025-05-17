@@ -455,6 +455,9 @@
   {
     "id": "xbuilders:brain_coral",
     "name": "Brain Coral",
+    "tags": [
+      "coral"
+    ],
     "block": 98
   },
   {
@@ -513,6 +516,9 @@
   {
     "id": "xbuilders:fire_coral_block",
     "name": "Fire Coral Block",
+    "tags": [
+      "coral_block"
+    ],
     "block": 112
   },
   {
@@ -528,6 +534,9 @@
   {
     "id": "xbuilders:fire_coral",
     "name": "Fire Coral",
+    "tags": [
+      "coral"
+    ],
     "block": 115
   },
   {
@@ -538,6 +547,9 @@
   {
     "id": "xbuilders:horn_coral_block",
     "name": "Horn Coral Block",
+    "tags": [
+      "coral_block"
+    ],
     "block": 117
   },
   {
@@ -627,11 +639,17 @@
   {
     "id": "xbuilders:tube_coral_block",
     "name": "Tube Coral Block",
+    "tags": [
+      "coral_block"
+    ],
     "block": 135
   },
   {
     "id": "xbuilders:tube_coral",
     "name": "Tube Coral",
+    "tags": [
+      "coral"
+    ],
     "block": 136
   },
   {
@@ -667,6 +685,9 @@
   {
     "id": "xbuilders:brain_coral_block",
     "name": "Brain Coral Block",
+    "tags": [
+      "coral_block"
+    ],
     "block": 143
   },
   {
@@ -697,11 +718,17 @@
   {
     "id": "xbuilders:bubble_coral_block",
     "name": "Bubble Coral Block",
+    "tags": [
+      "coral_block"
+    ],
     "block": 150
   },
   {
     "id": "xbuilders:bubble_coral",
     "name": "Bubble Coral",
+    "tags": [
+      "coral"
+    ],
     "block": 151
   },
   {
@@ -1045,6 +1072,9 @@
   {
     "id": "xbuilders:horn_coral",
     "name": "Horn Coral",
+    "tags": [
+      "coral"
+    ],
     "block": 235
   },
   {
@@ -4836,5 +4866,15 @@
     "id": "xbuilders:string",
     "name": "String",
     "icon": "string.png"
+  },
+  {
+    "id": "xbuilders:blue_pearl",
+    "name": "Blue Pearl",
+    "icon": "blue_pearl.png"
+  },
+  {
+    "id": "xbuilders:clay_ball",
+    "name": "Clay Ball",
+    "icon": "clay_ball.png"
   }
 ]

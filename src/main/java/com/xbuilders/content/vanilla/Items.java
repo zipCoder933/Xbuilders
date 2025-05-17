@@ -4,6 +4,9 @@ import com.xbuilders.Main;
 import com.xbuilders.content.vanilla.items.*;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
+import com.xbuilders.engine.client.visuals.gameScene.GameScene;
+import com.xbuilders.engine.server.GameMode;
+import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidPropagationTask;
 import com.xbuilders.engine.server.ItemUtils;
 import com.xbuilders.engine.server.Registrys;
@@ -91,31 +94,31 @@ public class Items {
         ArrayList<Item> itemList = new ArrayList<>();
         itemList.add(new Shovel("wooden", 25, 0.7f));
         itemList.add(new Pickaxe("wooden", 25, 0.7f));
-        itemList.add(new Axe("wooden", 25,0.7f));
+        itemList.add(new Axe("wooden", 25, 0.7f));
         itemList.add(new Sword("wooden", 25, 0.5f));
         itemList.add(new Hoe("wooden", 5));
 
         itemList.add(new Shovel("stone", 100, 1f));
         itemList.add(new Pickaxe("stone", 100, 1.8f));
-        itemList.add(new Axe("stone", 100,1f));
+        itemList.add(new Axe("stone", 100, 1f));
         itemList.add(new Sword("stone", 100, 1f));
         itemList.add(new Hoe("stone", 15));
 
         itemList.add(new Shovel("iron", 200, 1f));
         itemList.add(new Pickaxe("iron", 200, 2f));
-        itemList.add(new Axe("iron", 200,2f));
+        itemList.add(new Axe("iron", 200, 2f));
         itemList.add(new Sword("iron", 200, 5f));
         itemList.add(new Hoe("iron", 200));
 
         itemList.add(new Shovel("golden", 400, 2f));
         itemList.add(new Pickaxe("golden", 400, 3f));
-        itemList.add(new Axe("golden", 400,3f));
+        itemList.add(new Axe("golden", 400, 3f));
         itemList.add(new Sword("golden", 400, 10f));
         itemList.add(new Hoe("golden", 1200));
 
         itemList.add(new Shovel("diamond", 4000, 6f));
         itemList.add(new Pickaxe("diamond", 4000, 6f));
-        itemList.add(new Axe("diamond", 4000,6f));
+        itemList.add(new Axe("diamond", 4000, 6f));
         itemList.add(new Sword("diamond", 4000, 20f));
         itemList.add(new Hoe("diamond", 8000));
 
@@ -147,7 +150,7 @@ public class Items {
 
     public static void editItems(ClientWindow window) {
 
-      Item  item = Registrys.getItem("xbuilders:bucket");
+        Item item = Registrys.getItem("xbuilders:bucket");
         if (item != null) {
             item.createClickEvent = (ray, stack) -> {
                 fillBucket(ray, stack);
@@ -221,7 +224,8 @@ public class Items {
         }
 
         Main.getServer().setBlock(stack.item.getBlock().id, x, y, z);
-        stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:bucket"));
+        if (Main.getServer().getGameMode() != GameMode.FREEPLAY)
+            stack.item = Objects.requireNonNull(Registrys.getItem("xbuilders:bucket"));
     }
 
 }

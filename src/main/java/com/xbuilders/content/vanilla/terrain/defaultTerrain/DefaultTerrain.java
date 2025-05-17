@@ -232,6 +232,8 @@ public class DefaultTerrain extends Terrain {
                     chunk.data.setBlock(x, y, z, Blocks.BLOCK_RED_SAND);
                     session.setBlockWorld(wx, wy + 1, wz, Blocks.BLOCK_RED_SAND);
                 }
+                session.setBlockWorld(wx, wy + 2, wz, Blocks.BLOCK_CLAY);
+                session.setBlockWorld(wx, wy + 3, wz, Blocks.BLOCK_CLAY);
                 if (makePlants) {
                     if (session.random.nextFloat() > 0.99 && y > 4 && y < 140) {
                         session.setBlockWorld(wx, wy - 1, wz, Blocks.BLOCK_CACTUS);
