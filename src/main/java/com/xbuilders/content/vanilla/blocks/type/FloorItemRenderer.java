@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla.blocks.type;
 
+import com.xbuilders.content.vanilla.blocks.RenderType;
 import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.server.block.construction.BlockType;
@@ -20,7 +21,9 @@ import java.io.IOException;
  * @author zipCoder933
  */
 public class FloorItemRenderer extends BlockType {
+
     BlockModel floor0, floor1, floor2, floor3;
+    BlockModel wall0, wall1, wall2, wall3;
 
 
     public boolean allowExistence(Block block, int worldX, int worldY, int worldZ) {
@@ -36,9 +39,28 @@ public class FloorItemRenderer extends BlockType {
         floor1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/floor/floor1.blockType"), renderSide_subBlock);
         floor2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/floor/floor2.blockType"), renderSide_subBlock);
         floor3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/floor/floor3.blockType"), renderSide_subBlock);
+
+        wall0 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/wall/wall0.blockType"), renderSide_subBlock);
+        wall1 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/wall/wall1.blockType"), renderSide_subBlock);
+        wall2 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/wall/wall2.blockType"), renderSide_subBlock);
+        wall3 = BlockModelLoader.load(resourceLoader.getResourceAsStream("/assets/xbuilders/models/block/wall/wall3.blockType"), renderSide_subBlock);
+
         initializationCallback = (b) -> {
             b.initialBlockData = (existingData, player) -> {
-                return player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
+                BlockData bd = player.camera.simplifiedPanTiltAsBlockData(new BlockData(2));
+                Block hitBlock = Client.world.getBlock(player.camera.cursorRay.getHitPos());
+
+                if (player.camera.cursorRay.getHitNormal().y == -1
+                        || !hitBlock.solid
+                        || hitBlock.type == RenderType.FLOOR
+                        || hitBlock.type == RenderType.WALL_ITEM
+                        || hitBlock.type == RenderType.SPRITE
+                        || hitBlock.type == RenderType.FENCE
+                        || hitBlock.type == RenderType.FENCE_GATE
+                        || hitBlock.type == RenderType.DOOR_HALF) {
+                    bd.set(1, (byte) 1);//Make this a floor
+                }
+                return bd;
             };
 
             b.opaque = false;
@@ -49,30 +71,59 @@ public class FloorItemRenderer extends BlockType {
 
     @Override
     public boolean constructBlock(VertexSet buffers, Block block, BlockData data, Block[] neighbors, BlockData[] neighborData, byte[] light, Chunk chunk, int chunkX, int chunkY, int chunkZ, boolean isUsingGreedyMesher) {
-        if (data == null || data.size() < 1 || data.get(0) == 3) {
-            floor0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
-        } else if (data.get(0) == 0) {
-            floor1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
-        } else if (data.get(0) == 1) {
-            floor2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+
+        if (isFloor(data)) {
+            if (data == null || data.size() < 1 || data.get(0) == 3) {
+                floor0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            } else if (data.get(0) == 0) {
+                floor1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            } else if (data.get(0) == 1) {
+                floor2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            } else {
+                floor3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            }
         } else {
-            floor3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            if (data == null || data.size() < 1 || data.get(0) == 3) {
+                wall3.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            } else if (data.get(0) == 0) {
+                wall0.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            } else if (data.get(0) == 1) {
+                wall1.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            } else {
+                wall2.render(buffers, block, neighbors, light, chunkX, chunkY, chunkZ);
+            }
         }
         return false;
     }
 
-    private final float sixteenthConstant = 0.0625f;
+    private boolean isFloor(BlockData data) {
+        if (data == null || data.size() < 1) return true;
+        return data.get(1) == 1;
+    }
+
+    private final float ONE_SIXTEENTH = 0.0625f;
 
     @Override
     public void getCollisionBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        box.setPosAndSize(x, y + (sixteenthConstant * 15), z, 1, sixteenthConstant * 1, 1);
-        consumer.accept(box);
+        if (isFloor(data)) {
+            box.setPosAndSize(x, y + (ONE_SIXTEENTH * 15), z, 1, ONE_SIXTEENTH * 1, 1);
+            consumer.accept(box);
+        } else {
+            if (data != null && data.size() > 0) {
+                switch (data.get(0)) {
+                    case 1 -> box.setPosAndSize(x + ONE_SIXTEENTH * 14, y, z, ONE_SIXTEENTH * 2, 1, 1);
+                    case 2 -> box.setPosAndSize(x, y, z + ONE_SIXTEENTH * 14, 1, 1, ONE_SIXTEENTH * 2);
+                    case 3 -> box.setPosAndSize(x, y, z, ONE_SIXTEENTH * 2, 1, 1);
+                    default -> box.setPosAndSize(x, y, z, 1, 1, ONE_SIXTEENTH * 2);
+                }
+                consumer.accept(box);
+            }
+        }
     }
 
     @Override
     public void getCursorBoxes(BoxConsumer consumer, AABB box, Block block, BlockData data, int x, int y, int z) {
-        box.setPosAndSize(x, y + (sixteenthConstant * 15), z, 1, sixteenthConstant * 1, 1);
-        consumer.accept(box);
+        getCollisionBoxes(consumer, box, block, data, x, y, z);
     }
 
 }
