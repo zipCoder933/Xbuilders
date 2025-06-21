@@ -4,6 +4,7 @@
  */
 package com.xbuilders.engine.utils.worldInteraction.collision;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.wireframeBox.Box;
@@ -92,9 +93,7 @@ public class PositionHandler {
 
     public Consumer<Float> callback_onGround;
 
-    public PositionHandler(GLFWWindow window, World world,
-                           EntityAABB thisAABB,
-                           EntityAABB UserPlayerAABB) {
+    public PositionHandler(GLFWWindow window, World world, EntityAABB thisAABB, EntityAABB UserPlayerAABB) {
         this.window = window;
         frozen = false;
         gravityEnabled = true;
@@ -109,8 +108,7 @@ public class PositionHandler {
 
     public void update(final int timestepMultiplier) {
         if (//Init the rendered box inside the draw method so that we dont get problems if it posHandler not constructed properly
-                (DRAW_COLLISION_CANDIDATES || DRAW_ENTITY_BOX)
-                        && renderedBox == null) {
+                (DRAW_COLLISION_CANDIDATES || DRAW_ENTITY_BOX) && renderedBox == null) {
             renderedBox = new Box();
             renderedBox.setLineWidth(15);
         }
@@ -129,9 +127,7 @@ public class PositionHandler {
             if (!isFrozen()) {
 
                 //Set the coast and friction
-                if (!gravityEnabled || !collisionsEnabled ||
-                        collisionHandler.floorBlock == null ||
-                        collisionHandler.floorBlock == BlockRegistry.BLOCK_AIR) {
+                if (!gravityEnabled || !collisionsEnabled || collisionHandler.floorBlock == null || collisionHandler.floorBlock == BlockRegistry.BLOCK_AIR) {
                     surfaceCoasting = DEFAULT_COAST;
                     surfaceFriction = 0;
                 } else {
@@ -167,7 +163,9 @@ public class PositionHandler {
                 if (isFalling) {
                     hitGround = false;
                     fallDistance += movementY;
-                } else {
+                } else if (//If the block below us is solid, we hit the ground
+                        Main.getServer().world.getBlock(Math.round(aabb.box.min.x), (int) Math.floor(aabb.box.max.y), Math.round(aabb.box.min.z)).solid &&
+                        Main.getServer().world.getBlock(Math.round(aabb.box.min.x), (int) Math.ceil(aabb.box.max.y), Math.round(aabb.box.min.z)).solid) {
                     hitGround();
                 }
 
