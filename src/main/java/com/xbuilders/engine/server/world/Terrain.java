@@ -137,29 +137,7 @@ public abstract class Terrain {
 
 
     //    public abstract int getHeightmapOfVoxel(final int p0, final int p1);
-    public boolean canSpawnHere(World world,
-                                int playerWorldPosX,
-                                int playerWorldPosY,
-                                int playerWorldPosZ) {
 
-        //We are looking at the player foot
-        int playerFeetY = (int) (playerWorldPosY + PLAYER_HEIGHT);
-
-        Block footBlock = world.getBlock(playerWorldPosX, playerFeetY, playerWorldPosZ);
-        Block bodyBlock1 = world.getBlock(playerWorldPosX, playerFeetY - 1, playerWorldPosZ);
-        Block bodyBlock2 = world.getBlock(playerWorldPosX, playerFeetY - 2, playerWorldPosZ);
-        Block bodyBlock3 = world.getBlock(playerWorldPosX, playerFeetY - 3, playerWorldPosZ);
-
-        return footBlock.solid //Ground is solid
-                && !bodyBlock1.solid //The player can move
-                && !bodyBlock2.solid
-                && !bodyBlock3.solid
-                //The ground and air is safe to stand in
-                && footBlock.enterDamage < 0.01
-                && bodyBlock1.enterDamage < 0.01
-                && bodyBlock2.enterDamage < 0.01
-                && bodyBlock3.enterDamage < 0.01;
-    }
 
     @Override
     public String toString() {

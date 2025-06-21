@@ -32,6 +32,7 @@ import com.xbuilders.engine.utils.bytes.ByteUtils;
 import com.xbuilders.engine.utils.json.JsonManager;
 import com.xbuilders.engine.utils.progress.ProgressData;
 import org.joml.Vector3f;
+import org.joml.Vector3i;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class Server {
 
     public LivePropagationHandler livePropagationHandler;
     final boolean WAIT_FOR_ALL_CHUNKS_TO_LOAD_BEFORE_STARTING = true;
-    private final World world;
+    public final World world;
     private final Game game;
     public final GameServer server;
     public final BlockEventPipeline eventPipeline;
@@ -295,14 +296,15 @@ public class Server {
             }
             case 2 -> {
                 prog.setTask("Starting game...");
-                if (world.data.getSpawnPoint() == null) { //Create spawn point
-                    Client.userPlayer.worldPosition.set(0, 0, 0);
-                    boolean ok = world.startGame(prog, world.data, new Vector3f(0, 0, 0));
+                if (world.data.getSpawnPoint() == null) {//Start out at 0,0, we will figure out spawn point later
+                    Vector3f center = new Vector3f();
+                    Client.userPlayer.worldPosition.set(center);
+                    boolean ok = world.startGame(prog, world.data, center);
                     if (!ok) {
                         prog.abort();
                         localClient.window.goToMenuPage();
                     }
-                } else {//Load spawn point
+                } else {//Load an existing spawn point
                     Client.userPlayer.worldPosition.set(world.data.getSpawnPoint().x, world.data.getSpawnPoint().y, world.data.getSpawnPoint().z);
                     world.startGame(prog, world.data, Client.userPlayer.worldPosition);
                 }
@@ -341,10 +343,12 @@ public class Server {
             }
             default -> {
                 lastGameMode = getGameMode();
+
+                /**
+                 * Make a new spawn point
+                 */
                 if (world.data.getSpawnPoint() == null) {
-                    //Find spawn point
-                    //new World Event runs for the first time in a new world
-                    Vector3f spawnPoint = getInitialSpawnPoint(world.terrain);
+                    Vector3f spawnPoint = UserControlledPlayer.findSuitableSpawnPoint(world, new Vector3f(0, 0, 0));
                     Client.userPlayer.worldPosition.set(spawnPoint);
                     System.out.println("Spawn point: " + spawnPoint.x + ", " + spawnPoint.y + ", " + spawnPoint.z);
                     Client.userPlayer.setSpawnPoint(spawnPoint.x, spawnPoint.y, spawnPoint.z);
@@ -373,26 +377,6 @@ public class Server {
         tickThread.startGameEvent();
         Client.userPlayer.startGameEvent(world.data);
         Main.getClient().window.gameScene.setProjection();
-    }
-
-    public Vector3f getInitialSpawnPoint(Terrain terrain) {
-        Vector3f worldPosition = new Vector3f();
-        System.out.println("Setting new spawn point...");
-        int radius = Chunk.WIDTH + 2;
-        for (int x = -radius; x < radius; x++) {
-            for (int z = -radius; z < radius; z++) {
-                for (int y = terrain.minSurfaceHeight - 10; y < terrain.maxSurfaceHeight + 10; y++) {
-                    if (terrain.canSpawnHere(world, x, y, z)) {
-                        System.out.println("Found new spawn point!");
-                        worldPosition.set(x, y - 0.5f, z);
-                        return worldPosition;
-                    }
-                }
-            }
-        }
-        System.out.println("Spawn point not found!");
-        worldPosition.set(0, terrain.minSurfaceHeight - PLAYER_HEIGHT - 0.5f, 0);
-        return worldPosition;
     }
 
 

@@ -21,6 +21,7 @@ import com.xbuilders.engine.server.item.ItemStack;
 import com.xbuilders.engine.server.item.StorageSpace;
 import com.xbuilders.engine.server.players.Player;
 import com.xbuilders.engine.server.players.PositionLock;
+import com.xbuilders.engine.server.world.World;
 import com.xbuilders.engine.server.world.data.WorldData;
 import com.xbuilders.engine.utils.ErrorHandler;
 import com.xbuilders.engine.utils.json.gson.ItemStackTypeAdapter;
@@ -178,7 +179,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
             if (!inventory.isEmpty()) {
                 //Make sure the flag is placed somewhere safe (where it wont displace a block)
                 System.out.println("Placing flag...");
-                Vector3f flagPos = findSuitablePlacement(worldPosition, (v) -> Client.world.terrain.canSpawnHere(Client.world, v.x, v.y, v.z));
+                Vector3f flagPos = findSuitablePlacement(worldPosition, 20, 20, (v) -> canSpawnHere(Client.world, v.x, v.y, v.z));
                 Main.getServer().setBlock(Blocks.BLOCK_FLAG_BLOCK, (int) flagPos.x, (int) flagPos.y, (int) flagPos.z);
                 Main.getClient().consoleOut("Flag placed at (" + (int) (flagPos.x) + ", " + (int) flagPos.y + ", " + (int) flagPos.z + ")");
             }
@@ -193,22 +194,59 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
 
     private void respawn(Vector3f target) {
         aabb.updateBox();
-        Vector3f reaspawn = findSuitablePlacement(
-                target,
-                (v) -> Client.world.terrain.canSpawnHere(Client.world, v.x, v.y, v.z));
+        Vector3f spawn = findSuitableSpawnPoint(Main.getServer().world, target);
         aabb.updateBox();
-        teleport(reaspawn.x, reaspawn.y, reaspawn.z);
+        teleport(spawn.x, spawn.y, spawn.z);
+    }
+
+    public static Vector3f findSuitableSpawnPoint(World world, Vector3f target) {
+        //Come down from top of world
+        int startY;
+        for (startY = (int) target.y; startY < World.WORLD_BOTTOM_Y; startY++) {
+            if (world.getBlock((int) target.x, startY, (int) target.z).solid) break;
+        }
+
+        Vector3f spawnPoint = UserControlledPlayer.findSuitablePlacement(
+                new Vector3f(target.x, startY, target.z), 10, World.WORLD_SIZE_Y + 10,
+                (v) -> {
+                    return Client.userPlayer.canSpawnHere(world, (int) v.x, (int) v.y, (int) v.z);
+                });
+        return spawnPoint;
+    }
+
+    public boolean canSpawnHere(World world,
+                                int playerWorldPosX,
+                                int playerWorldPosY,
+                                int playerWorldPosZ) {
+
+        //We are looking at the player foot
+        int playerFeetY = (int) (playerWorldPosY + PLAYER_HEIGHT);
+
+        Block footBlock = world.getBlock(playerWorldPosX, playerFeetY, playerWorldPosZ);
+        Block bodyBlock1 = world.getBlock(playerWorldPosX, playerFeetY - 1, playerWorldPosZ);
+        Block bodyBlock2 = world.getBlock(playerWorldPosX, playerFeetY - 2, playerWorldPosZ);
+        Block bodyBlock3 = world.getBlock(playerWorldPosX, playerFeetY - 3, playerWorldPosZ);
+
+        return footBlock.solid //Ground is solid
+                && !bodyBlock1.solid //The player can move
+                && !bodyBlock2.solid
+                && !bodyBlock3.solid
+                //The ground and air is safe to stand in
+                && footBlock.enterDamage < 0.01
+                && bodyBlock1.enterDamage < 0.01
+                && bodyBlock2.enterDamage < 0.01
+                && bodyBlock3.enterDamage < 0.01;
     }
 
 
-    private Vector3f findSuitablePlacement(Vector3f target, Predicate<Vector3i> test) {
+    public static Vector3f findSuitablePlacement(Vector3f target, int horizontalRadius, int verticalRadius, Predicate<Vector3i> test) {
         Vector3f newTarget = new Vector3f(target);
         if (
                 !test.test(new Vector3i((int) target.x, (int) target.y, (int) target.z))
         ) {
             System.out.println("Cant spawn here (" + newTarget.x + ", " + newTarget.y + ", " + newTarget.z + "), Looking around");
             //Go around the spawn point and find a safe place to spawn
-            final int RADIUS = 20;
+
             HashSet<Vector3i> checked = new HashSet<>();
             HashSet<Vector3i> nodes = new HashSet<>();
             nodes.add(new Vector3i((int) target.x, (int) target.y, (int) target.z));
@@ -217,7 +255,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 Vector3i node = nodes.iterator().next();
                 nodes.remove(node);
                 //If we have already checked this node or it is too far away, skip
-                if (checked.contains(node) || target.distance(node.x, node.y, node.z) > RADIUS) continue;
+                if (checked.contains(node) ||
+                        MathUtils.dist(target.x, target.z, node.x, node.z) > horizontalRadius ||
+                        Math.abs(node.y - target.y) > verticalRadius)
+                    continue;
                 checked.add(node);
                 if (test.test(node)) {
                     //LocalClient.world.terrain.canSpawnHere(LocalClient.world, node.x, node.y, node.z)
@@ -251,7 +292,6 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 !test.test(new Vector3i((int) target.x, (int) target.y, (int) target.z))
         ) {
             //Go around the spawn point and find a safe place to spawn
-            final int RADIUS = 40;
             HashSet<Vector3i> checked = new HashSet<>();
             HashSet<Vector3i> nodes = new HashSet<>();
             nodes.add(new Vector3i((int) target.x, (int) target.y, (int) target.z));
@@ -260,7 +300,10 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
                 Vector3i node = nodes.iterator().next();
                 nodes.remove(node);
                 //If we have already checked this node or it is too far away, skip
-                if (checked.contains(node) || target.distance(node.x, node.y, node.z) > RADIUS) continue;
+                if (checked.contains(node) ||
+                        MathUtils.dist(target.x, target.z, node.x, node.z) > horizontalRadius * 2 ||
+                        Math.abs(node.y - target.y) > verticalRadius)
+                    continue;
                 checked.add(node);
                 if (test.test(node)) {
                     //LocalClient.world.terrain.canSpawnHere(LocalClient.world, node.x, node.y, node.z)
@@ -281,9 +324,9 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
         return newTarget;
     }
 
-    private void checkSpawnNode(HashSet<Vector3i> nodes,
-                                HashSet<Vector3i> checked,
-                                int x, int y, int z) {
+    private static void checkSpawnNode(HashSet<Vector3i> nodes,
+                                       HashSet<Vector3i> checked,
+                                       int x, int y, int z) {
         if (!checked.contains(new Vector3i(x, y, z))) {
             nodes.add(new Vector3i(x, y, z));
         }
