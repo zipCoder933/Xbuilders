@@ -24,65 +24,65 @@ import java.util.logging.LogRecord;
  */
 public class LoggingUtils {
 
-    public static class SevereErrorHandler extends Handler {
+//    public static class SevereErrorHandler extends Handler {
+//
+//        ClientWindow window;
+//
+//        public SevereErrorHandler(ClientWindow window) {
+//            this.window = window;
+//        }
+//
+//        @Override
+//        public void publish(LogRecord record) {
+//            if (record.getLevel().equals(Level.SEVERE)) {
+//                window.minimizeWindow();
+//                createPopupWindow("Severe Error", record.getMessage());
+//                System.out.println(record.getMessage());
+//            } else if (record.getLevel().equals(Level.WARNING)) {
+//                if (record.getThrown() != null) {
+//                    String stack = Arrays.toString(record.getThrown().getStackTrace())
+//                            .replace(",", "\n");
+//                    window.popupMessage.message(
+//                            "Error",
+//                            record.getMessage() + "\n" + stack);
+//                } else {
+//                    window.popupMessage.message(
+//                            "Error",
+//                            record.getMessage());
+//                }
+//            }
+//        }
+//
+//        @Override
+//        public void flush() {
+//            // Not needed in this example
+//        }
+//
+//        @Override
+//        public void close() throws SecurityException {
+//            // Not needed in this example
+//        }
+//    }
 
-        ClientWindow window;
-
-        public SevereErrorHandler(ClientWindow window) {
-            this.window = window;
-        }
-
-        @Override
-        public void publish(LogRecord record) {
-            if (record.getLevel().equals(Level.SEVERE)) {
-                window.minimizeWindow();
-                createPopupWindow("Severe Error", record.getMessage());
-
-            } else if (record.getLevel().equals(Level.WARNING)) {
-                if (record.getThrown() != null) {
-                    String stack = Arrays.toString(record.getThrown().getStackTrace())
-                            .replace(",", "\n");
-                    window.popupMessage.message(
-                            "Error",
-                            record.getMessage() + "\n" + stack);
-                } else {
-                    window.popupMessage.message(
-                            "Error",
-                            record.getMessage());
-                }
-            }
-        }
-
-        @Override
-        public void flush() {
-            // Not needed in this example
-        }
-
-        @Override
-        public void close() throws SecurityException {
-            // Not needed in this example
-        }
-    }
-
-    public static void createPopupWindow(String title, String str) {
-        final JFrame parent = new JFrame();
-        JLabel label = new JLabel("");
-        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
-//        label.setFont(new Font("Arial", 0, 12));
-        label.setVerticalAlignment(JLabel.TOP);
-        parent.add(label);
-        parent.pack();
-        parent.getContentPane().setBackground(Color.white);
-        parent.setVisible(true);
-        parent.pack();
-
-        parent.setIconImage(popupWindowIcon.getImage());
-        parent.setTitle(title);
-        parent.setLocationRelativeTo(null);
-        parent.setAlwaysOnTop(true);
-        parent.setVisible(true);
-        parent.setSize(380, 240);
-    }
+//    public static void createPopupWindow(String title, String str) {
+//        final JFrame parent = new JFrame();
+//        JLabel label = new JLabel("");
+//        label.setText("<html><body style='padding:5px;'>" + str.replace("\n", "<br>") + "</body></html>");
+////        label.setFont(new Font("Arial", 0, 12));
+//        label.setVerticalAlignment(JLabel.TOP);
+//        parent.add(label);
+//        parent.pack();
+//        parent.getContentPane().setBackground(Color.white);
+//        parent.setVisible(true);
+//        parent.pack();
+//
+//        parent.setIconImage(popupWindowIcon.getImage());
+//        parent.setTitle(title);
+//        parent.setLocationRelativeTo(null);
+//        parent.setAlwaysOnTop(true);
+//        parent.setVisible(true);
+//        parent.setSize(380, 240);
+//    }
 
     private final static ImageIcon popupWindowIcon = new ImageIcon(ResourceUtils.file("logo.png").getAbsolutePath());
     private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH_mm_ss");

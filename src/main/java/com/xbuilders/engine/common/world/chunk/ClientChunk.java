@@ -12,39 +12,46 @@ import java.util.concurrent.Future;
 import static com.xbuilders.engine.common.world.World.*;
 
 public class ClientChunk extends Chunk {
-    private ChunkMeshBundle meshes;
+    private ChunkMeshBundle meshBundle;
     public final Matrix4f client_modelMatrix;
     private Future<ChunkMeshBundle> mesherFuture;
     static int blockTextureID;
 
-    public ChunkMeshBundle getMeshes() {
-        return meshes;
+    public ChunkMeshBundle getMeshBundle() {
+        return meshBundle;
     }
 
     public float getDistToPlayer() {
         return Main.getClient().userPlayer.worldPosition.distance(position.x * Chunk.WIDTH, position.y * Chunk.HEIGHT, position.z * Chunk.WIDTH);
     }
 
+    /**
+     * @param position     the position of the chunk
+     * @param futureChunk
+     * @param world
+     * @param blockTexture the block texture id
+     */
     public ClientChunk(Vector3i position,
                        FutureChunk futureChunk, ClientWorld world,
-                       int blockTextureID2) {
+                       int blockTexture) {
         super(position, futureChunk, world);
-        blockTextureID = blockTextureID2;
+        blockTextureID = blockTexture;
         this.client_modelMatrix = new Matrix4f();
         this.client_modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
     }
 
+    /**
+     * @param other
+     * @param position
+     * @param futureChunk
+     * @param world
+     * @param blockTextureID
+     */
     public ClientChunk(Chunk other, Vector3i position,
                        FutureChunk futureChunk, ClientWorld world,
                        int blockTextureID) {
         super(other, position, futureChunk, world);
         this.client_modelMatrix = new Matrix4f();
-
-        if (other instanceof ClientChunk clientOther) { //If this is client chunk, Recycle and init the chunk meshes
-            this.meshes = clientOther.getMeshes();
-            meshes.init(aabb);
-        }
-
         this.client_modelMatrix.identity().setTranslation(position.x * WIDTH, position.y * HEIGHT, position.z * WIDTH);
     }
 
@@ -56,17 +63,14 @@ public class ClientChunk extends Chunk {
 
     public void prepare(long frame, boolean isSettingUpWorld) {
         //We have to initialize all OPENGL stuff in a place where they wont crash the game
-        if (meshes == null) {
-            this.meshes = new ChunkMeshBundle(blockTextureID, this, world.terrain);
-            this.meshes.init(aabb);
-        }
+        initMeshBundle();
 
         if (inFrustum || isSettingUpWorld) { //Only updated meshes for where we can see
-            if (!getMeshes().hasBeenGenerated() && mesherFuture == null) {  //Generate the mesh for the first time
+            if (!getMeshBundle().hasBeenGenerated() && mesherFuture == null) {  //Generate the mesh for the first time
                 mesherFuture = meshService.submit(() -> {
 //                    System.out.println("Generating mesh at " + position.toString());
-                    getMeshes().compute();
-                    return getMeshes();
+                    getMeshBundle().compute();
+                    return getMeshBundle();
                 });
             }
 
@@ -117,6 +121,18 @@ public class ClientChunk extends Chunk {
 
     }
 
+    private void initMeshBundle() {
+        if (meshBundle == null) {
+            if (otherChunk instanceof ClientChunk clientOther) { //If this is client chunk, Recycle and init the chunk meshes
+                this.meshBundle = clientOther.getMeshBundle();
+                meshBundle.init(aabb);
+            } else {
+                this.meshBundle = new ChunkMeshBundle(blockTextureID, this, world.terrain);
+                this.meshBundle.init(aabb);
+            }
+        }
+    }
+
     /**
      * Queues a task to mesh the chunk
      */
@@ -127,12 +143,12 @@ public class ClientChunk extends Chunk {
         }
 
         if (isPlayerUpdate) mesherFuture = playerUpdating_meshService.submit(() -> {
-            getMeshes().compute();
-            return getMeshes();
+            getMeshBundle().compute();
+            return getMeshBundle();
         });
         else mesherFuture = meshService.submit(() -> {
-            getMeshes().compute();
-            return getMeshes();
+            getMeshBundle().compute();
+            return getMeshBundle();
         });
     }
 

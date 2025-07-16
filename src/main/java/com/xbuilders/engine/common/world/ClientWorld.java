@@ -23,6 +23,7 @@ import org.joml.Vector3f;
 import org.joml.Vector3i;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -41,15 +42,38 @@ public class ClientWorld extends World<ClientChunk> {
     private final AtomicBoolean needsSorting = new AtomicBoolean(true);
     private final Vector3f lastPlayerPosition = new Vector3f();
     private SortByDistanceToPlayer sortByDistance;
-    private final List<ClientChunk> sortedChunksToRender = new ArrayList<>();
+    private final List<ClientChunk> sortedChunksToRender = Collections.synchronizedList(new ArrayList<>());
     public int blockTextureID;
 
 
     @Override
     protected ClientChunk internal_createChunkObject(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk) {
-        if (recycleChunk != null)
-            return new ClientChunk(recycleChunk, coords, futureChunk, this, blockTextureID);
+        if (recycleChunk != null) return new ClientChunk(recycleChunk, coords, futureChunk, this, blockTextureID);
         else return new ClientChunk(coords, futureChunk, this, blockTextureID);
+    }
+
+    @Override
+    public synchronized ClientChunk addChunk(final Vector3i coords) {
+        ClientChunk chunk = super.addChunk(coords);
+        if (chunk != null) {
+            this.sortedChunksToRender.remove(chunk);
+            needsSorting.set(true);
+        }
+        return chunk;
+    }
+
+    public ClientChunk requestChunk(Vector3i coords) {
+        //This is used for 1) chunk task prioritization and 2) chunk ticking distance
+        float distToPlayer = MathUtils.dist(
+                coords.x * Chunk.WIDTH,
+                coords.y * Chunk.HEIGHT,
+                coords.z * Chunk.WIDTH,
+                userPlayer.worldPosition.x,
+                userPlayer.worldPosition.y,
+                userPlayer.worldPosition.z);
+
+        Main.getClient().endpoint.getChannel().writeAndFlush(new ChunkRequestPacket(coords, distToPlayer));
+        return addChunk(coords);
     }
 
 
@@ -92,43 +116,6 @@ public class ClientWorld extends World<ClientChunk> {
         setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
         sortByDistance = new SortByDistanceToPlayer(Client.userPlayer.worldPosition);
         allEntities.clear();
-    }
-
-    public ClientChunk requestChunk(Vector3i coords) {
-        //This is used for 1) chunk task prioritization and 2) chunk ticking distance
-        float distToPlayer = MathUtils.dist(
-                coords.x * Chunk.WIDTH,
-                coords.y * Chunk.HEIGHT,
-                coords.z * Chunk.WIDTH,
-                userPlayer.worldPosition.x,
-                userPlayer.worldPosition.y,
-                userPlayer.worldPosition.z);
-
-        Main.getClient().endpoint.getChannel().writeAndFlush(new ChunkRequestPacket(coords, distToPlayer));
-        return addChunk(coords);
-    }
-
-    public ClientChunk addChunk(final Vector3i coords) {
-        //Return an existing chunk if it exists
-        ClientChunk chunk = getChunk(coords);
-        if (chunk != null) return chunk;
-
-        if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
-            Chunk recycleChunk = unusedChunks.remove(unusedChunks.size() - 1);
-            chunk = internal_createChunkObject(recycleChunk, coords, futureChunks.remove(coords));
-        } else if (chunks.size() < maxChunksForViewDistance) { //Create a new chunk from scratch
-            chunk = internal_createChunkObject(null, coords, futureChunks.remove(coords));
-        }
-
-        if (chunk != null) {
-            this.chunks.put(coords, chunk);
-        }
-
-        if (chunk != null) {
-            this.sortedChunksToRender.remove(chunk);
-            needsSorting.set(true);
-        }
-        return chunk;
     }
 
 
@@ -221,6 +208,7 @@ public class ClientWorld extends World<ClientChunk> {
                 if (needsSorting.get()) {
                     //Dont add chunk unless it is within the view distance
                     if (chunkIsWithinRange_XYZ(playerPosition, chunk.position, viewDistance.get() + Chunk.HALF_WIDTH)) {
+                        assert chunk != null;
                         sortedChunksToRender.add(chunk);
                     }
                 }
@@ -340,10 +328,10 @@ public class ClientWorld extends World<ClientChunk> {
             if (chunkIsVisible(chunk, playerPosition)) {
                 chunk.updateMVP(projection, view); // we must update the MVP within each model;
                 initShaderUniforms(chunk);
-                chunk.getMeshes().opaqueMesh.getQueryResult();
-                chunk.getMeshes().opaqueMesh.drawVisible(GameScene.drawWireframe);
+                chunk.getMeshBundle().opaqueMesh.getQueryResult();
+                chunk.getMeshBundle().opaqueMesh.drawVisible(GameScene.drawWireframe);
 
-                if (GameScene.drawBoundingBoxes) chunk.getMeshes().opaqueMesh.drawBoundingBoxWithWireframe();
+                if (GameScene.drawBoundingBoxes) chunk.getMeshBundle().opaqueMesh.drawBoundingBoxWithWireframe();
 
             }
         });
@@ -352,7 +340,7 @@ public class ClientWorld extends World<ClientChunk> {
         sortedChunksToRender.forEach(chunk -> {
             if (chunkIsVisible(chunk, playerPosition)) {
                 // chunkShader.setChunkPosition(chunk.position);
-                chunk.getMeshes().opaqueMesh.drawInvisible();
+                chunk.getMeshBundle().opaqueMesh.drawInvisible();
             }
         });
         CompactOcclusionMesh.endInvisible();
@@ -368,10 +356,10 @@ public class ClientWorld extends World<ClientChunk> {
 
         //Draw transparent meshes
         sortedChunksToRender.forEach(chunk -> {
-            if (!chunk.getMeshes().transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
-                if (chunk.getMeshes().opaqueMesh.isVisibleSafe(2) || chunk.getMeshes().opaqueMesh.isEmpty()) {
+            if (!chunk.getMeshBundle().transMesh.isEmpty() && chunkIsVisible(chunk, playerPosition)) {
+                if (chunk.getMeshBundle().opaqueMesh.isVisibleSafe(2) || chunk.getMeshBundle().opaqueMesh.isEmpty()) {
                     initShaderUniforms(chunk);
-                    chunk.getMeshes().transMesh.draw(GameScene.drawWireframe);
+                    chunk.getMeshBundle().transMesh.draw(GameScene.drawWireframe);
                 }
             }
         });
@@ -396,7 +384,7 @@ public class ClientWorld extends World<ClientChunk> {
 
     private boolean chunkIsVisible(ClientChunk chunk, Vector3f playerPosition) {
         return chunk.inFrustum
-                && chunk.getMeshes().hasBeenGenerated()
+                && chunk.getMeshBundle().hasBeenGenerated()
                 && chunkIsWithinRange_XYZ(playerPosition, chunk.position, getViewDistance());
     }
 

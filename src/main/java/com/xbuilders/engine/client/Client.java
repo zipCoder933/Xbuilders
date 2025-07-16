@@ -107,25 +107,10 @@ public class Client {
 
         window = new ClientWindow(title, this);
         window.init(game, world);
-        LOGGER.addHandler(new LoggingUtils.SevereErrorHandler(window));
+//        LOGGER.addHandler(new LoggingUtils.SevereErrorHandler(window));
     }
 
 
-    public boolean makeNewWorld(String name, int size, Terrain terrain, int seed, GameMode gameMode) {
-        try {
-            WorldData info = new WorldData();
-            info.makeNew(name, size, terrain, seed);
-            info.data.gameMode = gameMode;
-            if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
-                ClientWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
-                return false;
-            } else WorldsHandler.makeNewWorld(info);
-        } catch (IOException ex) {
-            ClientWindow.popupMessage.message("Error", ex.getMessage());
-            return false;
-        }
-        return true;
-    }
 
 
     public void onConnected(boolean success, Throwable cause, ChannelBase channel) {
@@ -153,12 +138,12 @@ public class Client {
         }
     }
 
-
+    /**
+     * We can either summon the localServer or we can join an existing server
+     * @param singleplayerWorld
+     * @param remoteWorld
+     */
     public void loadWorld(final WorldData singleplayerWorld, final NetworkJoinRequest remoteWorld) {
-        boolean hostingWorld = remoteWorld != null && remoteWorld.hosting;
-        String title = (hostingWorld ? "Hosting " : "Joining ") + " World...";
-
-
         Main.getClient().window.gameScene.setProjection();
 
         if (singleplayerWorld != null) { //Spin up a local server

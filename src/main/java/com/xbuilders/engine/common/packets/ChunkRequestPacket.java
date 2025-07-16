@@ -26,7 +26,7 @@ public class ChunkRequestPacket extends Packet {
         super(AllPackets.CHUNK_REQUEST);
         this.requestedCoordinates = requestedCoordinates;
         this.distToPlayer = distToPlayer;
-       // System.out.println("Requesting chunk at " + MiscUtils.printVec(requestedCoordinates));
+        System.out.println("Requesting chunk at " + MiscUtils.printVec(requestedCoordinates));
     }
 
     @Override

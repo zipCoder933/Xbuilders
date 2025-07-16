@@ -47301,3 +47301,161 @@ java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.common.world
 	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
 	at com.xbuilders.Main.main(Main.java:69)
 
+Jul 16, 2025 9:31:08 AM com.xbuilders.engine.common.network.fake.FakeChannel lambda$startProcessing$0
+WARNING: Failed to receive fake packet
+java.lang.IndexOutOfBoundsException: Index 57 out of bounds for length 57
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
+	at java.base/java.util.Objects.checkIndex(Objects.java:361)
+	at java.base/java.util.ArrayList.remove(ArrayList.java:504)
+	at com.xbuilders.engine.common.world.World.addChunk(World.java:179)
+	at com.xbuilders.engine.common.world.ServerWorld.addChunk(ServerWorld.java:26)
+	at com.xbuilders.engine.common.packets.ChunkRequestPacket.handleServerSide(ChunkRequestPacket.java:66)
+	at com.xbuilders.engine.common.network.fake.FakeServer.receive(FakeServer.java:29)
+	at com.xbuilders.engine.common.network.fake.FakeChannel.lambda$startProcessing$0(FakeChannel.java:60)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+Jul 16, 2025 9:31:10 AM com.xbuilders.engine.common.network.fake.FakeChannel lambda$startProcessing$0
+WARNING: Failed to receive fake packet
+java.lang.IndexOutOfBoundsException: Index 36 out of bounds for length 36
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
+	at java.base/java.util.Objects.checkIndex(Objects.java:361)
+	at java.base/java.util.ArrayList.remove(ArrayList.java:504)
+	at com.xbuilders.engine.common.world.World.addChunk(World.java:179)
+	at com.xbuilders.engine.common.world.ServerWorld.addChunk(ServerWorld.java:26)
+	at com.xbuilders.engine.common.packets.ChunkRequestPacket.handleServerSide(ChunkRequestPacket.java:66)
+	at com.xbuilders.engine.common.network.fake.FakeServer.receive(FakeServer.java:29)
+	at com.xbuilders.engine.common.network.fake.FakeChannel.lambda$startProcessing$0(FakeChannel.java:60)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+Jul 16, 2025 9:54:42 AM com.xbuilders.Main main
+SEVERE: Window Thread Failed
+java.lang.NullPointerException: Cannot read field "position" because "chunk" is null
+	at com.xbuilders.engine.common.world.SortByDistanceToPlayer.compare(SortByDistanceToPlayer.java:25)
+	at com.xbuilders.engine.common.world.SortByDistanceToPlayer.compare(SortByDistanceToPlayer.java:15)
+	at java.base/java.util.TimSort.binarySort(TimSort.java:296)
+	at java.base/java.util.TimSort.sort(TimSort.java:239)
+	at java.base/java.util.Arrays.sort(Arrays.java:1307)
+	at java.base/java.util.ArrayList.sort(ArrayList.java:1721)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:256)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:96)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:68)
+
+Jul 16, 2025 10:00:32 AM com.xbuilders.Main main
+SEVERE: Window Thread Failed
+java.lang.NullPointerException: Cannot read field "position" because "chunk" is null
+	at com.xbuilders.engine.common.world.SortByDistanceToPlayer.compare(SortByDistanceToPlayer.java:25)
+	at com.xbuilders.engine.common.world.SortByDistanceToPlayer.compare(SortByDistanceToPlayer.java:15)
+	at java.base/java.util.TimSort.binarySort(TimSort.java:296)
+	at java.base/java.util.TimSort.sort(TimSort.java:239)
+	at java.base/java.util.Arrays.sort(Arrays.java:1307)
+	at java.base/java.util.ArrayList.sort(ArrayList.java:1721)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:255)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:96)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:68)
+
+Jul 16, 2025 10:04:14 AM com.xbuilders.engine.common.network.fake.FakeChannel lambda$startProcessing$0
+WARNING: Failed to receive fake packet
+java.lang.ArrayIndexOutOfBoundsException: arraycopy: last source index 367 out of bounds for object array[366]
+	at java.base/java.lang.System.arraycopy(Native Method)
+	at java.base/java.util.ArrayList.fastRemove(ArrayList.java:641)
+	at java.base/java.util.ArrayList.remove(ArrayList.java:629)
+	at com.xbuilders.engine.common.world.ClientWorld.addChunk(ClientWorld.java:58)
+	at com.xbuilders.engine.common.packets.ChunkDataPacket.handleClientSide(ChunkDataPacket.java:90)
+	at com.xbuilders.engine.common.network.fake.FakeClient.receive(FakeClient.java:36)
+	at com.xbuilders.engine.common.network.fake.FakeChannel.lambda$startProcessing$0(FakeChannel.java:62)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+Jul 16, 2025 10:04:14 AM com.xbuilders.Main main
+SEVERE: Window Thread Failed
+java.util.ConcurrentModificationException
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1513)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:349)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:96)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:68)
+
+Jul 16, 2025 10:06:54 AM com.xbuilders.engine.common.network.fake.FakeChannel lambda$startProcessing$0
+WARNING: Failed to receive fake packet
+java.lang.ArrayIndexOutOfBoundsException: arraycopy: last source index 259 out of bounds for object array[244]
+	at java.base/java.lang.System.arraycopy(Native Method)
+	at java.base/java.util.ArrayList.fastRemove(ArrayList.java:641)
+	at java.base/java.util.ArrayList.remove(ArrayList.java:629)
+	at com.xbuilders.engine.common.world.ClientWorld.addChunk(ClientWorld.java:58)
+	at com.xbuilders.engine.common.packets.ChunkDataPacket.handleClientSide(ChunkDataPacket.java:90)
+	at com.xbuilders.engine.common.network.fake.FakeClient.receive(FakeClient.java:36)
+	at com.xbuilders.engine.common.network.fake.FakeChannel.lambda$startProcessing$0(FakeChannel.java:62)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+Jul 16, 2025 10:06:54 AM com.xbuilders.Main main
+SEVERE: Window Thread Failed
+java.util.ConcurrentModificationException
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1513)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:338)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:96)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:68)
+
+Jul 16, 2025 10:08:00 AM com.xbuilders.Main main
+SEVERE: Window Thread Failed
+java.lang.NullPointerException: Cannot read field "position" because "chunk" is null
+	at com.xbuilders.engine.common.world.SortByDistanceToPlayer.compare(SortByDistanceToPlayer.java:25)
+	at com.xbuilders.engine.common.world.SortByDistanceToPlayer.compare(SortByDistanceToPlayer.java:15)
+	at java.base/java.util.TimSort.binarySort(TimSort.java:296)
+	at java.base/java.util.TimSort.sort(TimSort.java:239)
+	at java.base/java.util.Arrays.sort(Arrays.java:1307)
+	at java.base/java.util.ArrayList.sort(ArrayList.java:1721)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:255)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:96)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:68)
+
+Jul 16, 2025 10:09:44 AM com.xbuilders.Main main
+SEVERE: Window Thread Failed
+java.lang.NullPointerException: Cannot read field "position" because "chunk" is null
+	at com.xbuilders.engine.common.world.SortByDistanceToPlayer.compare(SortByDistanceToPlayer.java:25)
+	at com.xbuilders.engine.common.world.SortByDistanceToPlayer.compare(SortByDistanceToPlayer.java:15)
+	at java.base/java.util.TimSort.gallopRight(TimSort.java:617)
+	at java.base/java.util.TimSort.mergeAt(TimSort.java:500)
+	at java.base/java.util.TimSort.mergeForceCollapse(TimSort.java:461)
+	at java.base/java.util.TimSort.sort(TimSort.java:254)
+	at java.base/java.util.Arrays.sort(Arrays.java:1307)
+	at java.base/java.util.ArrayList.sort(ArrayList.java:1721)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:255)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:96)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:72)
+
+Jul 16, 2025 10:12:17 AM com.xbuilders.engine.common.network.fake.FakeChannel lambda$startProcessing$0
+WARNING: Failed to receive fake packet
+java.lang.ArrayIndexOutOfBoundsException: arraycopy: last source index 195 out of bounds for object array[163]
+	at java.base/java.lang.System.arraycopy(Native Method)
+	at java.base/java.util.ArrayList.fastRemove(ArrayList.java:641)
+	at java.base/java.util.ArrayList.remove(ArrayList.java:629)
+	at com.xbuilders.engine.common.world.ClientWorld.addChunk(ClientWorld.java:58)
+	at com.xbuilders.engine.common.packets.ChunkDataPacket.handleClientSide(ChunkDataPacket.java:90)
+	at com.xbuilders.engine.common.network.fake.FakeClient.receive(FakeClient.java:36)
+	at com.xbuilders.engine.common.network.fake.FakeChannel.lambda$startProcessing$0(FakeChannel.java:62)
+	at java.base/java.lang.Thread.run(Thread.java:840)
+
+Jul 16, 2025 10:12:17 AM com.xbuilders.Main main
+SEVERE: Window Thread Failed
+java.util.ConcurrentModificationException
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1513)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:326)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:96)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:72)
+

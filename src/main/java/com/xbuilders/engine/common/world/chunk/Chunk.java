@@ -67,6 +67,7 @@ public class Chunk {
     public final AABB aabb;
     public final NeighborInformation neghbors;
     public final World world;
+    public final Chunk otherChunk;
 
     public PillarInformation pillarInformation;
 
@@ -85,6 +86,7 @@ public class Chunk {
         this.world = world;
         this.neghbors = new NeighborInformation(world);
         this.entities = new ChunkEntitySet(this, world);
+        this.otherChunk = null;
 
 
         initVariables(futureChunk);
@@ -99,6 +101,7 @@ public class Chunk {
         this.position = new Vector3i(position);
         this.mvp = new MVP();
 
+        this.otherChunk = other;
         this.aabb = new AABB();
         this.loadFuture = null;
         this.world = world;

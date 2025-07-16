@@ -14,6 +14,8 @@ import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
+import com.xbuilders.engine.common.world.WorldData;
+import com.xbuilders.engine.common.world.WorldsHandler;
 import com.xbuilders.engine.server.GameMode;
 import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.window.nuklear.components.TextBox;
@@ -21,6 +23,7 @@ import org.lwjgl.nuklear.NkContext;
 import org.lwjgl.nuklear.NkRect;
 import org.lwjgl.system.MemoryStack;
 
+import java.io.IOException;
 import java.nio.IntBuffer;
 
 import static com.xbuilders.engine.client.visuals.topMenu.TopMenu.*;
@@ -105,13 +108,30 @@ public class NewWorld implements MenuPage {
                 menu.setPage(Page.HOME);
             }
             if (nk_button_label(ctx, "CREATE")) {
-                if (localClient.makeNewWorld(name.getValueAsString(), 0, terrain, 0, gameMode)) {
+                if (makeNewWorld(name.getValueAsString(), 0, terrain, 0, gameMode)) {
                     menu.setPage(Page.LOAD_WORLD);
                 }
             }
         }
         nk_end(ctx);
     }
+
+    private boolean makeNewWorld(String name, int size, Terrain terrain, int seed, GameMode gameMode) {
+        try {
+            WorldData info = new WorldData();
+            info.makeNew(name, size, terrain, seed);
+            info.data.gameMode = gameMode;
+            if (WorldsHandler.worldNameAlreadyExists(info.getName())) {
+                ClientWindow.popupMessage.message("Error", "World name \"" + info.getName() + "\" Already exists!");
+                return false;
+            } else WorldsHandler.makeNewWorld(info);
+        } catch (IOException ex) {
+            ClientWindow.popupMessage.message("Error", ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
 
 
     @Override

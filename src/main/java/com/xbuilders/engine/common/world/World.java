@@ -95,7 +95,8 @@ public abstract class World<T extends Chunk> {
     private WorldData data;
     public Terrain terrain;
 
-    public static final List<Chunk> unusedChunks = new ArrayList<>();
+    //Unused Chunks
+    public static final List<Chunk> unusedChunks = Collections.synchronizedList(new ArrayList<>());
 
     protected final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
 
@@ -170,9 +171,8 @@ public abstract class World<T extends Chunk> {
 
     protected abstract T internal_createChunkObject(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk);
 
-    public T addChunk(final Vector3i coords) {
-        //Return an existing chunk if it exists
-        T chunk = getChunk(coords);
+    protected T addChunk(final Vector3i coords) {
+        T chunk = getChunk(coords);  //Return an existing chunk if it exists
         if (chunk != null) return chunk;
 
         if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
@@ -181,10 +181,9 @@ public abstract class World<T extends Chunk> {
         } else { //Create a new chunk from scratch
             chunk = internal_createChunkObject(null, coords, futureChunks.remove(coords));
         }
+        assert chunk != null;//The chunk cannot be null when created
 
-        if (chunk != null) {
-            this.chunks.put(coords, chunk);
-        }
+        this.chunks.put(coords, chunk);
         return chunk;
     }
 

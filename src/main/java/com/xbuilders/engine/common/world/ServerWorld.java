@@ -32,7 +32,7 @@ public class ServerWorld extends World<ServerChunk> {
                     chunk.loadBlocksAndLight(futureChunks.remove(coords));
 
                     System.out.println("Sending chunk...");
-                    Main.getServer().writeAndFlushToAllPlayers(new ChunkDataPacket(chunk, Main.getServer().runningLocally()));
+                    Main.getServer().writeAndFlushToAllPlayers(new ChunkDataPacket(chunk));
                     return false;
                 } finally {
                     newGameTasks.incrementAndGet();

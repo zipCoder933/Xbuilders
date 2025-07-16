@@ -7,13 +7,9 @@ import com.xbuilders.engine.server.Server;
 import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.resource.ResourceLister;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import java.util.logging.*;
 
 /**
  * The client contains everything ONLY on the client
@@ -23,7 +19,7 @@ import java.util.logging.SimpleFormatter;
 public class Main {
 
 
-    private static Client localClient;
+    private static Client client;
     private static Server localServer;
 
     public static XbuildersGame game;
@@ -34,9 +30,16 @@ public class Main {
 
     static {
         try {
+            //Log to file
             FileHandler fileHandler = new FileHandler("latest.log", true);
             fileHandler.setFormatter(new SimpleFormatter());
             LOGGER.addHandler(fileHandler);
+
+            // Add this to log to System.out
+            ConsoleHandler consoleHandler = new ConsoleHandler();
+            consoleHandler.setFormatter(new SimpleFormatter());
+            LOGGER.addHandler(consoleHandler);
+
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error setting up file handler", e);
         }
@@ -44,7 +47,7 @@ public class Main {
 
 
     public static Client getClient() {
-        return localClient;
+        return client;
     }
 
     public static Server getServer() {
@@ -62,18 +65,19 @@ public class Main {
         skins = new SkinRegistry();
         game = new XbuildersGame();
 
-        localClient = new Client(args, game, LOGGER);
+        client = new Client(args, game, LOGGER);
 
 
         try {
             getClient().window.startWindowThread();
         } catch (Exception e) {
-            LoggingUtils.createPopupWindow(
-                    getClient().title + " has crashed",
-                    getClient().title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
-                            "Stack trace:\n" +
-                            String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
-                            "\n\n Log saved to clipboard.");
+            LOGGER.log(Level.SEVERE, "Window Thread Failed", e);
+//            LoggingUtils.createPopupWindow(
+//                    getClient().title + " has crashed",
+//                    getClient().title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
+//                            "Stack trace:\n" +
+//                            String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
+//                            "\n\n Log saved to clipboard.");
         } finally {
             getClient().window.destroyWindow();
         }
