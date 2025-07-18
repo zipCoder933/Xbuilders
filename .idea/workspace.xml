@@ -11,22 +11,22 @@
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XBuilders3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/XBuilders3.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/latest.log" beforeDir="false" afterPath="$PROJECT_DIR$/latest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blockTools/BlockTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blockTools/BlockTools.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blockTools/tools/LightFixTool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/content/vanilla/blockTools/tools/LightFixTool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/gameScene/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/NewWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/topMenu/NewWorld.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/skybox/SkyBackground.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/client/visuals/skybox/SkyBackground.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/packets/ChunkDataPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/packets/ChunkDataPacket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/packets/ChunkRequestPacket.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/packets/ChunkRequestPacket.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/utils/LoggingUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/utils/LoggingUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/players/localPlayer/camera/FrustumCullingTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/players/localPlayer/camera/FrustumCullingTester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/ClientWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/ClientWorld.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/ServerWorld.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/ServerWorld.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/World.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/Chunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/Chunk.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/ClientChunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/ClientChunk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/ChunkSunlightGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/ChunkSunlightGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/NeighborInformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/NeighborInformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/PillarInformation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/ServerChunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/xbuilders/engine/common/world/chunk/ServerChunk.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -90,7 +90,7 @@ public class ChunkDataPacket extends Packet {
         Chunk chunk = Main.getClient().world.addChunk(packetInstance.chunkPosition);
 
 
-        //Read the chunk
+        //Set the data to the chunk
         AtomicBoolean fileReadCorrectly = new AtomicBoolean(false);
         AtomicBoolean hasDetectedIfFileWasReadCorrectly = new AtomicBoolean(false);
         try {

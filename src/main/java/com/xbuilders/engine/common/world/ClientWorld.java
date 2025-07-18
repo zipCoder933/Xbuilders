@@ -15,7 +15,6 @@ import com.xbuilders.engine.common.progress.ProgressData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
-import com.xbuilders.engine.common.world.chunk.PillarInformation;
 import com.xbuilders.engine.server.block.BlockArrayTexture;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import org.joml.Matrix4f;
@@ -62,18 +61,9 @@ public class ClientWorld extends World<ClientChunk> {
         return chunk;
     }
 
-    public ClientChunk requestChunk(Vector3i coords) {
-        //This is used for 1) chunk task prioritization and 2) chunk ticking distance
-        float distToPlayer = MathUtils.dist(
-                coords.x * Chunk.WIDTH,
-                coords.y * Chunk.HEIGHT,
-                coords.z * Chunk.WIDTH,
-                userPlayer.worldPosition.x,
-                userPlayer.worldPosition.y,
-                userPlayer.worldPosition.z);
-
+    public void requestChunk(Vector3i coords, float distToPlayer) {
         Main.getClient().endpoint.getChannel().writeAndFlush(new ChunkRequestPacket(coords, distToPlayer));
-        return addChunk(coords);
+        addChunk(coords);//This is important so we dont keep requesting chunks from the server
     }
 
 
@@ -131,31 +121,6 @@ public class ClientWorld extends World<ClientChunk> {
     }
 
 
-    public int addChunkPillar(int chunkX, int chunkZ, Vector3f playerPos) {
-        int chunksGenerated = 0;
-        boolean isTopChunk = true;
-
-        Chunk[] chunkPillar = new Chunk[PillarInformation.CHUNKS_IN_PILLAR];
-        for (int y = TOP_Y_CHUNK; y <= BOTTOM_Y_CHUNK; ++y) {
-            final Vector3i chunkCoords = new Vector3i(chunkX, y, chunkZ);
-            boolean isWithinReach = playerPos == null || chunkIsWithinRange_XZ(playerPos, chunkCoords, getCreationViewDistance());
-
-            if (!chunks.containsKey(chunkCoords) && isWithinReach) {
-                chunkPillar[y - TOP_Y_CHUNK] = requestChunk(chunkCoords);
-                isTopChunk = false;
-                chunksGenerated++;
-            } else {
-                chunkPillar[y - TOP_Y_CHUNK] = getChunk(chunkCoords);
-            }
-        }
-        for (Chunk chunk : chunkPillar) {
-            chunk.pillarInformation = new PillarInformation(chunkPillar);
-        }
-        // chunkPillar[0].pillarInformation.loadChunks(terrain, info);
-
-        return chunksGenerated;
-    }
-
     public synchronized int fillChunksAroundPlayer(Vector3f player, boolean generateOutOfFrustum) {
         int centerX = (int) player.x;
         int centerY = (int) player.y;
@@ -168,26 +133,28 @@ public class ClientWorld extends World<ClientChunk> {
         final int xEnd = (centerX + viewDistanceXZ) / Chunk.WIDTH;
         final int zStart = (centerZ - viewDistanceXZ) / Chunk.WIDTH;
         final int zEnd = (centerZ + viewDistanceXZ) / Chunk.WIDTH;
-        // final int yStart = (centerY - viewDistanceY) / Chunk.WIDTH;
-        // final int yEnd = (centerY + viewDistanceY) / Chunk.WIDTH;
+        final int yStart = (centerY - viewDistanceY) / Chunk.WIDTH;
+        final int yEnd = (centerY + viewDistanceY) / Chunk.WIDTH;
 
-        // Having fixed y bounds makes the chunk generation much faster
-        int chunksGenerated = 0;
-
+        int chunksRequested = 0;
         for (int chunkX = xStart; chunkX < xEnd; ++chunkX) {
             for (int chunkZ = zStart; chunkZ < zEnd; ++chunkZ) {
-                if (MathUtils.dist(
-                        player.x,
-                        player.z,
-                        chunkX * Chunk.WIDTH,
-                        chunkZ * Chunk.WIDTH) < viewDistanceXZ
-                        && (generateOutOfFrustum
-                        || Camera.frustum.isPillarChunkInside(chunkX, chunkZ, TOP_Y_CHUNK, BOTTOM_Y_CHUNK))) {
-                    chunksGenerated += addChunkPillar(chunkX, chunkZ, player);
+                for (int chunkY = yStart; chunkY < yEnd; ++chunkY) {
+
+                    float distToPlayer = MathUtils.dist(player.x, player.y, player.z,
+                            chunkX * Chunk.WIDTH, chunkY * Chunk.WIDTH, chunkZ * Chunk.WIDTH);
+
+                    if (distToPlayer < viewDistanceXZ
+                            && (generateOutOfFrustum || Camera.frustum.isChunkInside(chunkX, chunkY, chunkZ))) {
+                        if (!hasChunk(new Vector3i(chunkX, chunkY, chunkZ))) {
+                            requestChunk(new Vector3i(chunkX, chunkY, chunkZ), distToPlayer);
+                            chunksRequested++;
+                        }
+                    }
                 }
             }
         }
-        return chunksGenerated;
+        return chunksRequested;
     }
 
     private final List<Chunk> chunksToUnload = new ArrayList<>();
@@ -200,7 +167,7 @@ public class ClientWorld extends World<ClientChunk> {
 
         chunks.forEach((coords, chunk) -> {
 
-            if (!chunkIsWithinRange_XZ(playerPosition, coords, removalViewDistance)) {
+            if (!chunkIsWithinRange_XYZ(playerPosition, coords, removalViewDistance)) {
                 chunksToUnload.add(chunk);
                 sortedChunksToRender.remove(chunk);
             } else {
@@ -212,7 +179,7 @@ public class ClientWorld extends World<ClientChunk> {
                         sortedChunksToRender.add(chunk);
                     }
                 }
-                chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position);
+                chunk.inFrustum = Camera.frustum.isChunkInside(chunk.position.x, chunk.position.y, chunk.position.z);
                 // frameTester.endProcess("UCTRL: sorting and frustum check");
                 chunk.prepare(ClientWindow.frameCount, false);
             }
@@ -370,10 +337,7 @@ public class ClientWorld extends World<ClientChunk> {
     private void periodicallySave() {
         if (System.currentTimeMillis() - lastSaveMS > 25000) {
             lastSaveMS = System.currentTimeMillis();
-            // Save chunks
-            generationService.submit(0.0f, () -> {
-                save();
-            });
+            save();
         }
     }
 

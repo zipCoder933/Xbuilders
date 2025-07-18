@@ -50,7 +50,7 @@ public class SkyBackground {
 
     public void update() {
         //Move the sky texture
-        if (world.getData().data.alwaysDayMode) setSkyTexturePan(0);
+        if (true || world.getData().data.alwaysDayMode) setSkyTexturePan(0);
         else updateTexturePan();
 
         //Calculate the light level
@@ -94,6 +94,7 @@ public class SkyBackground {
     }
 
     private double getSkyTexturePan() {
+        //By writing and reading directly from world data, we never have to worry about loading/saving
         return world.getData().data.dayTexturePan;
     }
 

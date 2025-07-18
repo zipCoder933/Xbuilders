@@ -207,7 +207,7 @@ public class GameScene implements WindowEvents {
 
                     ClientChunk chunk = world.getChunk(rayWCC.chunk);
                     if (chunk != null) {
-                        text += "\nchunk gen status: " + getGenerationStatus(chunk) + ", pillar loaded: " + chunk.pillarInformation.isPillarLoaded();
+                        text += "\nchunk gen status: " + getGenerationStatus(chunk);
                         text += "\nchunk neighbors: " + chunk.neghbors.toString();
                         text += "\nchunk mesh: visible:" + chunk.getMeshBundle().opaqueMesh.isVisible();
                         text += "\nchunk mesh: " + chunk.getMeshBundle();

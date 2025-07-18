@@ -1,10 +1,10 @@
 package com.xbuilders.engine.common.world.chunk;
 
-import com.xbuilders.engine.common.world.World;
-import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.engine.common.math.AABB;
+import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.WorldData;
 import com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils;
+import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.window.render.MVP;
 import org.joml.Vector3i;
 
@@ -69,7 +69,6 @@ public class Chunk {
     public final World world;
     public final Chunk otherChunk;
 
-    public PillarInformation pillarInformation;
 
     FutureChunk futureChunk;
 
@@ -105,7 +104,6 @@ public class Chunk {
         this.aabb = new AABB();
         this.loadFuture = null;
         this.world = world;
-        this.pillarInformation = null;
         //Recyclied variables
         this.data = other.data;
         this.data.reset();
@@ -195,60 +193,4 @@ public class Chunk {
     public String toString() {
         return "Chunk{" + position.x + "," + position.y + "," + position.z + '}';
     }
-
-//    private static Random randomTick_random = new Random();
-//    public static float randomTickLikelyhoodMultiplier = 1;
-//
-//    public static float getRandomTickLikelihood() {
-//        return randomTickLikelyhoodMultiplier * 0.005f;
-//    }
-
-    /**
-     * Ticks the chunk
-     *
-     * @param spawnEntities
-     * @return if the chunk mesh was updated
-     */
-    public void tick(boolean spawnEntities) {
-//        boolean updatedChunkMesh = false;
-//        int wx = position.x * WIDTH;
-//        int wy = position.y * HEIGHT;
-//        int wz = position.z * WIDTH;
-//        float spawnLikelyhood = 0;
-//
-//        EntitySupplier entityToSpawn = null;
-//        if (spawnEntities && Registrys.entities.autonomousList.size() > 0) {
-//            entityToSpawn = Registrys.entities.autonomousList.get(randomTick_random.nextInt(Registrys.entities.autonomousList.size()));
-//            spawnLikelyhood = entityToSpawn.spawnLikelyhood.get();
-//        }
-//
-//        for (int x = 0; x < WIDTH; x++) {
-//            for (int y = 0; y < HEIGHT; y++) {
-//                for (int z = 0; z < WIDTH; z++) {
-//
-//                    if (randomTick_random.nextFloat() <= getRandomTickLikelihood()) {
-//                        short blockID = data.getBlock(x, y, z);
-//                        if (blockID != BlockRegistry.BLOCK_AIR.id) {
-//                            Block block = Registrys.getBlock(blockID);
-//                            if (block.randomTickEvent != null) {
-//                                if (block.randomTickEvent.run(wx + x, wy + y, wz + z)) updatedChunkMesh = true;
-//                            }
-//                        }
-//                    }
-//
-//                    if (spawnEntities && entityToSpawn != null
-//                            && client_distToPlayer > 10
-//                            && randomTick_random.nextFloat() <= spawnLikelyhood &&
-//                            entityToSpawn.spawnCondition.get(wx + x, wy + y, wz + z)) {
-//                        Vector3f pos = new Vector3f(wx + x, wy + y, wz + z);
-//                        Entity e = Main.getServer().placeEntity(entityToSpawn, pos, null);
-//                        e.spawnedNaturally = true;
-//                    }
-//
-//                }
-//            }
-//        }
-//        return updatedChunkMesh;
-    }
-
 }

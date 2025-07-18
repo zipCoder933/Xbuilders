@@ -56,27 +56,16 @@ public abstract class World<T extends Chunk> {
     public static final int CHUNK_LIGHT_THREADS = 1;
     public static final int CHUNK_MESH_THREADS = 1;
     public static final int PLAYER_CHUNK_MESH_THREADS = 3; //The number of threads allocated to player based chunk updating
-
-    //TODO: VIEW DIStANCE IS A CLIENT PROPERTY NOT SERVEr
-
-
     public final static AtomicInteger newGameTasks = new AtomicInteger(0);
 
 
-    // World boundaries
-    // chunk boundaries
-    // These are the boundaries of the world. We can set int.min and int.max if we want them to be infinite
-    public final static int TOP_Y_CHUNK = -2;
-    public final static int BOTTOM_Y_CHUNK = 7;
-    public final static int WORLD_CHUNK_HEIGHT = BOTTOM_Y_CHUNK - TOP_Y_CHUNK;
-
     // voxel boundaries
     public static final int WORLD_SIZE_NEG_X = -32000; // -X
-    public static final int WORLD_TOP_Y = TOP_Y_CHUNK * Chunk.WIDTH; // up (-Y)
+    public static final int WORLD_TOP_Y = -32000; // up (-Y)
     public static final int WORLD_SIZE_NEG_Z = -32000; // -Z
 
     public static final int WORLD_SIZE_POS_X = 32000; // +X
-    public static final int WORLD_BOTTOM_Y = (BOTTOM_Y_CHUNK * Chunk.WIDTH) + Chunk.WIDTH; // down (+Y)
+    public static final int WORLD_BOTTOM_Y = 32000; // down (+Y)
     public static final int WORLD_SIZE_POS_Z = 32000; // +Z
 
     public boolean inYBounds(int y) {
@@ -90,39 +79,14 @@ public abstract class World<T extends Chunk> {
     }
 
     //Model properties
-    public final Map<Vector3i, T> chunks = new ConcurrentHashMap<>(); //Important if we want to use this in multiple threads
     public final WorldEntityMap allEntities = new WorldEntityMap(); // <chunkPos, entity>
     private WorldData data;
     public Terrain terrain;
 
-    //Unused Chunks
     public static final List<Chunk> unusedChunks = Collections.synchronizedList(new ArrayList<>());
-
     protected final Map<Vector3i, FutureChunk> futureChunks = new HashMap<>();
+    public final Map<Vector3i, T> chunks = new ConcurrentHashMap<>();
 
-
-    /**
-     * = new ScheduledThreadPoolExecutor(1, r -> { ... });: This line creates an
-     * instance of ScheduledThreadPoolExecutor. It's a typeReference of
-     * ScheduledExecutorService that uses a pool of threads to execute
-     * tasks.<br>
-     * <br>
-     * <p>
-     * - 1 specifies that the pool will have one thread. This means it will be
-     * capable of executing one task at a time.<br>
-     * <br>
-     * <p>
-     * - r -> { ... } is a lambda expression that provides a ThreadFactory to
-     * the executor. It defines how threads are created. In this case, it
-     * creates a new thread, sets its name to "Generation Thread", and marks it
-     * as a daemon thread (meaning it won't prevent the JVM from exiting).
-     */
-    public static final PriorityThreadPoolExecutor generationService = new PriorityThreadPoolExecutor(
-            CHUNK_LOAD_THREADS, r -> {
-        Thread thread = new Thread(r, "Generation Thread");
-        thread.setDaemon(true);
-        return thread;
-    }, new LowValueComparator());
 
     /**
      * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
@@ -140,13 +104,6 @@ public abstract class World<T extends Chunk> {
         thread.setPriority(1);
         return thread;
     });
-
-    public static final PriorityThreadPoolExecutor lightService = new PriorityThreadPoolExecutor(CHUNK_LIGHT_THREADS,
-            r -> {
-                Thread thread = new Thread(r, "Light Thread");
-                thread.setDaemon(true);
-                return thread;
-            }, new LowValueComparator());
 
 
     public static final ThreadPoolExecutor playerUpdating_meshService = new ThreadPoolExecutor(
@@ -175,9 +132,13 @@ public abstract class World<T extends Chunk> {
         T chunk = getChunk(coords);  //Return an existing chunk if it exists
         if (chunk != null) return chunk;
 
-        if (!unusedChunks.isEmpty()) { //Recycle from unused chunk pool
-            Chunk recycleChunk = unusedChunks.remove(unusedChunks.size() - 1);
-            chunk = internal_createChunkObject(recycleChunk, coords, futureChunks.remove(coords));
+        Chunk unusedChunk;
+        synchronized (unusedChunks) {
+            unusedChunk = unusedChunks.isEmpty() ? null : unusedChunks.remove(unusedChunks.size() - 1);
+        }
+
+        if (unusedChunk != null) { //Recycle from unused chunk pool
+            chunk = internal_createChunkObject(unusedChunk, coords, futureChunks.remove(coords));
         } else { //Create a new chunk from scratch
             chunk = internal_createChunkObject(null, coords, futureChunks.remove(coords));
         }
@@ -201,8 +162,6 @@ public abstract class World<T extends Chunk> {
     public void close() {
         // We may or may not actually need to shutdown the services, since chunks cancel
         // all tasks when they are disposed
-        ExecutorServiceUtils.cancelAllTasks(generationService);
-        ExecutorServiceUtils.cancelAllTasks(lightService);
         ExecutorServiceUtils.cancelAllTasks(meshService);
         ExecutorServiceUtils.cancelAllTasks(playerUpdating_meshService);
 
@@ -220,21 +179,6 @@ public abstract class World<T extends Chunk> {
         setData(null);
         terrain = null;
     }
-
-    /*
-     * ONE VERY IMPORTANT THING is to make sure that the chunks are deleted with the
-     * same criteria that they were created with.
-     * This is so that the chunks dont end up being deleted and than recreated over
-     * and over again
-     */
-    protected boolean chunkIsWithinRange_XZ(Vector3f player, Vector3i chunk, float viewDistance) {
-        return MathUtils.dist(
-                player.x,
-                player.z,
-                chunk.x * Chunk.WIDTH,
-                chunk.z * Chunk.WIDTH) < viewDistance;
-    }
-
 
     protected boolean chunkIsWithinRange_XYZ(Vector3f player, Vector3i chunk, int viewDistance) {
         return MathUtils.dist(
@@ -380,20 +324,20 @@ public abstract class World<T extends Chunk> {
     protected long lastSaveMS;
 
     public void save() {
-        ClientWindow.printlnDev("Saving world...");
-        // Save all modified chunks
-        Iterator<T> iterator = chunks.values().iterator();
-        while (iterator.hasNext()) {
-            Chunk chunk = iterator.next();
-            chunk.save(getData());
-        }
-
-        //Save world info
-        try {
-            getData().save();
-        } catch (IOException ex) {
-            LOGGER.log(Level.INFO, "World \"" + getData().getName() + "\" could not be saved", ex);
-        }
+//        ClientWindow.printlnDev("Saving world...");
+//        // Save all modified chunks
+//        Iterator<T> iterator = chunks.values().iterator();
+//        while (iterator.hasNext()) {
+//            Chunk chunk = iterator.next();
+//            chunk.save(getData());
+//        }
+//
+//        //Save world info
+//        try {
+//            getData().save();
+//        } catch (IOException ex) {
+//            LOGGER.log(Level.INFO, "World \"" + getData().getName() + "\" could not be saved", ex);
+//        }
     }
 
     public WorldData getData() {

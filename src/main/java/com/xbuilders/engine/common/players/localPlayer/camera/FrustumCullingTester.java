@@ -18,18 +18,18 @@ public class FrustumCullingTester {
         this.frustumIntersection = new FrustumIntersection();
     }
 
-    public boolean isChunkInside(Vector3i chunkPos) {
+    public boolean isChunkInside(int chunkXPos, int chunkYPos, int chunkZPos) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             Vector3f minPoint = new Vector3f(stack.mallocFloat(3));
             Vector3f maxPoint = new Vector3f(stack.mallocFloat(3));
 
-            minPoint.set(chunkPos.x * Chunk.WIDTH,
-                    chunkPos.y * Chunk.WIDTH,
-                    chunkPos.z * Chunk.WIDTH);
+            minPoint.set(chunkXPos * Chunk.WIDTH,
+                    chunkYPos * Chunk.WIDTH,
+                    chunkZPos * Chunk.WIDTH);
 
-            maxPoint.set(chunkPos.x * Chunk.WIDTH + Chunk.WIDTH,
-                    chunkPos.y * Chunk.WIDTH + Chunk.WIDTH,
-                    chunkPos.z * Chunk.WIDTH + Chunk.WIDTH);
+            maxPoint.set(chunkXPos * Chunk.WIDTH + Chunk.WIDTH,
+                    chunkYPos * Chunk.WIDTH + Chunk.WIDTH,
+                    chunkZPos * Chunk.WIDTH + Chunk.WIDTH);
 
             return frustumIntersection.testAab(minPoint, maxPoint);
         }

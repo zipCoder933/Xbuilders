@@ -51,13 +51,17 @@ public class ServerChunk extends Chunk {
             }
             terrainGenerated = true;
 
+            for (int x = 0; x < data.size.x; x++) {
+                for (int y = 0; y < data.size.y; y++) {
+                    for (int z = 0; z < data.size.z; z++) {
+                        data.setSun(x, y, z, 15);
+                    }
+                }
+            }
+
 
         } catch (Exception ex) {//For some reason we have to catch incoming errors otherwise they wont be visible
             LOGGER.log(Level.WARNING, "error loading chunk", ex);
         }
-    }
-
-    public void loadLight(FutureChunk futureChunk) {
-        ChunkSunlightGenerator.generateSunlight(this, world.terrain, (ServerWorld) world);
     }
 }

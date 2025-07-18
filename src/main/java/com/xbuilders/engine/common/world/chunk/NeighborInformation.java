@@ -96,11 +96,6 @@ public class NeighborInformation {
         boolean allNeghborsLoaded2 = true;
         if (allChunksCreated) {
             for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
-
-                //If we are at the top or bottom of the world, we can't be next to any chunks above/below
-                if (thisChunkCoordinates.y == World.TOP_Y_CHUNK && NEIGHBOR_VECTORS[i].y == -1) continue;
-                else if (thisChunkCoordinates.y == World.BOTTOM_Y_CHUNK && NEIGHBOR_VECTORS[i].y == 1) continue;
-
                 Chunk chunk = neighbors[i];
                 if (chunk != null && chunkMeshGenerated(chunk)) {
                     allNeghborsLoaded2 = false;
@@ -115,11 +110,6 @@ public class NeighborInformation {
         } else {
             boolean allChunksCreated2 = true;
             for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
-
-                //If we are at the top or bottom of the world, we can't be next to any chunks above/below
-                if (thisChunkCoordinates.y == World.TOP_Y_CHUNK && NEIGHBOR_VECTORS[i].y == -1) continue;
-                else if (thisChunkCoordinates.y == World.BOTTOM_Y_CHUNK && NEIGHBOR_VECTORS[i].y == 1) continue;
-
                 Chunk chunk = world.getChunk(neighborChunkPositions[i]);
                 if (chunk == null) {
                     allChunksCreated2 = false;

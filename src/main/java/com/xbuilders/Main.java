@@ -72,12 +72,6 @@ public class Main {
             getClient().window.startWindowThread();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Window Thread Failed", e);
-//            LoggingUtils.createPopupWindow(
-//                    getClient().title + " has crashed",
-//                    getClient().title + " has crashed: \"" + (e.getMessage() != null ? e.getMessage() : "unknown error") + "\"\n\n" +
-//                            "Stack trace:\n" +
-//                            String.join("\n", Arrays.toString(e.getStackTrace()).split(",")) +
-//                            "\n\n Log saved to clipboard.");
         } finally {
             getClient().window.destroyWindow();
         }

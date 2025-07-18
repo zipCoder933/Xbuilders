@@ -47459,3 +47459,91 @@ java.util.ConcurrentModificationException
 	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
 	at com.xbuilders.Main.main(Main.java:72)
 
+Jul 18, 2025 7:33:35 AM com.xbuilders.engine.client.Client stopGame
+INFO: error
+java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.common.world.WorldData.getTerrain()" because "info" is null
+	at com.xbuilders.engine.server.Game.getTerrainFromInfo(Game.java:37)
+	at com.xbuilders.engine.common.world.World.setData(World.java:412)
+	at com.xbuilders.engine.common.world.World.close(World.java:220)
+	at com.xbuilders.engine.server.Server.stop(Server.java:362)
+	at com.xbuilders.engine.client.Client.stopGame(Client.java:317)
+	at com.xbuilders.engine.client.ClientWindow.goToMenuPage(ClientWindow.java:66)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.drawHomePage(GameMenu.java:145)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.draw(GameMenu.java:92)
+	at com.xbuilders.engine.client.visuals.gameScene.GameUI.draw(GameUI.java:116)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:105)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:72)
+
+Jul 18, 2025 7:33:48 AM com.xbuilders.engine.client.Client stopGame
+INFO: error
+java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.common.world.WorldData.getTerrain()" because "info" is null
+	at com.xbuilders.engine.server.Game.getTerrainFromInfo(Game.java:37)
+	at com.xbuilders.engine.common.world.World.setData(World.java:412)
+	at com.xbuilders.engine.common.world.World.close(World.java:220)
+	at com.xbuilders.engine.server.Server.stop(Server.java:362)
+	at com.xbuilders.engine.client.Client.stopGame(Client.java:317)
+	at com.xbuilders.engine.client.ClientWindow.goToMenuPage(ClientWindow.java:66)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.drawHomePage(GameMenu.java:145)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.draw(GameMenu.java:92)
+	at com.xbuilders.engine.client.visuals.gameScene.GameUI.draw(GameUI.java:116)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:105)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:72)
+
+Jul 18, 2025 7:34:49 AM com.xbuilders.engine.client.Client stopGame
+INFO: error
+java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.common.world.WorldData.getTerrain()" because "info" is null
+	at com.xbuilders.engine.server.Game.getTerrainFromInfo(Game.java:37)
+	at com.xbuilders.engine.common.world.World.setData(World.java:412)
+	at com.xbuilders.engine.common.world.World.close(World.java:220)
+	at com.xbuilders.engine.server.Server.stop(Server.java:362)
+	at com.xbuilders.engine.client.Client.stopGame(Client.java:317)
+	at com.xbuilders.engine.client.ClientWindow.goToMenuPage(ClientWindow.java:66)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.drawHomePage(GameMenu.java:145)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.draw(GameMenu.java:92)
+	at com.xbuilders.engine.client.visuals.gameScene.GameUI.draw(GameUI.java:116)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:105)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:72)
+
+Jul 18, 2025 7:39:37 AM com.xbuilders.Main main
+SEVERE: Window Thread Failed
+java.lang.IndexOutOfBoundsException: Index 67 out of bounds for length 67
+	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
+	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
+	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
+	at java.base/java.util.Objects.checkIndex(Objects.java:361)
+	at java.base/java.util.ArrayList.remove(ArrayList.java:504)
+	at java.base/java.util.Collections$SynchronizedList.remove(Collections.java:2507)
+	at com.xbuilders.engine.common.world.World.addChunk(World.java:179)
+	at com.xbuilders.engine.common.world.ClientWorld.addChunk(ClientWorld.java:56)
+	at com.xbuilders.engine.common.world.ClientWorld.requestChunk(ClientWorld.java:66)
+	at com.xbuilders.engine.common.world.ClientWorld.fillChunksAroundPlayer(ClientWorld.java:151)
+	at com.xbuilders.engine.common.world.ClientWorld.client_updateAndRenderChunks(ClientWorld.java:211)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:96)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:72)
+
+Jul 18, 2025 7:52:09 AM com.xbuilders.engine.client.Client stopGame
+INFO: error
+java.lang.NullPointerException: Cannot invoke "com.xbuilders.engine.common.world.WorldData.getTerrain()" because "info" is null
+	at com.xbuilders.engine.server.Game.getTerrainFromInfo(Game.java:37)
+	at com.xbuilders.engine.common.world.World.setData(World.java:356)
+	at com.xbuilders.engine.common.world.World.close(World.java:179)
+	at com.xbuilders.engine.common.world.ServerWorld.close(ServerWorld.java:80)
+	at com.xbuilders.engine.server.Server.stop(Server.java:362)
+	at com.xbuilders.engine.client.Client.stopGame(Client.java:317)
+	at com.xbuilders.engine.client.ClientWindow.goToMenuPage(ClientWindow.java:66)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.drawHomePage(GameMenu.java:145)
+	at com.xbuilders.engine.client.visuals.gameScene.GameMenu.draw(GameMenu.java:92)
+	at com.xbuilders.engine.client.visuals.gameScene.GameUI.draw(GameUI.java:116)
+	at com.xbuilders.engine.client.visuals.gameScene.GameScene.render(GameScene.java:105)
+	at com.xbuilders.engine.client.ClientWindow.render(ClientWindow.java:181)
+	at com.xbuilders.engine.client.ClientWindow.startWindowThread(ClientWindow.java:113)
+	at com.xbuilders.Main.main(Main.java:72)
+
