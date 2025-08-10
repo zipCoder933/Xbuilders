@@ -37,9 +37,9 @@ public class ChunkFile_V0 {
 
         //Load the voxels
         chunkVoxels:
-        for (int y = chunk.data.size.y - 1; y >= 0; y--) {
-            for (int x = 0; x < chunk.data.size.x; ++x) {
-                for (int z = 0; z < chunk.data.size.z; ++z) {
+        for (int y = chunk.voxels.size.y - 1; y >= 0; y--) {
+            for (int x = 0; x < chunk.voxels.size.x; ++x) {
+                for (int z = 0; z < chunk.voxels.size.z; ++z) {
                     final byte startByte = bytes[start.get()];
                     if (startByte == BYTE_SKIP_ALL_VOXELS) {
                         start.set(start.get() + 1);
@@ -105,10 +105,10 @@ public class ChunkFile_V0 {
             final int z, AtomicInteger start) {
 
         //Read light
-        chunk.data.setPackedLight(x, y, z, bytes[start.get() + 1]);
+        chunk.voxels.setPackedLight(x, y, z, bytes[start.get() + 1]);
         //Read block id
         final short blockID = (short) bytesToShort(bytes[start.get() + 2], bytes[start.get() + 3]);
-        chunk.data.setBlock(x, y, z, blockID);
+        chunk.voxels.setBlock(x, y, z, blockID);
         start.set(start.get() + 4);
 
         final ByteArrayOutputStream blockDataBytes = new ByteArrayOutputStream();
@@ -123,7 +123,7 @@ public class ChunkFile_V0 {
         byte[] blockData = blockDataBytes.toByteArray();
         if (blockData.length != 0) {
             BlockData data = new BlockData(blockData);
-            chunk.data.setBlockData(x, y, z, data);
+            chunk.voxels.setBlockData(x, y, z, data);
         }
         start.set(start.get() + 1);
     }

@@ -4,6 +4,7 @@
  */
 package com.xbuilders.content.vanilla.terrain;
 
+import com.xbuilders.engine.common.world.World;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import static com.xbuilders.engine.common.world.chunk.Chunk.WIDTH;
@@ -20,8 +21,8 @@ public class DevTerrain extends Terrain {
 
     public DevTerrain() {
         super("Dev Terrain");
-        minSurfaceHeight = 195;
-        maxSurfaceHeight = 201;
+        minSurfaceHeight = World.WORLD_TOP_Y;
+        maxSurfaceHeight = World.WORLD_BOTTOM_Y;
     }
 
     @Override
@@ -46,8 +47,8 @@ public class DevTerrain extends Terrain {
                 for (int cz = 0; cz < WIDTH; cz++) {
                     if (wy >= heightmap) {
                         if (MiscUtils.isBlackCube(chunk.position.x, chunk.position.y, chunk.position.z)) {
-                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_SANDSTONE);
-                        } else chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
+                            chunk.voxels.setBlock(cx, cy, cz, Blocks.BLOCK_SANDSTONE);
+                        } else chunk.voxels.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
                     }
                 }
             }

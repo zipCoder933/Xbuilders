@@ -1,10 +1,8 @@
 package com.xbuilders.engine.common.world.chunk.saving;
 
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.server.block.BlockRegistry;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
-import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.utils.bytes.ByteUtils;
 import org.joml.Vector3f;
 
@@ -39,9 +37,9 @@ public class ChunkFile_V1 {
 
         //Load the voxels
         chunkVoxels:
-        for (int y = chunk.data.size.y - 1; y >= 0; y--) {
-            for (int x = 0; x < chunk.data.size.x; ++x) {
-                for (int z = 0; z < chunk.data.size.z; ++z) {
+        for (int y = chunk.voxels.size.y - 1; y >= 0; y--) {
+            for (int x = 0; x < chunk.voxels.size.x; ++x) {
+                for (int z = 0; z < chunk.voxels.size.z; ++z) {
                     final byte startByte = bytes[start.get()];
                     if (startByte == BYTE_SKIP_ALL_VOXELS) {
                         start.set(start.get() + 1);
@@ -119,15 +117,15 @@ public class ChunkFile_V1 {
             AtomicInteger start) {
 
         final short blockID = (short) bytesToShort(bytes[start.get()], bytes[start.get() + 1]);     //Read block id
-        chunk.data.setBlock(x, y, z, blockID);
+        chunk.voxels.setBlock(x, y, z, blockID);
 
-        chunk.data.setPackedLight(x, y, z, bytes[start.get() + 2]);   //Read light
+        chunk.voxels.setPackedLight(x, y, z, bytes[start.get() + 2]);   //Read light
         start.set(start.get() + 3);
 
         if (blockID != BlockRegistry.BLOCK_AIR.id) { //We dont read block data if the block is air
             BlockData blockData = readBlockData(bytes, start); //Read block data
             if (blockData != null && blockData.size() > 0) {
-                chunk.data.setBlockData(x, y, z, blockData);
+                chunk.voxels.setBlockData(x, y, z, blockData);
             }
         }
 

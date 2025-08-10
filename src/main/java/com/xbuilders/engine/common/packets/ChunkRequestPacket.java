@@ -64,6 +64,8 @@ public class ChunkRequestPacket extends Packet {
 
         //Make the chunk on the server first
         ServerChunk chunk = server.world.addChunk(packetInstance.requestedCoordinates);
-        chunk.distToPlayer = packetInstance.distToPlayer;
+
+        //Then generate it
+        server.world.generateChunk(chunk, distToPlayer);
     }
 }

@@ -11,7 +11,6 @@ import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.server.block.Block;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.VertexSet;
-import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 
 import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
@@ -35,7 +34,7 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
     Chunk chunk;
 
     public Chunk_NaiveMesher(Chunk chunk, boolean generateAll) {
-        super(chunk.data, chunk.position);
+        super(chunk.voxels, chunk.position);
         this.chunk = chunk;
         this.generateAll = generateAll;
     }
@@ -91,11 +90,11 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                             int ox = positiveMod(x, Chunk.WIDTH);
                             int oy = positiveMod(y, Chunk.HEIGHT);
                             int oz = positiveMod(z, Chunk.WIDTH);
-                            block = Registrys.getBlock(out_chunk.data.getBlock(ox, oy, oz));
+                            block = Registrys.getBlock(out_chunk.voxels.getBlock(ox, oy, oz));
                             type = Registrys.blocks.getBlockType(block.type);
 
                             if (type.getGreedyMesherPermissions() == BlockType.PERMIT_GM) {
-                                assignNeighbors(out_chunk.data, ox, oy, oz, block);
+                                assignNeighbors(out_chunk.voxels, ox, oy, oz, block);
                                 blockIsUsingGM = this.type.determineIfUsingGreedyMesher(block, blockData, neighbors,
                                         neighborData, lightNeghbors, out_chunk, ox, oy, oz);
                             }
@@ -145,11 +144,11 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
             neighborData[BlockType.NEG_X] = chunk.getBlockData(x - 1, y, z);
         } else if (negXChunk != null) {
             neighbors[BlockType.NEG_X] = Registrys
-                    .getBlock(negXChunk.data.getBlock(negXChunk.data.size.x - 1, y, z));
-            lightNeghbors[BlockType.NEG_X] = block.opaque ? negXChunk.data
-                    .getPackedLight(negXChunk.data.size.x - 1, y, z)
+                    .getBlock(negXChunk.voxels.getBlock(negXChunk.voxels.size.x - 1, y, z));
+            lightNeghbors[BlockType.NEG_X] = block.opaque ? negXChunk.voxels
+                    .getPackedLight(negXChunk.voxels.size.x - 1, y, z)
                     : centerLight;
-            neighborData[BlockType.NEG_X] = negXChunk.data.getBlockData(negXChunk.data.size.x - 1, y, z);
+            neighborData[BlockType.NEG_X] = negXChunk.voxels.getBlockData(negXChunk.voxels.size.x - 1, y, z);
         } else {
             neighbors[BlockType.NEG_X] = BlockRegistry.BLOCK_AIR;
             lightNeghbors[BlockType.NEG_X] = 15;
@@ -162,10 +161,10 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                     : centerLight;
             neighborData[BlockType.POS_X] = chunk.getBlockData(x + 1, y, z);
         } else if (posXChunk != null) {
-            neighbors[BlockType.POS_X] = Registrys.getBlock(posXChunk.data.getBlock(0, y, z));
-            lightNeghbors[BlockType.POS_X] = block.opaque ? posXChunk.data.getPackedLight(0, y, z)
+            neighbors[BlockType.POS_X] = Registrys.getBlock(posXChunk.voxels.getBlock(0, y, z));
+            lightNeghbors[BlockType.POS_X] = block.opaque ? posXChunk.voxels.getPackedLight(0, y, z)
                     : centerLight;
-            neighborData[BlockType.POS_X] = posXChunk.data.getBlockData(0, y, z);
+            neighborData[BlockType.POS_X] = posXChunk.voxels.getBlockData(0, y, z);
         } else {
             neighbors[BlockType.POS_X] = BlockRegistry.BLOCK_AIR;
             lightNeghbors[BlockType.POS_X] = 15;
@@ -179,11 +178,11 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
             neighborData[BlockType.POS_Y] = chunk.getBlockData(x, y - 1, z);
         } else if (negYChunk != null) {
             neighbors[BlockType.POS_Y] = Registrys
-                    .getBlock(negYChunk.data.getBlock(x, negYChunk.data.size.y - 1, z));
-            lightNeghbors[BlockType.POS_Y] = block.opaque ? negYChunk.data.getPackedLight(x,
-                    negYChunk.data.size.y - 1, z)
+                    .getBlock(negYChunk.voxels.getBlock(x, negYChunk.voxels.size.y - 1, z));
+            lightNeghbors[BlockType.POS_Y] = block.opaque ? negYChunk.voxels.getPackedLight(x,
+                    negYChunk.voxels.size.y - 1, z)
                     : centerLight;
-            neighborData[BlockType.POS_Y] = negYChunk.data.getBlockData(x, negYChunk.data.size.y - 1, z);
+            neighborData[BlockType.POS_Y] = negYChunk.voxels.getBlockData(x, negYChunk.voxels.size.y - 1, z);
         } else {
             neighbors[BlockType.POS_Y] = BlockRegistry.BLOCK_AIR;
             lightNeghbors[BlockType.POS_Y] = 15;
@@ -196,10 +195,10 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
                     : centerLight;
             neighborData[BlockType.NEG_Y] = chunk.getBlockData(x, y + 1, z);
         } else if (posYChunk != null) {
-            neighbors[BlockType.NEG_Y] = Registrys.getBlock(posYChunk.data.getBlock(x, 0, z));
-            lightNeghbors[BlockType.NEG_Y] = block.opaque ? posYChunk.data.getPackedLight(x, 0, z)
+            neighbors[BlockType.NEG_Y] = Registrys.getBlock(posYChunk.voxels.getBlock(x, 0, z));
+            lightNeghbors[BlockType.NEG_Y] = block.opaque ? posYChunk.voxels.getPackedLight(x, 0, z)
                     : centerLight;
-            neighborData[BlockType.NEG_Y] = posYChunk.data.getBlockData(x, 0, z);
+            neighborData[BlockType.NEG_Y] = posYChunk.voxels.getBlockData(x, 0, z);
         } else {
             neighbors[BlockType.NEG_Y] = BlockRegistry.BLOCK_AIR;
             lightNeghbors[BlockType.NEG_Y] = 15;
@@ -213,11 +212,11 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
             neighborData[BlockType.NEG_Z] = chunk.getBlockData(x, y, z - 1);
         } else if (negZChunk != null) {
             neighbors[BlockType.NEG_Z] = Registrys
-                    .getBlock(negZChunk.data.getBlock(x, y, negZChunk.data.size.z - 1));
-            lightNeghbors[BlockType.NEG_Z] = block.opaque ? negZChunk.data.getPackedLight(x, y,
-                    negZChunk.data.size.z - 1)
+                    .getBlock(negZChunk.voxels.getBlock(x, y, negZChunk.voxels.size.z - 1));
+            lightNeghbors[BlockType.NEG_Z] = block.opaque ? negZChunk.voxels.getPackedLight(x, y,
+                    negZChunk.voxels.size.z - 1)
                     : centerLight;
-            neighborData[BlockType.NEG_Z] = negZChunk.data.getBlockData(x, y, negZChunk.data.size.z - 1);
+            neighborData[BlockType.NEG_Z] = negZChunk.voxels.getBlockData(x, y, negZChunk.voxels.size.z - 1);
         } else {
             neighbors[BlockType.NEG_Z] = BlockRegistry.BLOCK_AIR;
             lightNeghbors[BlockType.NEG_Z] = 15;
@@ -231,10 +230,10 @@ public class Chunk_NaiveMesher extends ChunkMesher<VertexSet> {
             neighborData[BlockType.POS_Z] = chunk.getBlockData(x, y, z + 1);
         } else if (posZChunk != null) {
             neighbors[BlockType.POS_Z] = Registrys
-                    .getBlock(posZChunk.data.getBlock(x, y, 0));
-            lightNeghbors[BlockType.POS_Z] = block.opaque ? posZChunk.data.getPackedLight(x, y, 0)
+                    .getBlock(posZChunk.voxels.getBlock(x, y, 0));
+            lightNeghbors[BlockType.POS_Z] = block.opaque ? posZChunk.voxels.getPackedLight(x, y, 0)
                     : centerLight;
-            neighborData[BlockType.POS_Z] = posZChunk.data.getBlockData(x, y, 0);
+            neighborData[BlockType.POS_Z] = posZChunk.voxels.getBlockData(x, y, 0);
         } else {
             neighbors[BlockType.POS_Z] = BlockRegistry.BLOCK_AIR;
             lightNeghbors[BlockType.POS_Z] = 15;

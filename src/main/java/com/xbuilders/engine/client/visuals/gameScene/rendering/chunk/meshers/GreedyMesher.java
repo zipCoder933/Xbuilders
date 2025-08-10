@@ -264,7 +264,7 @@ public class GreedyMesher extends BlockMesher<CompactVertexSet> {
                 thisPlaneVoxel.put(0, (short) 0);
             } else {
                 voxelPos.set(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
-                thisPlaneVoxel.put(0, getBlockLOD(backChunk.data, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
+                thisPlaneVoxel.put(0, getBlockLOD(backChunk.voxels, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
             }
         }
         if (x[d] < dims[d] - 1) { //calculate the voxel of the NEXT plane
@@ -275,7 +275,7 @@ public class GreedyMesher extends BlockMesher<CompactVertexSet> {
                 nextPlaneVoxel.put(0, (short) 0);
             } else {
                 voxelPos.set(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH), MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH), MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
-                nextPlaneVoxel.put(0, getBlockLOD(forwardChunk.data, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
+                nextPlaneVoxel.put(0, getBlockLOD(forwardChunk.voxels, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
             }
         }
     }

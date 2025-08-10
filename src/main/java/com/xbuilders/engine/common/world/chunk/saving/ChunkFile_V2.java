@@ -24,20 +24,20 @@ public class ChunkFile_V2 {
 
         try {
 
-            for (int y = chunk.data.size.y - 1; y >= 0; y--) {   //Load the voxels
-                for (int x = 0; x < chunk.data.size.x; ++x) {
-                    for (int z = 0; z < chunk.data.size.z; ++z) {
+            for (int y = chunk.voxels.size.y - 1; y >= 0; y--) {   //Load the voxels
+                for (int x = 0; x < chunk.voxels.size.x; ++x) {
+                    for (int z = 0; z < chunk.voxels.size.z; ++z) {
 
                         //read a voxel
                         short id = input.readShort(); //read id
-                        chunk.data.setBlock(x, y, z, id);
+                        chunk.voxels.setBlock(x, y, z, id);
 
                         byte light = input.readByte(); //read light
-                        chunk.data.setPackedLight(x, y, z, light);
+                        chunk.voxels.setPackedLight(x, y, z, light);
 
                         byte[] bData = kryo.readByteArrayShort(input); //Read block data
                         if (bData.length > 0) {
-                            chunk.data.setBlockData(x, y, z, new BlockData(bData));
+                            chunk.voxels.setBlockData(x, y, z, new BlockData(bData));
                         }
 
                     }

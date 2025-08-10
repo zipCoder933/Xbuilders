@@ -88,13 +88,13 @@ public class FlatTerrain extends Terrain {
 
                     int wy = cy + (chunk.position.y * Chunk.WIDTH);
                     if (wy >= World.WORLD_BOTTOM_Y - 1) {
-                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_BEDROCK);
+                        chunk.voxels.setBlock(cx, cy, cz, Blocks.BLOCK_BEDROCK);
                     } else if (wy == maxSurfaceHeight) {
-                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
+                        chunk.voxels.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
                     } else if (wy > maxSurfaceHeight + 10) {
-                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
+                        chunk.voxels.setBlock(cx, cy, cz, Blocks.BLOCK_STONE);
                     } else if (wy > maxSurfaceHeight) {
-                        chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
+                        chunk.voxels.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
                     }
                 }
             }

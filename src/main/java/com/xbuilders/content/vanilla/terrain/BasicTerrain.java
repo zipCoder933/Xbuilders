@@ -13,6 +13,8 @@ import com.xbuilders.engine.common.world.Terrain;
 import com.xbuilders.content.vanilla.Blocks;
 import com.xbuilders.engine.common.option.OptionsList;
 
+import java.util.Random;
+
 /**
  * @author zipCoder933
  */
@@ -49,25 +51,70 @@ public class BasicTerrain extends Terrain {
                                 -1, 1, maxSurfaceHeight, minSurfaceHeight);
 
                         if (wy == heightmap) {
-                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
+                            chunk.voxels.setBlock(cx, cy, cz, Blocks.BLOCK_GRASS);
                             if (session.random.nextFloat() > 0.995) {
-                                TreeUtils.makeTree(session.random, session, wx, wy + 1, wz);
+                                makeTree(session.random, session, wx, wy + 1, wz);
                                 genOutsideBoundary = true;
+                            } else if (session.random.nextFloat() > 0.95) {
+                                chunk.voxels.setBlock(cx, cy - 1, cz, randomFlower(session));
                             }
                         } else if (heightmap < wy) {
-                            chunk.data.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
+                            chunk.voxels.setBlock(cx, cy, cz, Blocks.BLOCK_DIRT);
                         }
-//                        else if (heightmap > wy) {
-//                            if (perlinNoise.fastNoise(wx, wy , wz ) > 0.1f) {
-//                                chunk.data.setBlock(cx, cy, cz, MyGame.BLOCK_STONE);
-//                            }
-//                        }
                     }
                 }
             }
 
         }
-        session.generatedOutsideOfChunk = genOutsideBoundary;
+        session.generatedOutsideOfChunk = false;
+    }
+
+
+    private static short randomFlower(Terrain.GenSession session) {
+        short block = 0;
+        switch (session.random.nextInt(4)) {
+            case 0 -> {
+                block = Blocks.BLOCK_ROSES;
+            }
+            case 1 -> {
+                block = Blocks.BLOCK_PANSIES;
+            }
+            case 2 -> {
+                block = Blocks.BLOCK_AZURE_BLUET;
+            }
+            case 3 -> {
+                block = Blocks.BLOCK_DANDELION;
+            }
+            default -> {
+                block = Blocks.BLOCK_BLUE_ORCHID;
+            }
+        }
+        return block;
+    }
+
+
+    public static void makeTree(Random random, Terrain.GenSession session, int treeX, int treeY, int treeZ) {
+        int height = random.nextInt(7) + 3;
+
+        for (int x = 0; x < 5; x++) {
+            for (int y = -3; y < 0; y++) {
+                for (int z = 0; z < 5; z++) {
+                    if ((x == 0 && z == 0)
+                            || (x == 4 && z == 4)
+                            || (x == 0 && z == 4)
+                            || (x == 4 && z == 0)) {
+                    } else {
+//                        session.setBlockWorld(
+//                                x + treeX - 2, y + treeY - height + 2, z + treeZ - 2, Blocks.BLOCK_OAK_LEAVES
+//                        );
+                    }
+                }
+            }
+        }
+
+        for (int y = 0; y < height; y++) {
+//            session.setBlockWorld(treeX, y + treeY - height, treeZ, Blocks.BLOCK_OAK_LOG);
+        }
     }
 
 }

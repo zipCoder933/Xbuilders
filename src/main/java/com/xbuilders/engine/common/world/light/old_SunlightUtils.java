@@ -82,7 +82,7 @@ public class old_SunlightUtils {
 //        System.out.println("\tChecking: " + coords.getChunk(GameScene.world) + " " + coords.toString());
         Chunk coordsChunk = coords.getChunk(Client.world);
         if (coordsChunk != null) {
-            int lightVal = coordsChunk.data.getSun(coords.chunkVoxel.x, coords.chunkVoxel.y, coords.chunkVoxel.z);
+            int lightVal = coordsChunk.voxels.getSun(coords.chunkVoxel.x, coords.chunkVoxel.y, coords.chunkVoxel.z);
 //            System.out.println("\t\tNeighboring: " + MiscUtils.printVector(coordsChunk.position) + "): " + lightVal + " brightest: " + brightestSunlight.get());
             if (lightVal > brightestSunlight.get()) {
 //                System.out.println("\t\t\tNew brightest: " + lightVal);
@@ -137,7 +137,7 @@ public class old_SunlightUtils {
         while (true) {
             y++;
             if (chunk.inBoundsY(y)) {
-                block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
+                block = Registrys.getBlock(chunk.voxels.getBlock(x, y, z));
             } else {
                 WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
                 chunk = Client.world.getChunk(newCoords.chunk);
@@ -145,13 +145,13 @@ public class old_SunlightUtils {
                 y = newCoords.chunkVoxel.y;
                 z = newCoords.chunkVoxel.z;
                 if (chunk != null) {
-                    block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
+                    block = Registrys.getBlock(chunk.voxels.getBlock(x, y, z));
                 }
             }
             if (block == null || block.opaque) {
                 break;
             } else {
-                chunk.data.setSun(x, y, z, (byte) 0);
+                chunk.voxels.setSun(x, y, z, (byte) 0);
                 queue.add(new ChunkNode(chunk, x, y, z));
             }
         }
@@ -163,8 +163,8 @@ public class old_SunlightUtils {
         while (queue.size() > 0) {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
-            byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
-            node.chunk.data.setSun(node.x, node.y, node.z, (byte) 0);
+            byte lightValue = node.chunk.voxels.getSun(node.x, node.y, node.z);
+            node.chunk.voxels.setSun(node.x, node.y, node.z, (byte) 0);
             affectedChunks.add(node.chunk);
             repropagationNodes.remove(node);
             checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, repropagationNodes, false);
@@ -200,7 +200,7 @@ public class old_SunlightUtils {
                                            boolean isBelow) {
         byte thisLevel;
         if (chunk.inBounds(x, y, z)) {
-            thisLevel = chunk.data.getSun(x, y, z);
+            thisLevel = chunk.voxels.getSun(x, y, z);
         } else {
             WCCi newCoords = new WCCi().setNeighboring(chunk.position, x, y, z);
             chunk = Client.world.getChunk(newCoords.chunk);
@@ -210,7 +210,7 @@ public class old_SunlightUtils {
             if (chunk == null) {
                 return;
             }
-            thisLevel = chunk.data.getSun(x, y, z);
+            thisLevel = chunk.voxels.getSun(x, y, z);
         }
         if (thisLevel > 0) {
             ChunkNode node = new ChunkNode(chunk, x, y, z);
@@ -226,7 +226,7 @@ public class old_SunlightUtils {
         while (queue.size() > 0) {
             ChunkNode node = queue.remove(0);
             if (node == null) continue;
-            byte lightValue = node.chunk.data.getSun(node.x, node.y, node.z);
+            byte lightValue = node.chunk.voxels.getSun(node.x, node.y, node.z);
             checkNeighbor(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, affectedChunks, false);
             checkNeighbor(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, affectedChunks, false);
             checkNeighbor(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, affectedChunks, false);
@@ -243,7 +243,7 @@ public class old_SunlightUtils {
 
         Block neigborBlock;
         if (chunk.inBounds(x, y, z)) {
-            neigborBlock = Registrys.getBlock(chunk.data.getBlock(x, y, z));
+            neigborBlock = Registrys.getBlock(chunk.voxels.getBlock(x, y, z));
         } else {
             final Vector3i neighboringChunk = new Vector3i();
             WCCi.getNeighboringChunk(neighboringChunk, chunk.position, x, y, z);
@@ -253,16 +253,16 @@ public class old_SunlightUtils {
                 x = MathUtils.positiveMod(x, Chunk.WIDTH);
                 y = MathUtils.positiveMod(y, Chunk.WIDTH);
                 z = MathUtils.positiveMod(z, Chunk.WIDTH);
-                neigborBlock = Registrys.getBlock(chunk.data.getBlock(x, y, z));
+                neigborBlock = Registrys.getBlock(chunk.voxels.getBlock(x, y, z));
             } else return;
         }
         if (neigborBlock != null && !neigborBlock.opaque) {
             if (isBelowNode && lightLevel == 15) {
-                chunk.data.setSun(x, y, z, (byte) 15);
+                chunk.voxels.setSun(x, y, z, (byte) 15);
                 affectedChunks.add(chunk);
                 queue.add(new ChunkNode(chunk, x, y, z));
-            } else if (chunk.data.getSun(x, y, z) + 2 <= lightLevel) {
-                chunk.data.setSun(x, y, z, (byte) (lightLevel - 1));
+            } else if (chunk.voxels.getSun(x, y, z) + 2 <= lightLevel) {
+                chunk.voxels.setSun(x, y, z, (byte) (lightLevel - 1));
                 affectedChunks.add(chunk);
                 queue.add(new ChunkNode(chunk, x, y, z));
             }

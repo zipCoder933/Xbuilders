@@ -231,7 +231,7 @@ public class RayCasting {
                         wcc.chunkVoxel.z)) {
 
                     Chunk chunk = chunks.getChunk(wcc.chunk);
-                    short block = chunk.data.getBlock(
+                    short block = chunk.voxels.getBlock(
                             wcc.chunkVoxel.x,
                             wcc.chunkVoxel.y,
                             wcc.chunkVoxel.z);
@@ -404,7 +404,7 @@ public class RayCasting {
                         traversedChunks.add(chunk);
                     }
 
-                    short block = chunk.data.getBlock(
+                    short block = chunk.voxels.getBlock(
                             wcc.chunkVoxel.x,
                             wcc.chunkVoxel.y,
                             wcc.chunkVoxel.z);
@@ -414,7 +414,7 @@ public class RayCasting {
                             block != BlockRegistry.BLOCK_AIR.id && block != forbiddenBlock :
                             blockCriteria.shouldHitBlock(block, forbiddenBlock, ix, iy, iz)) {//If block is hittable
                         Block realBlock = Registrys.getBlock(block);
-                        BlockData data = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        BlockData data = chunk.voxels.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                         BlockType blockType = realBlock == null ? null : Registrys.blocks.getBlockType(realBlock.type);
 
                         if ((blockType != null && !blockType.isCubeShape()) || !entityAABBList.isEmpty()) {

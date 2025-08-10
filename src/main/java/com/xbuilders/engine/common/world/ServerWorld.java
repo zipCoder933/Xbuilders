@@ -5,6 +5,7 @@ import com.xbuilders.engine.common.packets.ChunkDataPacket;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
 import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.LowValueComparator;
+import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
 import com.xbuilders.engine.common.world.chunk.ServerChunk;
@@ -58,14 +59,39 @@ public class ServerWorld extends World<ServerChunk> {
 
     public ServerChunk addChunk(final Vector3i coords) {
         ServerChunk chunk = super.addChunk(coords);
+        return chunk;
+    }
+
+    public void generateChunk(ServerChunk chunk, float distToPlayer) {
         if (chunk != null) {
+            chunk.loadFuture = generationService.submit(distToPlayer, () -> {
+                System.out.println("Generating chunk at " + MiscUtils.printVec(chunk.position));
+                //Generate all neighbors
+//                chunk.addNeighbors();
 
-            chunk.loadFuture = generationService.submit(chunk.distToPlayer, () -> {
+                //Get future
+                FutureChunk future = futureChunks.remove(chunk.position);
                 try {
-                    System.out.println("Chunk Blocks...");
-                    chunk.loadBlocksAndLight(futureChunks.remove(coords));
+                    //Generate terrain for this chunk
+                    chunk.generateTerrain(getData(), terrain, null);
 
-                    System.out.println("Sending chunk...");
+//                    //Generate terrain for neighbors
+//                    //If another chunk is already loading the neighbor (its synchronized) we need to wait
+//                    for (Chunk neighbor : chunk.neghbors.neighbors) {
+//                        ServerChunk neighborChunk = (ServerChunk) neighbor;
+//                        neighborChunk.generateTerrain(getData(), terrain, null);
+//                    }
+
+                    //Generate light for this chunk
+                    chunk.generateLight(getData(), terrain, future);
+
+//                    //Generate light for neighbors
+//                    for (Chunk neighbor : chunk.neghbors.neighbors) {
+//                        ServerChunk neighborChunk = (ServerChunk) neighbor;
+//                        neighborChunk.generateLight(getData(), terrain, future);
+//                    }
+
+                    //Send the chunk to all players
                     Main.getServer().writeAndFlushToAllPlayers(new ChunkDataPacket(chunk));
                     return false;
                 } finally {
@@ -73,7 +99,6 @@ public class ServerWorld extends World<ServerChunk> {
                 }
             });
         }
-        return chunk;
     }
 
     public void close() {

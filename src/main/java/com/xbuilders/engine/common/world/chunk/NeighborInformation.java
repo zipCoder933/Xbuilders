@@ -1,6 +1,5 @@
 package com.xbuilders.engine.common.world.chunk;
 
-import com.xbuilders.engine.common.utils.MiscUtils;
 import com.xbuilders.engine.common.world.World;
 import org.joml.Vector3i;
 
@@ -147,19 +146,16 @@ public class NeighborInformation {
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Neighbors " + MiscUtils.printVec(this.thisChunkCoordinates) + ": ");
         for (int i = 0; i < NEIGHBOR_VECTORS.length; i++) {
             Chunk c = neighbors[i];
-            sb.append(c == null ? "N" : (getGenerationStatus(c)));
-            if (i < NEIGHBOR_VECTORS.length - 1) sb.append(" ");
+            sb.append(c == null ? "null" : (getGenerationStatus(c)));
+            if (i < NEIGHBOR_VECTORS.length - 1) sb.append(", ");
         }
         sb.append(" all-exist: " + allChunksCreated + " all-loaded: " + allNeghborsLoaded + ", all-facing: " + allFacingNeghborsLoaded);
         return sb.toString();
     }
 
     private String getGenerationStatus(Chunk c) {
-        if (c.gen_sunLoaded()) return "S";
-        else if (c.gen_terrainLoaded()) return "T";
-        else return "-";
+        return c.getGenState()+"";
     }
 }

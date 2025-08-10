@@ -1,9 +1,8 @@
 package com.xbuilders.engine.common.world.chunk;
 
+import com.xbuilders.Main;
 import com.xbuilders.engine.common.math.AABB;
 import com.xbuilders.engine.common.world.World;
-import com.xbuilders.engine.common.world.WorldData;
-import com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils;
 import com.xbuilders.engine.server.entity.ChunkEntitySet;
 import com.xbuilders.window.render.MVP;
 import org.joml.Vector3i;
@@ -17,6 +16,23 @@ public class Chunk {
 
     public long lastModifiedTime;
 
+
+    /**
+     * Generation state
+     */
+    public static final int GEN_UNGENERATED = 0;
+    private int genState = GEN_UNGENERATED;
+    public int getGenState() {
+        return genState;
+    }
+
+    public void progressGenState(int newState) {
+        genState = Math.max(newState, genState);
+    }
+
+    public void resetGenState(int newState) {
+        genState = newState;
+    }
 
     /**
      * We dont have to make a needs to be saved call because it wont get saved unless it is owned by the user
@@ -59,7 +75,7 @@ public class Chunk {
         return y >= 0 && y < HEIGHT;
     }
 
-    public ChunkVoxels data;
+    public ChunkVoxels voxels;
     public final ChunkEntitySet entities;
     public final Vector3i position;
     public final MVP mvp;
@@ -67,9 +83,7 @@ public class Chunk {
     public final AABB aabb;
     public final NeighborInformation neghbors;
     public final World world;
-    public final Chunk otherChunk;
-
-
+    protected final Chunk otherChunk;
     FutureChunk futureChunk;
 
     /**
@@ -79,7 +93,7 @@ public class Chunk {
     public Chunk(Vector3i position, FutureChunk futureChunk, World world) {
         this.position = new Vector3i(position);
         this.mvp = new MVP();
-        this.data = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
+        this.voxels = new ChunkVoxels(WIDTH, HEIGHT, WIDTH);
 
         this.aabb = new AABB();
         this.world = world;
@@ -105,8 +119,8 @@ public class Chunk {
         this.loadFuture = null;
         this.world = world;
         //Recyclied variables
-        this.data = other.data;
-        this.data.reset();
+        this.voxels = other.voxels;
+        this.voxels.reset();
         this.neghbors = other.neghbors;
         this.entities = other.entities;
         this.entities.clear();
@@ -124,7 +138,7 @@ public class Chunk {
 
     public void dispose() {
         try {
-            data.dispose();
+            voxels.dispose();
         } catch (Exception ex) {
             Logger.getLogger(Chunk.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -138,34 +152,6 @@ public class Chunk {
      */
     public Future<Boolean> loadFuture;
 
-
-    public boolean gen_terrainLoaded() {
-        return true;
-    }
-
-    public boolean gen_sunLoaded() {
-        return true;
-    }
-
-
-    Object saveLock = new Object();
-
-    /**
-     * Only saves the chunk if it is owned by the user and has changed since it
-     * was last saved.
-     *
-     * @param info
-     * @return if the chunk was really saved
-     */
-    public boolean save(WorldData info) {
-        if (isOwnedByUser() && needsToBeSaved) {
-            synchronized (saveLock) {
-                needsToBeSaved = false;
-                return ChunkSavingLoadingUtils.writeChunkToFile(this, info.getChunkFile(position));
-            }
-        }
-        return false;
-    }
 
     @Override
     public int hashCode() {
@@ -192,5 +178,9 @@ public class Chunk {
     @Override
     public String toString() {
         return "Chunk{" + position.x + "," + position.y + "," + position.z + '}';
+    }
+
+    public void log(String str) {
+        Main.LOGGER.log(Level.INFO, "CHUNK " + position.x + " " + position.y + " " + position.z + " \t" + str);
     }
 }

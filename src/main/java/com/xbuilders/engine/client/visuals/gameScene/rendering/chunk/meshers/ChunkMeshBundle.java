@@ -91,11 +91,11 @@ public class ChunkMeshBundle {
         transMesh = new CompactMesh(); //We only need transparent mesh to be an occlusion If we have to check it if it is occluding the opaque mesh
         transMesh.setTextureID(texture);
 
-        greedyMesher = new Chunk_GreedyMesherWithLight(chunk.data, chunk.position);
+        greedyMesher = new Chunk_GreedyMesherWithLight(chunk.voxels, chunk.position);
         naiveMesher = new Chunk_NaiveMesher(chunk, false);
     }
 
-    public synchronized void init(AABB bounds) {
+    public synchronized void reset(AABB bounds) {
         opaqueMesh.makeEmpty();
         transMesh.makeEmpty();
         boundMesh.setBounds(bounds);
@@ -114,10 +114,10 @@ public class ChunkMeshBundle {
                 meshesHaveAllSides = chunk.neghbors.allFacingNeghborsLoaded;
 
                 //Check if the blocks of this chunk or its neighbors are empty
-                boolean blocksAreEmpty = chunk.data.blocksAreEmpty;
+                boolean blocksAreEmpty = chunk.voxels.blocksAreEmpty;
                 if (blocksAreEmpty) for (int i = 0; i < 6; i++) {
                     if (chunk.neghbors.neighbors[i] != null &&
-                            !chunk.neghbors.neighbors[i].data.blocksAreEmpty) {
+                            !chunk.neghbors.neighbors[i].voxels.blocksAreEmpty) {
                         blocksAreEmpty = false;
                         break;
                     }

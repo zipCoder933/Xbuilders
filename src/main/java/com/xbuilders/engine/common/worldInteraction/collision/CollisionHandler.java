@@ -139,10 +139,10 @@ public class CollisionHandler {
                     chunk = world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         exploredChunks.add(chunk);
-                        block = Registrys.blocks.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+                        block = Registrys.blocks.getBlock(chunk.voxels.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
                         if (block != null) {
                             if (block.solid) {
-                                d = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                                d = chunk.voxels.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                                 BlockType type = Registrys.blocks.getBlockType(block.type);
                                 if (type != null) {
                                     //final float spread = 0;// ySpreadIndx * 0.001f
@@ -187,13 +187,13 @@ public class CollisionHandler {
                     chunk = world.getChunk(wcc.chunk);
                     if (chunk != null) {
                         exploredChunks.add(chunk);
-                        block = Registrys.blocks.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+                        block = Registrys.blocks.getBlock(chunk.voxels.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
                         if (block != null) {
                             if (block.solid) {
                                 // if (Main.specialMode2) {
                                 // TODO: chunk.getBlockData() is collision-handler memory culprit!!!
                                 // Its ALL in the hashmap...
-                                d = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                                d = chunk.voxels.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                                 // }
                                 BlockType type = Registrys.blocks.getBlockType(block.type);
                                 if (type != null) {

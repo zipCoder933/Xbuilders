@@ -4,6 +4,7 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.common.network.ChannelBase;
 import com.xbuilders.engine.common.network.packet.Packet;
 import com.xbuilders.engine.common.world.chunk.Chunk;
+import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.common.world.chunk.saving.ChunkReadingException;
 import com.xbuilders.engine.common.world.chunk.saving.ChunkSavingLoadingUtils;
 import io.netty.buffer.ByteBuf;
@@ -84,10 +85,9 @@ public class ChunkDataPacket extends Packet {
     @Override
     public void handleClientSide(ChannelBase ctx, Packet packet) {
         ChunkDataPacket packetInstance = (ChunkDataPacket) packet;
-        System.out.println("Reading chunk " + packetInstance.chunkPosition);
 
         //Create or get the chunk
-        Chunk chunk = Main.getClient().world.addChunk(packetInstance.chunkPosition);
+        ClientChunk chunk = Main.getClient().world.addChunk(packetInstance.chunkPosition);
 
 
         //Set the data to the chunk
@@ -97,9 +97,9 @@ public class ChunkDataPacket extends Packet {
             ChunkSavingLoadingUtils.readChunk(chunk, new ByteArrayInputStream(chunkData),
                     fileReadCorrectly,
                     hasDetectedIfFileWasReadCorrectly);
-        } catch (IOException e) {
-            Main.LOGGER.log(Level.WARNING, "Failed to read chunk data", e);
-        } catch (ChunkReadingException e) {
+            chunk.markAsModified();
+            chunk.progressGenState(ClientChunk.GEN_VOXELS_GENERATED);
+        } catch (IOException | ChunkReadingException e) {
             Main.LOGGER.log(Level.WARNING, "Failed to read chunk data", e);
         }
     }

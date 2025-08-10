@@ -12,6 +12,7 @@ import com.xbuilders.engine.common.math.MathUtils;
 import com.xbuilders.engine.common.packets.ChunkRequestPacket;
 import com.xbuilders.engine.common.players.localPlayer.camera.Camera;
 import com.xbuilders.engine.common.progress.ProgressData;
+import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
@@ -24,6 +25,9 @@ import org.joml.Vector3i;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -45,6 +49,36 @@ public class ClientWorld extends World<ClientChunk> {
     public int blockTextureID;
 
 
+
+    /**
+     * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
+     * generation was the performance bottleneck. We have to be careful the
+     * settings we put here, because with the wrong settings, a task can take a
+     * lot of time to execute() and block the main render thread
+     */
+    public static final ThreadPoolExecutor meshService = new ThreadPoolExecutor(
+            CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
+            3L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
+            new LinkedBlockingQueue<Runnable>(), r -> {
+        Client.frameTester.count("Mesh threads", 1);
+        Thread thread = new Thread(r, "Mesh Thread");
+        thread.setDaemon(true);
+        thread.setPriority(1);
+        return thread;
+    });
+
+
+    public static final ThreadPoolExecutor playerUpdating_meshService = new ThreadPoolExecutor(
+            PLAYER_CHUNK_MESH_THREADS, PLAYER_CHUNK_MESH_THREADS,
+            1L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
+            new LinkedBlockingQueue<Runnable>(), r -> {
+        Client.frameTester.count("Player Mesh threads", 1);
+        Thread thread = new Thread(r, "Player Mesh Thread");
+        thread.setDaemon(true);
+        thread.setPriority(10);
+        return thread;
+    });
+
     @Override
     protected ClientChunk internal_createChunkObject(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk) {
         if (recycleChunk != null) return new ClientChunk(recycleChunk, coords, futureChunk, this, blockTextureID);
@@ -61,7 +95,7 @@ public class ClientWorld extends World<ClientChunk> {
         return chunk;
     }
 
-    public void requestChunk(Vector3i coords, float distToPlayer) {
+    public void requestChunkFromServer(Vector3i coords, float distToPlayer) {
         Main.getClient().endpoint.getChannel().writeAndFlush(new ChunkRequestPacket(coords, distToPlayer));
         addChunk(coords);//This is important so we dont keep requesting chunks from the server
     }
@@ -117,6 +151,10 @@ public class ClientWorld extends World<ClientChunk> {
 
     public void close() {
         super.close();
+        // We may or may not actually need to shut down the services, since chunks cancel
+        // all tasks when they are disposed
+        ExecutorServiceUtils.cancelAllTasks(meshService);
+        ExecutorServiceUtils.cancelAllTasks(playerUpdating_meshService);
         sortedChunksToRender.clear();
     }
 
@@ -147,7 +185,7 @@ public class ClientWorld extends World<ClientChunk> {
                     if (distToPlayer < viewDistanceXZ
                             && (generateOutOfFrustum || Camera.frustum.isChunkInside(chunkX, chunkY, chunkZ))) {
                         if (!hasChunk(new Vector3i(chunkX, chunkY, chunkZ))) {
-                            requestChunk(new Vector3i(chunkX, chunkY, chunkZ), distToPlayer);
+                            requestChunkFromServer(new Vector3i(chunkX, chunkY, chunkZ), distToPlayer);
                             chunksRequested++;
                         }
                     }
@@ -216,8 +254,6 @@ public class ClientWorld extends World<ClientChunk> {
         if (needsSorting.get()) {
             sortedChunksToRender.clear();
         }
-
-        periodicallySave();
 
         updateChunksToRenderList(playerPosition);
         if (needsSorting.get()) {
@@ -334,12 +370,6 @@ public class ClientWorld extends World<ClientChunk> {
 
     }
 
-    private void periodicallySave() {
-        if (System.currentTimeMillis() - lastSaveMS > 25000) {
-            lastSaveMS = System.currentTimeMillis();
-            save();
-        }
-    }
 
     private void initShaderUniforms(Chunk chunk) {
         chunk.mvp.sendToShader(chunkShader.getID(), chunkShader.mvpUniform);

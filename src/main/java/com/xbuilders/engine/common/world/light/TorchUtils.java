@@ -39,7 +39,7 @@ public class TorchUtils {
     }
 
     public static void removeTorch(HashSet<Chunk> affectedChunks, final Chunk chunk, final int x, final int y, final int z) {
-        if (chunk.data.getTorch(x, y, z) > 0) {
+        if (chunk.voxels.getTorch(x, y, z) > 0) {
             final List<TorchNode> queue = new ArrayList<>();
             queue.add(new TorchNode(chunk, x, y, z));
             final HashSet<TorchNode> edges = eraseSection(affectedChunks, queue);
@@ -69,7 +69,7 @@ public class TorchUtils {
             y = wcc.chunkVoxel.y;
             z = wcc.chunkVoxel.z;
         }
-        if (chunk.data.getTorch(x, y, z) > 1) {
+        if (chunk.voxels.getTorch(x, y, z) > 1) {
             queue.add(new TorchNode(chunk, x, y, z));
         }
     }
@@ -79,10 +79,10 @@ public class TorchUtils {
                                    final List<TorchNode> queue) {
         while (queue.size() > 0) {
             final TorchNode node = queue.remove(0);
-            int lightValue = node.chunk.data.getTorch(node.x, node.y, node.z);
+            int lightValue = node.chunk.voxels.getTorch(node.x, node.y, node.z);
             if (node.lightVal > -1) {//If the node has its own light value
                 //(We may not need to do this if we just set the light value before continueBFS is called)
-                node.chunk.data.setTorch(node.x, node.y, node.z, Math.max(lightValue, node.lightVal));//Make sure the light value is greater than the light value of the node
+                node.chunk.voxels.setTorch(node.x, node.y, node.z, Math.max(lightValue, node.lightVal));//Make sure the light value is greater than the light value of the node
                 lightValue = node.lightVal;
                 affectedChunks.add(node.chunk);
             }
@@ -107,10 +107,10 @@ public class TorchUtils {
             y = wcc.chunkVoxel.y;
             z = wcc.chunkVoxel.z;
         }
-        final int neighborLevel = chunk.data.getTorch(x, y, z);
-        final Block block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
+        final int neighborLevel = chunk.voxels.getTorch(x, y, z);
+        final Block block = Registrys.getBlock(chunk.voxels.getBlock(x, y, z));
         if ((!block.opaque || block.isLuminous()) && neighborLevel + 2 <= lightLevel) {
-            chunk.data.setTorch(x, y, z, lightLevel - 1);
+            chunk.voxels.setTorch(x, y, z, lightLevel - 1);
 
             affectedChunks.add(chunk);
             queue.add(new TorchNode(chunk, x, y, z));
@@ -121,9 +121,9 @@ public class TorchUtils {
         final HashSet<TorchNode> repropagationNodes = new HashSet<>();
         while (queue.size() > 0) {
             final TorchNode node = queue.remove(0);
-            final int lightValue = node.chunk.data.getTorch(node.x, node.y, node.z);
+            final int lightValue = node.chunk.voxels.getTorch(node.x, node.y, node.z);
             affectedChunks.add(node.chunk);
-            node.chunk.data.setTorch(node.x, node.y, node.z, (byte) 0);
+            node.chunk.voxels.setTorch(node.x, node.y, node.z, (byte) 0);
             checkNeighborErase(node.chunk, node.x - 1, node.y, node.z, lightValue, queue, repropagationNodes);
             checkNeighborErase(node.chunk, node.x + 1, node.y, node.z, lightValue, queue, repropagationNodes);
             checkNeighborErase(node.chunk, node.x, node.y, node.z + 1, lightValue, queue, repropagationNodes);
@@ -149,9 +149,9 @@ public class TorchUtils {
             y = wcc.chunkVoxel.y;
             z = wcc.chunkVoxel.z;
         }
-        final int neighborLevel = chunk.data.getTorch(x, y, z);
+        final int neighborLevel = chunk.voxels.getTorch(x, y, z);
         if (neighborLevel < lightLevel) {
-            Block block = Registrys.getBlock(chunk.data.getBlock(x, y, z));
+            Block block = Registrys.getBlock(chunk.voxels.getBlock(x, y, z));
             if (block.isLuminous()) {//Instead of deleting source light of other torches, reset its original light value
                 repropagation.add(new TorchNode(chunk, x, y, z, block.torchlightStartingValue));
             }

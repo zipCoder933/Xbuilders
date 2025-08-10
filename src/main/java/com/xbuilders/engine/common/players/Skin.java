@@ -41,7 +41,7 @@ public abstract class Skin {
         byte light = (byte) 0b11110000;
 
         if (chunk != null) {
-            light = chunk.data.getPackedLight(
+            light = chunk.voxels.getPackedLight(
                     (int) Math.floor(chunkPosition.chunkVoxel.x),
                     (int) Math.floor(chunkPosition.chunkVoxel.y),
                     (int) Math.floor(chunkPosition.chunkVoxel.z));
@@ -54,7 +54,7 @@ public abstract class Skin {
                             (int) Math.floor(position.worldPosition.z));
                     chunk = Client.world.getChunk(wcc.chunk);
                     if (chunk != null) {
-                        light = chunk.data.getPackedLight(
+                        light = chunk.voxels.getPackedLight(
                                 wcc.chunkVoxel.x,
                                 wcc.chunkVoxel.y,
                                 wcc.chunkVoxel.z);

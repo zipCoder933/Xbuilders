@@ -26,7 +26,7 @@ public class FutureChunk {
 
     public void setBlocksInChunk(Chunk chunk) {
         futureBlocks.forEach((position, id) -> {
-            chunk.data.setBlock(position.x, position.y, position.z, id);
+            chunk.voxels.setBlock(position.x, position.y, position.z, id);
         });
     }
 }

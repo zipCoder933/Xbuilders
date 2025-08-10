@@ -87,17 +87,17 @@ public class ChunkSavingLoadingUtils {
 
 
             //Write voxels first
-            for (int y = chunk.data.size.y - 1; y >= 0; y--) {
-                for (int x = 0; x < chunk.data.size.x; ++x) {
-                    for (int z = 0; z < chunk.data.size.z; ++z) {
+            for (int y = chunk.voxels.size.y - 1; y >= 0; y--) {
+                for (int x = 0; x < chunk.voxels.size.x; ++x) {
+                    for (int z = 0; z < chunk.voxels.size.z; ++z) {
 
-                        short blockID = chunk.data.getBlock(x, y, z); //Write block id
+                        short blockID = chunk.voxels.getBlock(x, y, z); //Write block id
                         out.writeShort(blockID);
 
-                        byte light = chunk.data.getPackedLight(x, y, z); //Write light
+                        byte light = chunk.voxels.getPackedLight(x, y, z); //Write light
                         out.writeByte(light);
 
-                        final BlockData blockData = chunk.data.getBlockData(x, y, z); //Write block data
+                        final BlockData blockData = chunk.voxels.getBlockData(x, y, z); //Write block data
                         if (blockData == null) kryo.writeByteArrayShort(out, new byte[0]);
                         else kryo.writeByteArrayShort(out, blockData.toByteArray());
                     }
@@ -235,7 +235,7 @@ public class ChunkSavingLoadingUtils {
                 //Load from backup
                 if (backupFile.exists()) {
                     System.out.println("Loading " + chunk + " from backup");
-                    chunk.data.reset();
+                    chunk.voxels.reset();
                     return readChunkFromFile(chunk, backupFile);
                 }
             }
@@ -251,7 +251,7 @@ public class ChunkSavingLoadingUtils {
             //Load from backup
             if (backupFile.exists()) {
                 System.out.println("Loading " + chunk + " from backup");
-                chunk.data.reset();
+                chunk.voxels.reset();
                 return readChunkFromFile(chunk, backupFile);
             }
             return false;

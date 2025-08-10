@@ -1,21 +1,30 @@
 package com.xbuilders.engine.common.world.chunk;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.Client;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.meshers.ChunkMeshBundle;
 import com.xbuilders.engine.common.world.ClientWorld;
 import org.joml.Matrix4f;
 import org.joml.Vector3i;
 
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
 
-import static com.xbuilders.engine.common.world.World.*;
+import static com.xbuilders.engine.common.world.ClientWorld.meshService;
+import static com.xbuilders.engine.common.world.ClientWorld.playerUpdating_meshService;
 
 public class ClientChunk extends Chunk {
     private ChunkMeshBundle meshBundle;
     public final Matrix4f client_modelMatrix;
     private Future<ChunkMeshBundle> mesherFuture;
     static int blockTextureID;
+
+
+    //Generation state
+    public static final int GEN_VOXELS_GENERATED = 1;
+    public static final int GEN_MESH_GENERATED = 2;
+
+
+
 
     public ChunkMeshBundle getMeshBundle() {
         return meshBundle;
@@ -41,7 +50,7 @@ public class ClientChunk extends Chunk {
     }
 
     /**
-     * @param other
+     * @param other          Another chunk that we can reuse parts of for saving memory
      * @param position
      * @param futureChunk
      * @param world
@@ -60,93 +69,58 @@ public class ClientChunk extends Chunk {
         mvp.update(projection, view, client_modelMatrix);
     }
 
+    public void invalidateMeshes() {
+        this.meshBundle.reset(aabb);
+    }
 
+    /**
+     * Runs every frame
+     *
+     * @param frame
+     * @param isSettingUpWorld
+     */
     public void prepare(long frame, boolean isSettingUpWorld) {
         //We have to initialize all OPENGL stuff in a place where they wont crash the game
-        initMeshBundle();
+        if (meshBundle == null) {//Initialize our mesh bundle
+            if (otherChunk != null && otherChunk instanceof ClientChunk clientOther) {//If we have a chunk to reuse
+                this.meshBundle = clientOther.getMeshBundle();
+                meshBundle.reset(aabb);
+            } else {
+                this.meshBundle = new ChunkMeshBundle(blockTextureID, this, world.terrain);
+                this.meshBundle.reset(aabb);
+            }
+        }
 
-        if (inFrustum || isSettingUpWorld) { //Only updated meshes for where we can see
-            if (!getMeshBundle().hasBeenGenerated() && mesherFuture == null) {  //Generate the mesh for the first time
-                mesherFuture = meshService.submit(() -> {
-//                    System.out.println("Generating mesh at " + position.toString());
-                    getMeshBundle().compute();
-                    return getMeshBundle();
-                });
+        //Update the mesh
+        if (inFrustum || isSettingUpWorld) {//Are we visible?
+            if (!getMeshBundle().hasBeenGenerated() && mesherFuture == null && getGenState() >= GEN_VOXELS_GENERATED) {  //Generate the mesh for the first time
+                generateMesh(meshService);
             }
 
-            Client.frameTester.startProcess();// Send mesh to GPU if mesh thread is finished
-            entities.chunkUpdatedMesh = true;
-            if (mesherFuture != null && mesherFuture.isDone()) {
+            if (mesherFuture != null && mesherFuture.isDone()) { //Send mesh to GPU if its done
                 try {
+                    entities.chunkUpdatedMesh = true;
                     mesherFuture.get().sendToGPU();
+                    progressGenState(GEN_MESH_GENERATED);
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
                     mesherFuture = null;
                 }
             }
-            Client.frameTester.endProcess("Send mesh to GPU");
-        }
-
-//        if (loadFuture != null && loadFuture.isDone()) {
-//
-//            if (pillarInformation != null && pillarInformation.isTopChunk(this) && !pillarInformation.pillarLightLoaded && pillarInformation.isPillarLoaded()) {
-//                pillarInformation.initLighting(null, terrain, getDistToPlayer());
-//                pillarInformation.pillarLightLoaded = true;
-//            }
-//
-//            if (getGenerationStatus() >= GEN_SUN_LOADED && !gen_Complete()) {
-//                if (neghbors.allNeghborsLoaded) {
-//                    loadFuture = null;
-//                    Client.frameTester.startProcess();
-//                    mesherFuture = meshService.submit(() -> {
-//                        getMeshes().compute();
-//                        setGenerationStatus(GEN_COMPLETE);
-//                        return getMeshes();
-//                    });
-//                    Client.frameTester.endProcess("red Compute meshes");
-//                } else {
-//                    /**
-//                     * The cacheNeighbors is still a bottleneck. I have kind of fixed it
-//                     * by only calling it every 10th frame
-//                     */
-//                    Client.frameTester.startProcess();
-//                    if (frame % 20 == 0 || isSettingUpWorld) {
-//                        neghbors.cacheNeighbors();
-//                    }
-//                    Client.frameTester.endProcess("red Cache Neghbors");
-//                }
-//            }
-//        }
-
-    }
-
-    private void initMeshBundle() {
-        if (meshBundle == null) {
-            if (otherChunk instanceof ClientChunk clientOther) { //If this is client chunk, Recycle and init the chunk meshes
-                this.meshBundle = clientOther.getMeshBundle();
-                meshBundle.init(aabb);
-            } else {
-                this.meshBundle = new ChunkMeshBundle(blockTextureID, this, world.terrain);
-                this.meshBundle.init(aabb);
-            }
         }
     }
+
 
     /**
      * Queues a task to mesh the chunk
      */
-    public void generateMesh(boolean isPlayerUpdate) {
+    public void generateMesh(ThreadPoolExecutor service) {
         if (mesherFuture != null) {
             mesherFuture.cancel(true);
             mesherFuture = null;
         }
-
-        if (isPlayerUpdate) mesherFuture = playerUpdating_meshService.submit(() -> {
-            getMeshBundle().compute();
-            return getMeshBundle();
-        });
-        else mesherFuture = meshService.submit(() -> {
+        mesherFuture = service.submit(() -> {
             getMeshBundle().compute();
             return getMeshBundle();
         });
@@ -157,30 +131,32 @@ public class ClientChunk extends Chunk {
         if (!neghbors.allFacingNeghborsLoaded) {
             neghbors.cacheNeighbors();
         }
-        generateMesh(true);
+        ThreadPoolExecutor service = playerUpdating_meshService;
+
+        generateMesh(service);
         if (neghbors.allFacingNeghborsLoaded) {
             if (x == 0 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.NEG_X_NEIGHBOR] != null)
-                    ((ClientChunk) neghbors.neighbors[neghbors.NEG_X_NEIGHBOR]).generateMesh(true);
+                    ((ClientChunk) neghbors.neighbors[neghbors.NEG_X_NEIGHBOR]).generateMesh(service);
             } else if (x == Chunk.WIDTH - 1 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.POS_X_NEIGHBOR] != null)
-                    ((ClientChunk) neghbors.neighbors[neghbors.POS_X_NEIGHBOR]).generateMesh(true);
+                    ((ClientChunk) neghbors.neighbors[neghbors.POS_X_NEIGHBOR]).generateMesh(service);
             }
 
             if (y == 0 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR] != null)
-                    ((ClientChunk) neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR]).generateMesh(true);
+                    ((ClientChunk) neghbors.neighbors[neghbors.NEG_Y_NEIGHBOR]).generateMesh(service);
             } else if (y == Chunk.WIDTH - 1 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.POS_Y_NEIGHBOR] != null)
-                    ((ClientChunk) neghbors.neighbors[neghbors.POS_Y_NEIGHBOR]).generateMesh(true);
+                    ((ClientChunk) neghbors.neighbors[neghbors.POS_Y_NEIGHBOR]).generateMesh(service);
             }
 
             if (z == 0 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR] != null)
-                    ((ClientChunk) neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR]).generateMesh(true);
+                    ((ClientChunk) neghbors.neighbors[neghbors.NEG_Z_NEIGHBOR]).generateMesh(service);
             } else if (z == Chunk.WIDTH - 1 || updateAllNeighbors) {
                 if (neghbors.neighbors[neghbors.POS_Z_NEIGHBOR] != null)
-                    ((ClientChunk) neghbors.neighbors[neghbors.POS_Z_NEIGHBOR]).generateMesh(true);
+                    ((ClientChunk) neghbors.neighbors[neghbors.POS_Z_NEIGHBOR]).generateMesh(service);
             }
         }
     }

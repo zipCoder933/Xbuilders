@@ -353,7 +353,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
             } else {
                 voxelPos.set(MathUtils.positiveMod(x[0], Chunk.WIDTH), MathUtils.positiveMod(x[1], Chunk.WIDTH),
                         MathUtils.positiveMod(x[2], Chunk.WIDTH));
-                thisPlaneVoxel.put(0, getBlockLOD(backChunk.data, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
+                thisPlaneVoxel.put(0, getBlockLOD(backChunk.voxels, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
             }
         }
         if (x[d] < dims[d] - 1) { // calculate the voxel of the NEXT plane
@@ -366,7 +366,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                 voxelPos.set(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH),
                         MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH),
                         MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
-                nextPlaneVoxel.put(0, getBlockLOD(forwardChunk.data, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
+                nextPlaneVoxel.put(0, getBlockLOD(forwardChunk.voxels, voxelPos.x, voxelPos.y, voxelPos.z, lodLevel));
             }
         }
     }
@@ -520,7 +520,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
         } else {
             Chunk chunk = WCCi.getNeighboringChunk(Client.world, chunkPosition, pos[0], pos[1], pos[2]);
             if (chunk != null) {
-                return chunk.data.getPackedLight(
+                return chunk.voxels.getPackedLight(
                         MathUtils.positiveMod(pos[0], Chunk.WIDTH),
                         MathUtils.positiveMod(pos[1], Chunk.WIDTH),
                         MathUtils.positiveMod(pos[2], Chunk.WIDTH));
@@ -653,7 +653,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                     if (x[d] >= 0) {
                         return data.getPackedLight(x[0], x[1], x[2]);
                     } else if (backChunk != null) {
-                        return backChunk.data.getPackedLight(
+                        return backChunk.voxels.getPackedLight(
                                 MathUtils.positiveMod(x[0], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[1], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[2], Chunk.WIDTH));
@@ -662,7 +662,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                     if (x[d] + 1 < dims[d]) {
                         return data.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                     } else if (forwardChunk != null) {
-                        return forwardChunk.data.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH),
+                        return forwardChunk.voxels.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
                     }
@@ -697,7 +697,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                     if (x[d] + 1 < dims[d]) {
                         return data.getPackedLight(x[0] + q[0], x[1] + q[1], x[2] + q[2]);
                     } else if (forwardChunk != null) {
-                        return forwardChunk.data.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH),
+                        return forwardChunk.voxels.getPackedLight(MathUtils.positiveMod(x[0] + q[0], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[1] + q[1], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[2] + q[2], Chunk.WIDTH));
                     }
@@ -705,7 +705,7 @@ public class Chunk_GreedyMesherWithLight extends ChunkMesher<CompactVertexSet> {
                     if (x[d] >= 0) {
                         return data.getPackedLight(x[0], x[1], x[2]);
                     } else if (backChunk != null) {
-                        return backChunk.data.getPackedLight(MathUtils.positiveMod(x[0], Chunk.WIDTH),
+                        return backChunk.voxels.getPackedLight(MathUtils.positiveMod(x[0], Chunk.WIDTH),
                                 MathUtils.positiveMod(x[1], Chunk.WIDTH), MathUtils.positiveMod(x[2], Chunk.WIDTH));
                     }
                 }

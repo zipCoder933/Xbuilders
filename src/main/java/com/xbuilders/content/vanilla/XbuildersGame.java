@@ -10,6 +10,7 @@ import com.xbuilders.content.vanilla.blocks.RenderType;
 import com.xbuilders.content.vanilla.blocks.type.*;
 import com.xbuilders.content.vanilla.propagation.LavaPropagation;
 import com.xbuilders.content.vanilla.propagation.WaterPropagation;
+import com.xbuilders.content.vanilla.terrain.BasicTerrain;
 import com.xbuilders.content.vanilla.terrain.DevTerrain;
 import com.xbuilders.content.vanilla.terrain.FlatTerrain;
 import com.xbuilders.content.vanilla.terrain.defaultTerrain.DefaultTerrain;
@@ -205,7 +206,7 @@ public class XbuildersGame extends Game {
         //Add terrains;
         terrainsList.add(new DefaultTerrain());
         terrainsList.add(new FlatTerrain());
-//        terrainsList.add(new MoonTerrain());
+        terrainsList.add(new BasicTerrain());
         if (Client.DEV_MODE) terrainsList.add(new DevTerrain());
 
 

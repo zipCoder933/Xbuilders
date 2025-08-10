@@ -395,8 +395,8 @@ public class Server {
         WCCi wcc = new WCCi().set(worldX, worldY, worldZ);
         Chunk chunk = world.getChunk(wcc.chunk);
         if (chunk != null) {
-            int sun = chunk.data.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-            int torch = chunk.data.getTorch(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            int sun = chunk.voxels.getSun(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            int torch = chunk.voxels.getTorch(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
             sun = (int) Math.min(sun, GameScene.background.getLightness() * 15);
             return Math.max(sun, torch);
         }
@@ -422,11 +422,11 @@ public class Server {
         Chunk chunk = world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
-            short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            short previousBlock = chunk.voxels.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
 
             //we need to set the block because some algorithms want to check to see if the block has changed immediately
-            chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
-            chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData); //Important
+            chunk.voxels.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
+            chunk.voxels.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData); //Important
 
             BlockHistory history = new BlockHistory(previousBlock, newBlock);
             history.updateBlockData = true;
@@ -440,10 +440,10 @@ public class Server {
         Chunk chunk = world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
-            short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            short previousBlock = chunk.voxels.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
 
             //we need to set the block because some algorithms want to check to see if the block has changed immediately
-            chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
+            chunk.voxels.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlock); //Important
 
             BlockHistory history = new BlockHistory(previousBlock, newBlock);
             eventPipeline.addEvent(wcc, history);
@@ -455,10 +455,10 @@ public class Server {
         Chunk chunk = world.getChunk(wcc.chunk);
         if (chunk != null) {
             //Get the previous block
-            short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+            short previousBlock = chunk.voxels.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
 
             //we need to set the block because some algorithms want to check to see if the block has changed immediately
-            chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData); //Important
+            chunk.voxels.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockData); //Important
 
             BlockHistory history = new BlockHistory(previousBlock, previousBlock);
             history.updateBlockData = true;

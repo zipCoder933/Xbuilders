@@ -1,11 +1,6 @@
 package com.xbuilders.engine.common.world;
 
-import com.xbuilders.engine.client.Client;
-import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.common.math.MathUtils;
-import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.ExecutorServiceUtils;
-import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.PriorityThreadPoolExecutor;
-import com.xbuilders.engine.common.threadPoolExecutor.PriorityExecutor.comparator.LowValueComparator;
 import com.xbuilders.engine.common.world.chunk.BlockData;
 import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.FutureChunk;
@@ -18,12 +13,8 @@ import com.xbuilders.engine.server.entity.EntitySupplier;
 import org.joml.Vector3f;
 import org.joml.Vector3i;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
@@ -88,36 +79,6 @@ public abstract class World<T extends Chunk> {
     public final Map<Vector3i, T> chunks = new ConcurrentHashMap<>();
 
 
-    /**
-     * THIS was the ONLY REASON why the chunk meshService.submit() in chunk mesh
-     * generation was the performance bottleneck. We have to be careful the
-     * settings we put here, because with the wrong settings, a task can take a
-     * lot of time to execute() and block the main render thread
-     */
-    public static final ThreadPoolExecutor meshService = new ThreadPoolExecutor(
-            CHUNK_MESH_THREADS, CHUNK_MESH_THREADS,
-            3L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
-            new LinkedBlockingQueue<Runnable>(), r -> {
-        Client.frameTester.count("Mesh threads", 1);
-        Thread thread = new Thread(r, "Mesh Thread");
-        thread.setDaemon(true);
-        thread.setPriority(1);
-        return thread;
-    });
-
-
-    public static final ThreadPoolExecutor playerUpdating_meshService = new ThreadPoolExecutor(
-            PLAYER_CHUNK_MESH_THREADS, PLAYER_CHUNK_MESH_THREADS,
-            1L, TimeUnit.MILLISECONDS, // It really just came down to tuning these settings for performance
-            new LinkedBlockingQueue<Runnable>(), r -> {
-        Client.frameTester.count("Player Mesh threads", 1);
-        Thread thread = new Thread(r, "Player Mesh Thread");
-        thread.setDaemon(true);
-        thread.setPriority(10);
-        return thread;
-    });
-
-
     public boolean hasChunk(final Vector3i coords) {
         return this.chunks.containsKey(coords);
     }
@@ -128,20 +89,16 @@ public abstract class World<T extends Chunk> {
 
     protected abstract T internal_createChunkObject(Chunk recycleChunk, final Vector3i coords, FutureChunk futureChunk);
 
-    protected T addChunk(final Vector3i coords) {
+    public T addChunk(final Vector3i coords) {
         T chunk = getChunk(coords);  //Return an existing chunk if it exists
         if (chunk != null) return chunk;
 
-        Chunk unusedChunk;
-        synchronized (unusedChunks) {
-            unusedChunk = unusedChunks.isEmpty() ? null : unusedChunks.remove(unusedChunks.size() - 1);
-        }
+        Chunk unusedChunk = null;
+//        synchronized (unusedChunks) {
+//            unusedChunk = unusedChunks.isEmpty() ? null : unusedChunks.remove(unusedChunks.size() - 1);
+//        }
+        chunk = internal_createChunkObject(unusedChunk, coords, futureChunks.remove(coords));
 
-        if (unusedChunk != null) { //Recycle from unused chunk pool
-            chunk = internal_createChunkObject(unusedChunk, coords, futureChunks.remove(coords));
-        } else { //Create a new chunk from scratch
-            chunk = internal_createChunkObject(null, coords, futureChunks.remove(coords));
-        }
         assert chunk != null;//The chunk cannot be null when created
 
         this.chunks.put(coords, chunk);
@@ -152,7 +109,7 @@ public abstract class World<T extends Chunk> {
         if (hasChunk(coords)) {
             Chunk chunk = this.chunks.remove(coords);
             allEntities.removeAllEntitiesFromChunk(chunk);
-            chunk.save(getData());
+            chunk.dispose();
             unusedChunks.add(chunk);
         }
     }
@@ -160,11 +117,6 @@ public abstract class World<T extends Chunk> {
 
 
     public void close() {
-        // We may or may not actually need to shutdown the services, since chunks cancel
-        // all tasks when they are disposed
-        ExecutorServiceUtils.cancelAllTasks(meshService);
-        ExecutorServiceUtils.cancelAllTasks(playerUpdating_meshService);
-
         chunks.forEach((coords, chunk) -> chunk.dispose());
         unusedChunks.forEach((chunk) -> {
             chunk.dispose();
@@ -226,7 +178,7 @@ public abstract class World<T extends Chunk> {
             // be null
             return 0;
         }
-        return chunk.data.getBlock(blockX, blockY, blockZ);
+        return chunk.voxels.getBlock(blockX, blockY, blockZ);
     }
 
     public Chunk setBlockData(BlockData data, int worldX, int worldY, int worldZ) {
@@ -243,7 +195,7 @@ public abstract class World<T extends Chunk> {
         if (chunk == null) {
             // FutureChunk futureChunk = newFutureChunk(pos);
         } else {
-            chunk.data.setBlockData(blockX, blockY, blockZ, data);
+            chunk.voxels.setBlockData(blockX, blockY, blockZ, data);
         }
         return chunk;
     }
@@ -263,7 +215,7 @@ public abstract class World<T extends Chunk> {
             FutureChunk futureChunk = newFutureChunk(pos);
             futureChunk.addBlock(blockID, blockX, blockY, blockZ);
         } else {
-            chunk.data.setBlock(blockX, blockY, blockZ, blockID);
+            chunk.voxels.setBlock(blockX, blockY, blockZ, blockID);
         }
         return chunk;
     }
@@ -301,7 +253,7 @@ public abstract class World<T extends Chunk> {
         if (chunk == null) {
             return null;
         }
-        return chunk.data.getBlockData(blockX, blockY, blockZ);
+        return chunk.voxels.getBlockData(blockX, blockY, blockZ);
     }
     // </editor-fold>
 
@@ -345,14 +297,14 @@ public abstract class World<T extends Chunk> {
     }
 
     public void setData(WorldData data) {
-        this.data = data;
         this.chunks.clear();
         unusedChunks.clear();
         this.futureChunks.clear(); // Important!
         newGameTasks.set(0);
         allEntities.clear();
 
-        //Get the terrain from worldInfo
+        if (data == null) return;
+        this.data = data;
         this.terrain = game.getTerrainFromInfo(data);
         if (terrain == null) {
             LOGGER.log(Level.SEVERE, "Terrain not found");

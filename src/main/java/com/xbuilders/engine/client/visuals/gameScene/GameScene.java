@@ -6,7 +6,6 @@ import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.common.players.localPlayer.LocalPlayer;
 import com.xbuilders.engine.client.visuals.skybox.SkyBackground;
 import com.xbuilders.engine.common.world.ClientWorld;
-import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ClientChunk;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
@@ -94,7 +93,7 @@ public class GameScene implements WindowEvents {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         world.client_updateAndRenderChunks(GameScene.projection, GameScene.view, Client.userPlayer.worldPosition);
-        client.players.forEach((p)->{
+        client.players.forEach((p) -> {
             p.render(projection, view);
         });
 
@@ -127,7 +126,8 @@ public class GameScene implements WindowEvents {
         }
         if (action == GLFW.GLFW_RELEASE) {
             switch (key) {
-                case GLFW.GLFW_KEY_F3 -> Main.getClient().window.gameScene.writeDebugText = !Main.getClient().window.gameScene.writeDebugText;
+                case GLFW.GLFW_KEY_F3 ->
+                        Main.getClient().window.gameScene.writeDebugText = !Main.getClient().window.gameScene.writeDebugText;
                 case GLFW.GLFW_KEY_F5 -> specialMode = !specialMode;
                 case GLFW.GLFW_KEY_F6 -> drawWireframe = !drawWireframe;
                 case GLFW.GLFW_KEY_F7 -> drawBoundingBoxes = !drawBoundingBoxes;
@@ -206,21 +206,23 @@ public class GameScene implements WindowEvents {
                     }
 
                     ClientChunk chunk = world.getChunk(rayWCC.chunk);
-                    if (chunk != null) {
-                        text += "\nchunk gen status: " + getGenerationStatus(chunk);
-                        text += "\nchunk neighbors: " + chunk.neghbors.toString();
-                        text += "\nchunk mesh: visible:" + chunk.getMeshBundle().opaqueMesh.isVisible();
-                        text += "\nchunk mesh: " + chunk.getMeshBundle();
-                        text += "\nchunk last modified: " + MiscUtils.formatTime(chunk.lastModifiedTime);
+                    text += "\n\nchunk ("+chunk.position.x+", "+chunk.position.y+", "+chunk.position.z+"): ";
+                    if (chunk == null) {
+                        text += "null";
+                    } else {
+                        chunk.neghbors.cacheNeighbors();
+                        text += "\nneighbors: " + chunk.neghbors.toString();
+                        text += "\nmesh: visible:" + chunk.getMeshBundle().opaqueMesh.isVisible();
+                        text += "\nmesh: " + chunk.getMeshBundle();
 
-                        Block block = Registrys.getBlock(chunk.data.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
-                        BlockData data = chunk.data.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
+                        Block block = Registrys.getBlock(chunk.voxels.getBlock(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z));
+                        BlockData data = chunk.voxels.getBlockData(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
 
-                        byte sun = chunk.data.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
+                        byte sun = chunk.voxels.getSun(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                         text += "\n" + block + " data: " + printBlockData(data) + " typeReference: " + Registrys.blocks.getBlockType(block.type);
                         text += "\nlight=" + Main.getServer().getLightLevel(rayWorldPos.x, rayWorldPos.y, rayWorldPos.z)
                                 + "  sun=" + (sun)
-                                + "  torch=" + chunk.data.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
+                                + "  torch=" + chunk.voxels.getTorch(rayWCC.chunkVoxel.x, rayWCC.chunkVoxel.y, rayWCC.chunkVoxel.z);
                     }
 
                 }
@@ -237,11 +239,6 @@ public class GameScene implements WindowEvents {
         } else ui.setDevText(null);
     }
 
-    private String getGenerationStatus(Chunk c) {
-        if (c.gen_sunLoaded()) return "S";
-        else if (c.gen_terrainLoaded()) return "T";
-        else return "-";
-    }
 
     private String printBlockData(BlockData data) {
         if (data == null) return "null";

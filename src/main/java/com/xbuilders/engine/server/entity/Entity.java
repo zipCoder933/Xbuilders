@@ -24,7 +24,6 @@ import com.xbuilders.engine.common.world.chunk.Chunk;
 import com.xbuilders.engine.common.world.chunk.ChunkVoxels;
 import com.xbuilders.engine.common.world.wcc.WCCf;
 import com.xbuilders.engine.common.world.wcc.WCCi;
-import com.xbuilders.engine.common.utils.LoggingUtils;
 import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackDeserializer;
 import com.xbuilders.engine.common.json.fasterXML.itemStack.ItemStackSerializer;
 import com.xbuilders.engine.common.resource.ResourceLoader;
@@ -62,7 +61,7 @@ public abstract class Entity {
         byte light = (byte) 0b11110000;
 
         if (chunk != null) {
-            light = chunk.data.getPackedLight((int) Math.floor(chunkPosition.chunkVoxel.x), (int) Math.floor(chunkPosition.chunkVoxel.y), (int) Math.floor(chunkPosition.chunkVoxel.z));
+            light = chunk.voxels.getPackedLight((int) Math.floor(chunkPosition.chunkVoxel.x), (int) Math.floor(chunkPosition.chunkVoxel.y), (int) Math.floor(chunkPosition.chunkVoxel.z));
 
             for (int i = 1; i < 3; i++) { //Go up, if the block is in an opaque block
                 if (light == 0) {
@@ -70,7 +69,7 @@ public abstract class Entity {
                     wcc.set((int) Math.floor(worldPosition.x), (int) Math.floor(worldPosition.y - i), (int) Math.floor(worldPosition.z));
                     chunk = Main.getClient().world.getChunk(wcc.chunk);
                     if (chunk != null) {
-                        light = chunk.data.getPackedLight(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                        light = chunk.voxels.getPackedLight(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
                     }
                 } else break;
             }

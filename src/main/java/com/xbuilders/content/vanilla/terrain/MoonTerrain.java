@@ -49,15 +49,15 @@ public class MoonTerrain extends Terrain {
                 for (int y = 0; y < Chunk.WIDTH; ++y) {
                     final int wy = y + chunk.position.y * Chunk.WIDTH;
                     if (wy > 252) {
-                        chunk.data.setBlock(x, y, z, BLOCK_BEDROCK);
+                        chunk.voxels.setBlock(x, y, z, BLOCK_BEDROCK);
                     } else if (y == heightMap) {
                         if (fastNoise.GetValueFractal(wx * 6.0f, wy * 14.0f, wz * 6.0f) <= 0.5) {
-                            chunk.data.setBlock(x, y, z, block);
-                            chunk.data.setBlock(x, y + 1, z, block);
-                            chunk.data.setBlock(x, y + 2, z, block);
+                            chunk.voxels.setBlock(x, y, z, block);
+                            chunk.voxels.setBlock(x, y + 1, z, block);
+                            chunk.voxels.setBlock(x, y + 2, z, block);
                         }
                     } else if (y > heightMap) {
-                        chunk.data.setBlock(x, y, z, block);
+                        chunk.voxels.setBlock(x, y, z, block);
                     }
                 }
 

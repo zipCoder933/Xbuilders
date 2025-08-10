@@ -188,7 +188,7 @@ public class BlockEventPipeline {
                 newBlockData = blockHist.newBlockData;
             } else {
                 newBlockData = blockHist.newBlock.getInitialBlockData(
-                        chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
+                        chunk.voxels.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));
             }
             blockHist.newBlockData = newBlockData; //Store the new block data so that we can use it later
 
@@ -200,11 +200,11 @@ public class BlockEventPipeline {
 //                    if (!blockHist.fromNetwork)  //only send change if not from network
 //                        Main.getServer().server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
                     chunk.markAsModified();
-                    chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
+                    chunk.voxels.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, blockHist.newBlock.id);
 
                     //set block data
-                    blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                    chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
+                    blockHist.previousBlockData = chunk.voxels.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                    chunk.voxels.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
 
                     // <editor-fold defaultstate="collapsed" desc="update torchlight and add nodes for sunlight">
                     if (blockHist.previousBlock.opaque && !blockHist.newBlock.opaque) {
@@ -229,8 +229,8 @@ public class BlockEventPipeline {
                 if (!blockHist.fromNetwork) //only send change if not from network
 //                    Main.getServer().server.addBlockChange(worldPos, blockHist.newBlock, newBlockData);
 
-                blockHist.previousBlockData = chunk.data.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                chunk.data.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
+                blockHist.previousBlockData = chunk.voxels.getBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                chunk.voxels.setBlockData(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, newBlockData);
                 chunk.markAsModified();
                 affectedChunks.add(chunk);
             }
@@ -327,13 +327,13 @@ public class BlockEventPipeline {
         WCCi wcc = new WCCi().set(nx, ny, nz);
         Chunk chunk = wcc.getChunk(Client.world);
         if (chunk != null) {
-            Block nBlock = Registrys.getBlock(chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
+            Block nBlock = Registrys.getBlock(chunk.voxels.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z));//The block at the neighboring voxel
             if (nBlock != null && !nBlock.isAir()) {
                 if (!Registrys.blocks.getBlockType(nBlock.type).allowExistence(hist.newBlock, nx, ny, nz)) {
 
                     //Set blocks that are not allowed here to air
-                    short previousBlock = chunk.data.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
-                    chunk.data.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, BlockRegistry.BLOCK_AIR.id);
+                    short previousBlock = chunk.voxels.getBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z);
+                    chunk.voxels.setBlock(wcc.chunkVoxel.x, wcc.chunkVoxel.y, wcc.chunkVoxel.z, BlockRegistry.BLOCK_AIR.id);
                     addEvent(wcc, new BlockHistory(previousBlock, BlockRegistry.BLOCK_AIR.id));
 
                 } else if (dispatchBlockEvent) {
