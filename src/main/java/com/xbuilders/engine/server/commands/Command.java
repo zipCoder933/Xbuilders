@@ -1,7 +1,7 @@
 package com.xbuilders.engine.server.commands;
 
 import com.xbuilders.Main;
-import com.xbuilders.engine.client.settings.ClientSettings;
+import com.xbuilders.engine.common.settings.Settings;
 
 import java.util.Objects;
 import java.util.function.Function;
@@ -31,7 +31,7 @@ public class Command {
         if (
                 (requiresOp
                         && !Main.getServer().isOperator()
-                        && !ClientSettings.load().internal_allowOPCommands)
+                        && !Settings.load().internal_allowOPCommands)
         ) return "You do not have the required permissions";
         if (handle != null) return handle.apply(input);
         return null;

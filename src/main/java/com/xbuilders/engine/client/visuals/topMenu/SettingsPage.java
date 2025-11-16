@@ -11,7 +11,7 @@ package com.xbuilders.engine.client.visuals.topMenu;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.client.Client;
-import com.xbuilders.engine.client.settings.ClientSettings;
+import com.xbuilders.engine.common.settings.Settings;
 import com.xbuilders.engine.client.visuals.Page;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.utils.option.NuklearField;
@@ -40,7 +40,7 @@ public class SettingsPage implements MenuPage {
         this.window = window;
 
         fields.clear();
-        for (Field field : ClientSettings.class.getDeclaredFields()) {
+        for (Field field : Settings.class.getDeclaredFields()) {
             field.setAccessible(true);
             if (!Client.DEV_MODE && field.getName().startsWith("internal_")) continue;
 

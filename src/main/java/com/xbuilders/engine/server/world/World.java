@@ -15,7 +15,7 @@ import com.xbuilders.engine.client.player.camera.Camera;
 import com.xbuilders.engine.server.players.pipeline.BlockHistory;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.ChunkShader;
 import com.xbuilders.engine.client.visuals.gameScene.rendering.chunk.mesh.CompactOcclusionMesh;
-import com.xbuilders.engine.client.settings.ClientSettings;
+import com.xbuilders.engine.common.settings.Settings;
 import com.xbuilders.engine.utils.BFS.ChunkNode;
 import com.xbuilders.engine.utils.math.AABB;
 import com.xbuilders.engine.utils.math.MathUtils;
@@ -98,10 +98,10 @@ public class World {
     public ChunkShader chunkShader;
 
 
-    public void setViewDistance(ClientSettings settings, int viewDistance2) {
+    public void setViewDistance(Settings settings, int viewDistance2) {
         viewDistance.set(MathUtils.clamp(viewDistance2, VIEW_DIST_MIN, VIEW_DIST_MAX));
         // Settings
-        settings.internal_viewDistance.value = viewDistance.get();
+        settings.viewDistance.value = viewDistance.get();
         settings.save();
         chunkShader.setViewDistance(viewDistance.get() - Chunk.WIDTH);
         maxChunksForViewDistance = Integer.MAX_VALUE;
@@ -246,7 +246,7 @@ public class World {
         // Prepare for game
         chunkShader = new ChunkShader(ChunkShader.FRAG_MODE_CHUNK);
 
-        setViewDistance(ClientWindow.settings, ClientWindow.settings.internal_viewDistance.value);
+        setViewDistance(ClientWindow.settings, ClientWindow.settings.viewDistance.value);
         sortByDistance = new SortByDistanceToPlayer(Client.userPlayer.worldPosition);
         entities.clear();
     }

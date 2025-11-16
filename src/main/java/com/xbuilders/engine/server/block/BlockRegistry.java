@@ -4,8 +4,7 @@
  */
 package com.xbuilders.engine.server.block;
 
-import com.xbuilders.Main;
-import com.xbuilders.engine.client.settings.ClientSettings;
+import com.xbuilders.engine.common.settings.Settings;
 import com.xbuilders.engine.server.Registrys;
 import com.xbuilders.engine.server.block.construction.BlockType;
 import com.xbuilders.engine.server.block.construction.DefaultBlockType;
@@ -13,14 +12,12 @@ import com.xbuilders.engine.server.builtinMechanics.liquid.LiquidBlockType;
 import com.xbuilders.engine.server.item.blockIconRendering.BlockIconRenderer;
 import com.xbuilders.engine.utils.IntMap;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
-import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * @author zipCoder933
@@ -125,7 +122,7 @@ public class BlockRegistry {
                     blockIconsDirectory);
 
             iconRenderer.saveAllIcons();//Generate all icons
-            new ClientSettings().save();
+            new Settings().save();
             System.out.println("==========================================\n" +
                     "Icon generation complete." +
                     "\n==========================================");

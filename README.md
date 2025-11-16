@@ -1,4 +1,4 @@
-![Xbuilders landscape](assets/images/b.jpg)
+![Xbuilders landscape](meta/images/b.jpg)
 
 # Xbuilders
 **A voxel game written in Java + LWJGL.**

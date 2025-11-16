@@ -492,7 +492,7 @@ public class UserControlledPlayer extends Player implements GameSceneEvents {
     private static final int KEY_JUMP = GLFW.GLFW_KEY_SPACE;
     private static final int KEY_SPRINT = GLFW.GLFW_KEY_LEFT_SHIFT;
 
-    final static float WALK_SPEED = 6.5f;
+    final static float WALK_SPEED = 7f;
     final static float RUN_SPEED = 14f;
     final static float FLY_VERTICAL_SPEED = 14f;
     final static float FLY_WALK_SPEED = 14f;

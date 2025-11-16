@@ -95,9 +95,9 @@ public class DefaultTerrain extends Terrain {
         Default values, these are set when there is no config
          */
         version = 1;//The latest version
-        caves = false;
-        trees = false;
-        mountains = false;
+        caves = true;
+        trees = true;
+        mountains = true;
         frequency = 0.9f;
 
         options.put("Generate Caves", caves);
