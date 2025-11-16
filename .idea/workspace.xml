@@ -10,46 +10,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8219d1-60a4-44e0-bc1e-218a1bcf0b02" name="Changes" comment="changes">
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2024-11-16 17-02-14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-15 21-33-47.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-15 21-33-59.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-15 21-34-58.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-15 23-51-39.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-15 23-51-58.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-15 23-52-00.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-15 23-52-59.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-15 23-53-03.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-16 15-24-43.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-16 15-25-41.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-16 15-32-38.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/2025-11-16 15-54-09.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/Screenshot 2025-11-16 160242.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/Screenshot 2025-11-16 160412.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (1).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (10).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (11).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (12).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (13).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (14).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (15).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (16).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (17).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (18).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (19).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (2).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (20).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (21).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (22).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (3).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (4).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (5).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (6).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (7).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (8).png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (9).png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" beforeDir="false" afterPath="$PROJECT_DIR$/res/items/blocks/java/BlockIDs.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (5).png" beforeDir="false" afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (5).png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (6).png" beforeDir="false" afterPath="$PROJECT_DIR$/meta/screenshots/showcase/screenshot (6).png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/meta/screenshots/showcase/showcase1.png" beforeDir="false" afterPath="$PROJECT_DIR$/meta/screenshots/showcase/showcase1.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
