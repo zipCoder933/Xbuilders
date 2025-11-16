@@ -93,48 +93,6 @@ public class NetworkUtils {
         System.arraycopy(message, HEADER_LENGTH, result, 0, result.length);
         return new String(result, StandardCharsets.UTF_8);
     }
-
-    public static void getAvailableDevicesOnLocalNetwork() {
-        //Search for other computers
-        /**
-         * If an IP address falls within the ranges of private addresses (e.g.,
-         * 192.168.x.x, 172.16.x.x to 172.31.x.x, 10.x.x.x), it is a local IP
-         * address.
-         *
-         * The private IP address range reserved for local networks is from
-         * 192.168.0.0 to 192.168.255.255.
-         */
-        String baseIpAddress = "192.168."; // Change this to match your local network range
-        int timeout = 500; // Timeout in milliseconds
-
-        // Create a thread pool with a fixed number of threads
-        int numThreads = Runtime.getRuntime().availableProcessors(); // You can adjust this based on your system's capabilities
-        ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
-
-        for (int x = 0; x <= 255; x++) {
-            for (int y = 0; y <= 255; y++) {
-                final String ipAddress = baseIpAddress + x + "." + y;
-
-                // Submit each task to the executor service
-                executorService.submit(() -> {
-                    try {
-                        InetAddress inetAddress = InetAddress.getByName(ipAddress);
-                        if (inetAddress.isReachable(timeout)) {
-                            System.out.println("Device found: " + ipAddress);
-                            // Add your logic for handling the discovered device (e.g., testAndAddClient)
-                        }
-                    } catch (UnknownHostException e) {
-                        e.printStackTrace();
-                    } catch (java.io.IOException e) {
-                        // Ignore, device is not reachable
-                    }
-                });
-            }
-        }
-        // Shutdown the executor service when all tasks are complete
-        executorService.shutdown();
-    }
-
     /**
      * Compares the remote and target hosts of both sockets to tell if both
      * sockets share the same remote and target hosts

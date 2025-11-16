@@ -19,6 +19,7 @@ public class ResourceUtils {
     public static File APP_DATA_DIR;
     public static File WORLDS_DIR;
     public static File LOCAL_DIR;
+    public static File LOGS_DIR;
 
     //Individual paths
     public static File BLOCK_ICON_DIR,PLAYER_GLOBAL_INFO;
@@ -27,6 +28,7 @@ public class ResourceUtils {
     static {
         System.out.println("RESOURCES:");
         LOCAL_DIR = new File(System.getProperty("user.dir"));
+        LOGS_DIR = new File(LOCAL_DIR, "logs");
         RESOURCE_DIR = new File(LOCAL_DIR, "res");
         RESOURCE_DIR.mkdirs();
 

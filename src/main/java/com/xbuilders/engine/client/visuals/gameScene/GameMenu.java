@@ -44,8 +44,8 @@ public class GameMenu extends UI_GameMenu {
 
         this.world = world;
         chunkDist = new NumberBox(8, 0);
-        chunkDist.setMinValue(ClientWindow.settings.internal_viewDistance.min);
-        chunkDist.setMaxValue(ClientWindow.settings.internal_viewDistance.max);
+        chunkDist.setMinValue(ClientWindow.settings.viewDistance.min);
+        chunkDist.setMaxValue(ClientWindow.settings.viewDistance.max);
         chunkDist.setValueAsNumber(world.getViewDistance());
         simDist = new NumberBox(8, 0);
 

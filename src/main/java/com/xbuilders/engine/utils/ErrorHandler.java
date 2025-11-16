@@ -6,6 +6,7 @@ package com.xbuilders.engine.utils;
 
 import com.xbuilders.engine.client.ClientWindow;
 import com.xbuilders.engine.utils.resource.ResourceUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -95,7 +96,7 @@ public class ErrorHandler {
 
     private static File saveLogToFile(String devMessage, String errorStr) throws IOException {
         String date = dateFormat.format(new Date()).replace(":", "_");
-        File logFile = ResourceUtils.localFile("error logs\\" + date + ".txt");
+        File logFile = new File(ResourceUtils.LOGS_DIR, date + ".txt");
         if (!logFile.getParentFile().exists()) logFile.getParentFile().mkdirs();
 
         if (devMessage != null) errorStr = "Message: \t" + devMessage + "\n" + errorStr;

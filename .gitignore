@@ -1,11 +1,9 @@
 target
 res/items/blocks/icons
-error logs
-.idea/workspace.xml
-.idea/workspace.xml
-.idea/workspace.xml
+logs
 .idea/workspace.xml
 /.idea
-*.json~
-*.java~
-*.java~
+/out/
+hs_err_pid*.log
+*.*~
+

@@ -39,7 +39,7 @@ public class Camera {
     public static final double HALF_PI = Math.PI / 2;
     public static final double TWO_PI = Math.PI * 2;
     public final static Vector3f up = new Vector3f(0f, -1f, 0f);
-    private final float sensitivity = 0.15f;
+    private final float sensitivity = 0.35f;
     private Point mouse = new Point(0, 0);
     private final IntBuffer windowX, windowY;
     private Robot robot;

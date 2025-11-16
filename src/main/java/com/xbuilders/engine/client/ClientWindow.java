@@ -8,7 +8,7 @@ import com.xbuilders.Main;
 import com.xbuilders.engine.client.visuals.gameScene.GameScene;
 import com.xbuilders.engine.server.Game;
 import com.xbuilders.engine.server.Registrys;
-import com.xbuilders.engine.client.settings.ClientSettings;
+import com.xbuilders.engine.common.settings.Settings;
 import com.xbuilders.engine.client.visuals.Theme;
 import com.xbuilders.engine.client.visuals.topMenu.PopupMessage;
 import com.xbuilders.engine.client.visuals.topMenu.TopMenu;
@@ -66,7 +66,7 @@ public class ClientWindow extends NKWindow {
         return isGameMode;
     }
 
-    public static ClientSettings settings;
+    public static Settings settings;
 
     public void saveAndApplySettings() {
         settings.save();
@@ -117,7 +117,7 @@ public class ClientWindow extends NKWindow {
 
     public void init(Game game, World world) throws Exception {
         GLFWWindow.initGLFW();
-        settings = ClientSettings.load();
+        settings = Settings.load();
 
         setMpfUpdateInterval(1000);
         MemoryProfiler.setIntervalMS(500);
