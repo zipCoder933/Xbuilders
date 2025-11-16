@@ -4876,20 +4876,5 @@
     "id": "xbuilders:clay_ball",
     "name": "Clay Ball",
     "icon": "clay_ball.png"
-  },
-  {
-    "id": "xbuilders:tv1",
-    "name": "TV 1",
-    "block": "xbuilders:tv1"
-  },
-  {
-    "id": "xbuilders:tv2",
-    "name": "TV 2",
-    "block": "xbuilders:tv2"
-  },
-  {
-    "id": "xbuilders:control_panel",
-    "name": "Control Panel",
-    "block": "xbuilders:control_panel"
   }
 ]

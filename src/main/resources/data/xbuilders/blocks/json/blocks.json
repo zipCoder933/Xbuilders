@@ -120,6 +120,7 @@
     ],
     "properties": {}
   },
+
   {
     "alias": "xbuilders:glass",
     "id": 8,
@@ -143,6 +144,7 @@
     ],
     "properties": {}
   },
+
   {
     "alias": "xbuilders:sandstone",
     "id": 17,
@@ -1196,6 +1198,7 @@
       "flammable": "true"
     }
   },
+
   {
     "alias": "xbuilders:clay",
     "id": 65,
@@ -5039,6 +5042,9 @@
     ],
     "properties": {}
   },
+
+
+
   {
     "alias": "xbuilders:bamboo_wood_slab",
     "id": 258,
@@ -9558,6 +9564,7 @@
     ],
     "properties": {}
   },
+
   {
     "alias": "xbuilders:road_markings",
     "id": 453,
@@ -17158,75 +17165,6 @@
     "opaque": false,
     "torch": 0,
     "type": 14,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
-  {
-    "alias": "xbuilders:tv1",
-    "id": 1004,
-    "texture": {
-      "neg_y": "screens\\tv1.png",
-      "pos_x": "screens\\panel",
-      "pos_z": "screens\\panel",
-      "neg_z": "screens\\panel",
-      "neg_x": "screens\\panel",
-      "pos_y": "screens\\panel"
-    },
-    "solid": true,
-    "opaque": false,
-    "torch": 6,
-    "type": 4,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
-  {
-    "alias": "xbuilders:tv2",
-    "id": 1005,
-    "texture": {
-      "neg_y": "screens\\tv2.png",
-      "pos_x": "screens\\panel",
-      "pos_z": "screens\\panel",
-      "neg_z": "screens\\panel",
-      "neg_x": "screens\\panel",
-      "pos_y": "screens\\panel"
-    },
-    "solid": true,
-    "opaque": false,
-    "torch": 6,
-    "type": 4,
-    "colorInPlayerHead": [
-      0.0,
-      0.0,
-      0.0,
-      0.0
-    ],
-    "properties": {}
-  },
-  {
-    "alias": "xbuilders:control_panel",
-    "id": 1003,
-    "texture": {
-      "neg_y": "screens\\control.png",
-      "pos_x": "screens\\panel",
-      "pos_z": "screens\\panel",
-      "neg_z": "screens\\panel",
-      "neg_x": "screens\\panel",
-      "pos_y": "screens\\panel"
-    },
-    "solid": true,
-    "opaque": false,
-    "torch": 6,
-    "type": 4,
     "colorInPlayerHead": [
       0.0,
       0.0,
