@@ -50,7 +50,7 @@ public class Multiplayer implements MenuPage {
         portBox = new NumberBox(4, 0);
         fromPortBox = new NumberBox(4, 0);
         ipAdressBox = new TextBox(20);
-        ipAdressBox.setValueAsString("192.168.0.");
+        ipAdressBox.setValueAsString("");
 
 
         fromPortBox.setValueAsNumber(8080);
