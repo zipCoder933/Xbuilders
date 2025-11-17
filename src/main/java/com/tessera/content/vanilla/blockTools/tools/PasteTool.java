@@ -261,7 +261,7 @@ public class PasteTool extends BlockTool {
                 }
             }
         } else if (action == GLFW.GLFW_RELEASE) {
-            if (key == GLFW.GLFW_KEY_O) {
+            if (key == GLFW.GLFW_KEY_RIGHT || key == GLFW.GLFW_KEY_LEFT) {
                 offsetMode = (offsetMode + 1) % offsetMaxMode;
                 System.out.println("Offset mode: " + offsetMode);
                 return true;

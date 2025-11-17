@@ -7,7 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Tessera" />
-        <module name="Xbuilders3" />
+        <module name="Tessera" />
       </profile>
     </annotationProcessing>
   </component>

@@ -79,12 +79,10 @@ public class ChunkEntitySet {
     }
 
     public void draw(FrustumCullingTester frustum, Vector3f playerPos) {
-
-
         for (int i = list.size() - 1; i >= 0; i--) {
             Entity e = list.get(i);
             if (e == null || e.isDestroyMode()) {
-                System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
+//                System.out.println("Removing entity; " + (e == null ? "null" : "not null") + " destroyed: " + e.isDestroyMode());
                 Main.getServer().server.addEntityChange(e, GameServer.ENTITY_DELETED, true);
                 list.remove(i);
                 Client.world.entities.remove(e.getUniqueIdentifier(), e); //remove from world

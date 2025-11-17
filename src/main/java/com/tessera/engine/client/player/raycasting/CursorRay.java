@@ -106,32 +106,31 @@ public class CursorRay {
         breakAmt = 0;
         breakPercentage = 0;
         ItemStack selectedItem = Client.userPlayer.getSelectedItem();
-        if (!hitTarget()) return false;
 
-        if (Main.game.clickEvent(this, creationMode)) { //Game click event
-            return true;
-        } else if (useBoundary) { //Boundary click event
-            boundaryClickEvent(creationMode);
-            return true;
+        if (hitTarget()) {
+            if (Main.game.clickEvent(this, creationMode)) { //Game click event
+                return true;
+            } else if (useBoundary) { //Boundary click event
+                boundaryClickEvent(creationMode);
+                return true;
+            }
+
+            if (creationMode &&
+                    Client.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z)
+                            .run_ClickEvent(Main.getServer().eventPipeline.clickEventThread, getHitPos())) { //Block click event
+                return true;
+            }
         }
-
-
-        if (creationMode &&
-                Client.world.getBlock(getHitPos().x, getHitPos().y, getHitPos().z)
-                        .run_ClickEvent(Main.getServer().eventPipeline.clickEventThread, getHitPos())) { //Block click event
-            return true;
-        }
-
         if (itemClickEvent(selectedItem, creationMode)) return true; //Item click event
 
-        if (creationMode && cursorRay.entity != null && cursorRay.entity.run_ClickEvent()) { //Entity click event
-            return true;
-        }
-
-
-        if (!creationMode) { //By default, remove anything the cursor is pointing at
-            breakBlock(false, selectedItem);
-            return true;
+        if (hitTarget()) {
+            if (creationMode && cursorRay.entity != null && cursorRay.entity.run_ClickEvent()) { //Entity click event
+                return true;
+            }
+            if (!creationMode) { //By default, remove anything the cursor is pointing at
+                breakBlock(false, selectedItem);
+                return true;
+            }
         }
         return false;
     }

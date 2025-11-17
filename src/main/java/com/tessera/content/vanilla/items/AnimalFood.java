@@ -8,8 +8,8 @@ import com.tessera.engine.server.loot.output.LootList;
 import org.joml.Vector3f;
 
 public class AnimalFood {
-    public static void makeAnimalFood(Item food, Item.OnClickEvent defaultEvent) {
-        Item.OnClickEvent event = (ray, itemStack) -> {
+    public static void makeAnimalFood(Item food, Item.WorldClickEvent defaultEvent) {
+        Item.WorldClickEvent event = (ray, itemStack) -> {
             System.out.println("Animal food clicked");
             if (ray.getEntity() != null && ray.getEntity() instanceof LivingEntity animal) {
                 itemStack.stackSize--;

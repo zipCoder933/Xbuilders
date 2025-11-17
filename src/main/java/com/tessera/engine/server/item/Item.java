@@ -93,11 +93,11 @@ public class Item implements Comparable<Item> {
     //Create a functional interface for setBlockEvent
     //A functional interface for onLocalChange
     @FunctionalInterface
-    public interface OnClickEvent {
+    public interface WorldClickEvent {
         public boolean run(CursorRay ray, ItemStack stack);
     }
 
-    public OnClickEvent createClickEvent, destroyClickEvent;
+    public WorldClickEvent createClickEvent, destroyClickEvent;
 
     public Item(String id, String name) {
         this.id = id;

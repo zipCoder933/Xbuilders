@@ -56,6 +56,7 @@ Host a world for others to play or join one hosted by someone else. Anyone on yo
 * Animal entities
   * current animals: Dogs, Cats, Foxes, Horses, Mule, Fish, Beavers
   * animal spawn eggs
+  * Animal spawning mechanics (different animals spawn depending on the area)
   * Some animals can be ridden (horses and mules) but require a saddle first
 * Random tick events
   * Crops grow
@@ -89,6 +90,7 @@ All keybinds are available under the "Help" button in the game
     * Repaint
     * Copy (`Ctrl+C`)
     * Paste (`Ctrl+V`)
+      * Can load/save prefabs (block data) to transfer between worlds (Use in the building tool menu)
     * Light fix tool
 * Toggle angel placement with `tab`
 * Teleport to saved locations in the menu (Available survival, but cannot teleport to them)

@@ -110,9 +110,14 @@ public class UI_Inventory extends UI_ItemWindow implements WindowEvents {
         if (Main.getServer().getGameMode() == GameMode.SPECTATOR) return false;
 
         if (allItems.keyEvent(key, scancode, action, mods)) return true;
-        if (action == GLFW.GLFW_RELEASE && key == KEY_OPEN_INVENTORY) {
-            setOpen(!isOpen());
-            return true;
+        if (action == GLFW.GLFW_RELEASE) {
+            if (key == KEY_OPEN_INVENTORY) {
+                setOpen(!isOpen());
+                return true;
+            } else if (key == GLFW.GLFW_KEY_ESCAPE) {
+                setOpen(false);
+                return true;
+            }
         }
         return false;
     }

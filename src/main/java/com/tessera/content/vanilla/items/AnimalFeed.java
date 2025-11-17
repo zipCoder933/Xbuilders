@@ -10,7 +10,7 @@ public class AnimalFeed extends Item {
         setIcon("animal_feed.png");
         tags.add("tool");
 
-        OnClickEvent event = (ray, itemStack) -> {
+        WorldClickEvent event = (ray, itemStack) -> {
             System.out.println("Animal Feed clicked");
             if (ray.getEntity() != null && ray.getEntity() instanceof LivingEntity animal) {
                 itemStack.stackSize--;
