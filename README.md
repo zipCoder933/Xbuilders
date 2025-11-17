@@ -1,6 +1,6 @@
 [//]: # (![Xbuilders landscape]&#40;meta/screenshots/b.jpg&#41;)
 ![screenshot (3).png](meta/screenshots/showcase/screenshot%20%283%29.png)
-# Xbuilders
+# Tessera
 **A voxel game written in Java + LWJGL.**
 
 
