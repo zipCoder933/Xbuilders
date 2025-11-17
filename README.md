@@ -4,7 +4,7 @@
 **A voxel game written in Java + LWJGL.**
 
 
-# Enter into a new world!
+# Enter into a new world
 Explore a variety of unique biomes, Each with unique flora and fauna!
 Dig deep into a cave, discover ores to allow you to upgrade your tools and survive!
 Discover animals each with their own unique AI, some can even be ridden!
@@ -19,7 +19,7 @@ Play in freeplay mode (no limits) or survival mode (limited resources, hunger, h
 
 
 
-# Building tools to make life easier!
+# Building tools to make life easier
 XBuilders was built with the limitations of Minecraft in mind, If felt extremely limiting to only build one block at a time, so I decided to fix that.
 The most notable tools are the boundary tool and the copy/paste tool. These tools are extremely easy to switch to and allow you to build at breakneck speed.
 
@@ -29,16 +29,16 @@ With a complete set of building tools, the only limit is your imagination, Use t
 |--|--|
 |![2025-11-16 15-24-43.png](meta/screenshots/showcase/2025-11-16%2015-24-43.png)|![2025-11-15 23-52-59.png](meta/screenshots/showcase/2025-11-15%2023-52-59.png)|
 
-# Complete with Multiplayer!
+# Multiplayer
 With LAN multiplayer, you can play with others too! 
 
 Host a world for others to play or join one hosted by someone else. Anyone on your local network can play and build in your world!
-
+<!--
 ![screenshot (21).png](meta/screenshots/showcase/screenshot%20%2821%29.png)
-
+-->
 # All features and keybinds
 ## General
-* LAN Multiplayer!
+* LAN Multiplayer
   * Connect 2 or more computers on the same local network to play in a multiplayer setting!
   * Currently only supports LAN multiplayer (peer to peer connection) but a server client rework is in the works.
 * Complete Minecraft-like Water propagation!
@@ -48,16 +48,15 @@ Host a world for others to play or join one hosted by someone else. Anyone on yo
   * Enemies can in darkness (Adventure mode only)
 * Unique biomes to explore
   * Explore and find ores in caves!
-* Unique animals
-  * Dogs, Cats, Foxes, Horses, Mule, Fish, Beavers
-* Vehicles!
-  * Minecarts! They can drive along tracks or minecart roads
-  * Boats!
+* Vehicles
+  * Minecarts - drive along tracks or minecart roads
+  * Boats
 * Hundreds of Unique blocks
-  * Stairs, Slabs, Blocks, Fences, Ladders, Panes,  Banners, Pillars, Carpet, Rails
+  * Current block variations include Stairs, Slabs, Blocks, Fences, Ladders, Panes,  Banners, Pillars, Carpet, Rails
     * ![a.jpg](meta/screenshots/a.jpg)
-* Animal spawning
-  * Spawn eggs are included
+* Animal entities
+  * current animals: Dogs, Cats, Foxes, Horses, Mule, Fish, Beavers
+  * animal spawn eggs
   * Some animals can be ridden (horses and mules) but require a saddle first
 * Random tick events
   * Crops grow
