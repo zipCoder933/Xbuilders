@@ -1,10 +1,10 @@
-[//]: # (![Xbuilders landscape]&#40;meta/screenshots/b.jpg&#41;)
+[//]: # (![tessera landscape]&#40;meta/screenshots/b.jpg&#41;)
 ![screenshot (3).png](meta/screenshots/showcase/screenshot%20%283%29.png)
-# Tessera
+# ![icon16.png](src/main/resources/builtin/icon32.png) Tessera
 **A voxel game written in Java + LWJGL.**
 
 
-# Enter into a new world
+# Enter a new world
 Explore a variety of unique biomes, Each with unique flora and fauna!
 Dig deep into a cave, discover ores to allow you to upgrade your tools and survive!
 Discover animals each with their own unique AI, some can even be ridden!
@@ -19,18 +19,17 @@ Play in freeplay mode (no limits) or survival mode (limited resources, hunger, h
 
 
 
-# Building tools to make life easier
-XBuilders was built with the limitations of Minecraft in mind, If felt extremely limiting to only build one block at a time, so I decided to fix that.
-The most notable tools are the boundary tool and the copy/paste tool. These tools are extremely easy to switch to and allow you to build at breakneck speed.
+# Let's make building easier
+tessera was built with the limitations of Minecraft in mind, If felt extremely limiting to only build one block at a time, so I decided to fix that.
 
-With a complete set of building tools, the only limit is your imagination, Use the boundary tools, copy/paste, repaint and many more to make building as easy as possible!
+Tessera comes with a variety of building tools to significantly speed up building. Use the boundary tools, copy/paste, repaint and many more to make building as easy as possible!
 
 |![2025-11-15 21-34-58.png](meta/screenshots/showcase/2025-11-15%2021-34-58.png)|![screenshot (20).png](meta/screenshots/showcase/screenshot%20%2820%29.png)|
 |--|--|
 |![2025-11-16 15-24-43.png](meta/screenshots/showcase/2025-11-16%2015-24-43.png)|![2025-11-15 23-52-59.png](meta/screenshots/showcase/2025-11-15%2023-52-59.png)|
 
 # Multiplayer
-With LAN multiplayer, you can play with others too! 
+With LAN multiplayer, you can play with others too
 
 Host a world for others to play or join one hosted by someone else. Anyone on your local network can play and build in your world!
 <!--
@@ -41,13 +40,13 @@ Host a world for others to play or join one hosted by someone else. Anyone on yo
 * LAN Multiplayer
   * Connect 2 or more computers on the same local network to play in a multiplayer setting!
   * Currently only supports LAN multiplayer (peer to peer connection) but a server client rework is in the works.
-* Complete Minecraft-like Water propagation!
+* Minecraft-like Water physics and simulation
   * ![2025-11-16 15-25-41.png](meta/screenshots/showcase/2025-11-16%2015-25-41.png)
 * Torch/Sun propagation
 * Day and night cycle
   * Enemies can in darkness (Adventure mode only)
 * Unique biomes to explore
-  * Explore and find ores in caves!
+  * Explore and find ores in caves
 * Vehicles
   * Minecarts - drive along tracks or minecart roads
   * Boats
@@ -95,12 +94,12 @@ All keybinds are available under the "Help" button in the game
 * Teleport to saved locations in the menu (Available survival, but cannot teleport to them)
 ## Survival gameplay
 * Complete furnace, crafting table and barrels with Unique UI
-* Grow crops, craft and eat food!
-* Defend yourself against enemies with a sword!
+* Grow crops, craft and eat food
+* Defend yourself against enemies with a sword
 * 3 Survival health-bars (hunger, health, air)
 * View recipes in the recipe Finder (`R`)
 
-# Check out my Wiki!
+# Check out the Wiki!
 Building a voxel game was a significant challenge and came with a host of new discoveries. I have written everything that I had to do to get to a complete voxel game like this one, Bear in mind the wiki is still a work in progress, however It contains a lot of information I would have really wanted to know when building my voxel game for the first time.
 
 # Important notes

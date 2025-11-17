@@ -1,0 +1,348 @@
+[
+  {
+    "shapeless": true,
+    "input": [
+      "#wood",
+      "#wood",
+      "#wood",
+      "#wood"
+    ],
+    "output": "tessera:crafting_table",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:sand",
+      "tessera:sand",
+      "tessera:sand",
+      "tessera:sand",
+      "tessera:gravel",
+      "tessera:gravel",
+      "tessera:gravel",
+      "tessera:gravel"
+    ],
+    "output": "tessera:concrete",
+    "amount": 32
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:honeycomb"
+    ],
+    "output": "tessera:honeycomb_block",
+    "amount": 1
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "tessera:sandstone",
+      "tessera:sandstone",
+      "tessera:sandstone",
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:honeycomb",
+      "tessera:sandstone",
+      "tessera:sandstone",
+      "tessera:sandstone"
+    ],
+    "output": "tessera:honeycomb_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:sea_grass",
+      "tessera:sea_grass",
+      "tessera:sea_grass"
+    ],
+    "output": "tessera:lily_pad",
+    "amount": 3
+  },
+  {
+    "input": [
+      "tessera:clay_ball",
+      "tessera:clay_ball",
+      "tessera:clay_ball",
+      "tessera:clay_ball",
+      "tessera:clay_ball",
+      "tessera:clay_ball",
+      "tessera:clay_ball",
+      "tessera:clay_ball",
+      "tessera:clay_ball"
+    ],
+    "output": "tessera:clay",
+    "amount": 1
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "tessera:charcoal",
+      "tessera:charcoal",
+      "tessera:charcoal",
+      "tessera:concrete",
+      "tessera:concrete",
+      "tessera:concrete",
+      "tessera:concrete",
+      "tessera:concrete",
+      "tessera:concrete"
+    ],
+    "output": "tessera:minecart_road_block",
+    "amount": 32
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "tessera:torch",
+      "tessera:torch",
+      null,
+      "tessera:torch",
+      "tessera:torch",
+      null,
+      null,
+      null,
+      null
+    ],
+    "output": "tessera:electric_light",
+    "amount": 4
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:electric_light"
+    ],
+    "output": "tessera:edison_light",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:edison_light"
+    ],
+    "output": "tessera:sea_light",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:sea_light"
+    ],
+    "output": "tessera:electric_light",
+    "amount": 1
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "tessera:white_dye",
+      "tessera:white_dye",
+      "tessera:white_dye",
+      "tessera:charcoal"
+    ],
+    "output": "tessera:road_markings",
+    "amount": 16
+  },
+  {
+    "shapeless": false,
+    "input": [
+      "tessera:yellow_dye",
+      "tessera:yellow_dye",
+      "tessera:yellow_dye",
+      "tessera:charcoal"
+    ],
+    "output": "tessera:crosswalk_paint",
+    "amount": 16
+  },
+  {
+    "input": [
+      null,
+      "tessera:track",
+      null,
+      "tessera:track",
+      null,
+      "tessera:track",
+      null,
+      "tessera:track",
+      null
+    ],
+    "output": "tessera:crosstrack",
+    "amount": 8
+  },
+  {
+    "input": [
+      "tessera:track",
+      null,
+      "tessera:track",
+      null,
+      "tessera:track",
+      null,
+      null,
+      "tessera:track",
+      null
+    ],
+    "output": "tessera:merge_track",
+    "amount": 8
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:tube_coral",
+      "tessera:tube_coral",
+      "tessera:tube_coral",
+      "tessera:tube_coral"
+    ],
+    "output": "tessera:tube_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:brain_coral",
+      "tessera:brain_coral",
+      "tessera:brain_coral",
+      "tessera:brain_coral"
+    ],
+    "output": "tessera:brain_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:bubble_coral",
+      "tessera:bubble_coral",
+      "tessera:bubble_coral",
+      "tessera:bubble_coral"
+    ],
+    "output": "tessera:bubble_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:fire_coral",
+      "tessera:fire_coral",
+      "tessera:fire_coral",
+      "tessera:fire_coral"
+    ],
+    "output": "tessera:fire_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:horn_coral",
+      "tessera:horn_coral",
+      "tessera:horn_coral",
+      "tessera:horn_coral"
+    ],
+    "output": "tessera:horn_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:tube_coral_fan",
+      "tessera:tube_coral_fan",
+      "tessera:tube_coral_fan",
+      "tessera:tube_coral_fan"
+    ],
+    "output": "tessera:tube_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:brain_coral_fan",
+      "tessera:brain_coral_fan",
+      "tessera:brain_coral_fan",
+      "tessera:brain_coral_fan"
+    ],
+    "output": "tessera:brain_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:bubble_coral_fan",
+      "tessera:bubble_coral_fan",
+      "tessera:bubble_coral_fan",
+      "tessera:bubble_coral_fan"
+    ],
+    "output": "tessera:bubble_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:fire_coral_fan",
+      "tessera:fire_coral_fan",
+      "tessera:fire_coral_fan",
+      "tessera:fire_coral_fan"
+    ],
+    "output": "tessera:fire_coral_block",
+    "amount": 1
+  },
+  {
+    "shapeless": true,
+    "input": [
+      "tessera:horn_coral_fan",
+      "tessera:horn_coral_fan",
+      "tessera:horn_coral_fan",
+      "tessera:horn_coral_fan"
+    ],
+    "output": "tessera:horn_coral_block",
+    "amount": 1
+  },
+  {
+    "input": [
+      "tessera:stone",
+      "tessera:stone",
+      "tessera:stone",
+      "tessera:stone",
+      "tessera:blue_pearl",
+      "tessera:stone",
+      "tessera:stone",
+      "tessera:stone",
+      "tessera:stone"
+    ],
+    "output": "tessera:phantom_stone",
+    "amount": 24
+  },
+  {
+    "input": [
+      "tessera:sandstone",
+      "tessera:sandstone",
+      "tessera:sandstone",
+      "tessera:sandstone",
+      "tessera:blue_pearl",
+      "tessera:sandstone",
+      "tessera:sandstone",
+      "tessera:sandstone",
+      "tessera:sandstone"
+    ],
+    "output": "tessera:phantom_sandstone",
+    "amount": 24
+  },
+  {
+    "input": [
+      "tessera:stone_brick",
+      "tessera:stone_brick",
+      "tessera:stone_brick",
+      "tessera:stone_brick",
+      "tessera:blue_pearl",
+      "tessera:stone_brick",
+      "tessera:stone_brick",
+      "tessera:stone_brick",
+      "tessera:stone_brick"
+    ],
+    "output": "tessera:phantom_stone_brick",
+    "amount": 24
+  }
+]
